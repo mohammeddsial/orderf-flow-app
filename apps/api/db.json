@@ -1,0 +1,647 @@
+{
+  "restaurants": [
+    {
+      "id": "tenant-burgerbliss",
+      "name": "BurgerBliss",
+      "logoUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQACWAJYAAD/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDIBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/CABEIA9QD2AMBIgACEQEDEQH/xAA1AAEAAgMBAQEAAAAAAAAAAAAAAQcCAwYEBQgBAQACAwEBAAAAAAAAAAAAAAABAwIEBQYH/9oADAMBAAIQAxAAAAC/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA5yqdXp3zNF25OH2Bs88AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABjlBS3M9xw/A987fiLLyqsPKJ7vhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPPxHfqtjhe22Jgxxso2McgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQSBo38hhdwvNYuB7/rLf/Olzb/nuqHT82AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwmqadrpvJVjl+o/QPvoC9ej5/1c90ON+j+cVtcvxfacbenyuv3uFkN7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY/nf9EUVzvQ/GHL9WuSnL23uD9kdfyIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAkAAD4f3GOdJ+O+Gl2uF7mY3ORKGdMgAAAEEokAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaN9L4bOzgPBOh6/Y1sdjd7fmfVrs3NzWt0ztF09PzXS935/jUdpfmCnqejseHjU9N+iqu6/itTjbp0TzOtvnRMRv2+TfXht3eZjh13b011na4nfj0HBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1flv9R/lrV72kavpRMTszhhf9fP5/0NSQxXX0vNdL6D55h+c/0f41/wCYfdcvSa3a+NWdtVLzImYnmdlLKInPFjG5E1VturZOFx7Nez3XhgkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFH3j5K9r8su/4XQ9lq24ba9oFr6ny91c/UGquvpea6P0HzzJQ32Md24UTfyfg1NbNTee9TJPL7M5RlECIxy26PRGEdM77rcPePRefAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiMhpjfjE/l7R6PPyvpARn9H0/H+vqrs6Pnuj7nzujvr2yx3El/L+DU9s1R571GOWOzldlIjZc1M3X2vO4Z5O3wgmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGeB+YvP7PPxfpOtsRnr+l4YxfoLo+W6nr/ADwLtYD4NTWvUfn/AFO/LCeV2c2LGN12Undnc85kO3wQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGGPDYXVD588ON9EBlGExlnfXXcj13X+dBnqgc/U9tVP5/1CTldqZiTbdlIWJ1uD1rVt73mwkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY/BjL7nBVzzWp6T6/wA/Rnp+i2iuxE65yDLK+uuqH7nS8NYTg/VGr2TjcsY+lU/a8XxPQBz+syxyAR7+6rvO7nXRnVVgeg859VE7+kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAx00zXt9HUmidD2YYboG7LRuqmMTLNMJmUInPo+Z+lrVfZ34Z87WSYwAmJJmN+OMiqtngR3fXUt0vd4NjNO7vcIJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPJlQ1W5u5TVt5vuTJXdiyGLInDXOGeOxCZkJATGeM9Ju+F9rmVZzirrynGYjJiNvs822ivYK8AAR9yx6c+x1+RabRv8ASebCQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGauxu5zh8NnN90mGG3vY5VSAxy88xAtrnLDOM5CRBOyM67n2/ib6cPvoy0NZIhsw9GEBXjvnVtrqCAkjVMZ5dLZNJ9z2+B2qJ73AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGs5786/e+Dz/AGGYp7QJndozwbCMJx0zFtaY+9lX3nvsN0PE/l709T5tH1nfVP8ApGlb+RzFt8NeEZfm/PoNmt1+6r+7qpjh/BsbnrQhxPC3hUdGfyhyO83acscdwrwY5aplKczPCcMbU+zUtres8lsG/ogAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK2sP8z0dT5m3Cef7TJinLJiMmKHo1xrxSxyswdDz3QzR+jB1Pn9J+H2+HQ9dfVK3VSt3K1XfSF3xNJbdW3W7N0VBb9I38To7Nqy08MIqa2alpz+Oh571MoG3Z5t1dc4YMstrBGOxixZ95wXp2tO5Gjf7DxwSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFe0h03L872eeejdX0ZESAJJwyhnjJNboee6GaP0aT1PBUj4/f4uf7C9qWuil7uRru2krtTSm3Vu1ezctK3VUN/F9dq1XakYRUNvVDTn8Uee9WEw0T5rLPZOOeODKJxMomIZRkiwuxqG3fSePkdHmgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPgfeqnDZqODm+4Z4DcxyZgMscosBljGeCt0PPdDnrfo2Ynp+Cpbwe/wc72d60xc9K38WLspK7U0puwz1exclS21UlnF9VqVXameMVDb1Q0Z/FHn/VonzzOmE33bPT5PTXXsmMq6xMRMkQt2o+46PH7pE+l8sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABH54/Qv5V1u3oGp6YCdunZGWRMZyFiRLDOEYdDz3Q5aX6NmJ6ngqW8Hv8HO9ne1JXbSWzxcLwo28oml9un6Ol17XqS3Kju43qtSq7Uzxiobepumz5Y896rDx7Nd1k5RlOU5Y5RHqnVtppnLHLGBKH2/i7LKLsnDP2PhQkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8P8AM36AoDS9MFHaATCG3PVljdnOuZyzYE5sBPQc90uWv+iJiep8+pbwe/wc72d7UldtJbHFwvGjrwKi9OrPmdW1qktuo9vk+q1KrtTPGKWumlsLvmx59PB9Xllpyss3ZaJxjfOjKI3+jw7cMPa0xXX6GiUb40zEXH9Tmul9h4ULqQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK4pK4qd0fWBT1ABiidurKJ2SLAAiXRc70OVX6MmJ6nz+l/B7/Bzva3rSt1UtscPTd9IXfE1B6fme/Q69tVHblR7HG9Nq1VatmMUtdNL13fA8uTkezZSRMpwxmUxEmURtz0b8ahNcBCyOz4XuvU+JDb0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKpqG4Kf0PXBV0gIhLEEbctO6LgSEZT0HP9BlT+jJiep8/pfwe/x872t5UrdVMbHD1XbSl1Y5Uvnr2a3ZuSpLcqOzh+m1aqtXPGKSu2jsL/AIMsuR7JljlhgyTiZCJkiG7UjHfJTWB33e8N3PqPFBuaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFaUtfVC6Pqwp6qJhAMAG3Wi3ciYsSM3Qc/wBDlr/ouYnqfP6X8fs8fO9neVNXLTV/F03XSl1xlS2zXs1uzctR25T9vE9tq1VauWEUhd9IY3/ByOL7DJLCJmMkMolCYmBGSM9mjdXXOeOzDGxOy5jp/V+GDZ1QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOd/Nn6w/Kup6HTMRq95OEzjkxIyYymZxJ2bdO3G+Qsfb+Jsmr9T5ef0dX53Snks3Vqd/rKauXl7NCvLr5Xqk0ts7vKno9PSl2cnbz+XtbmulYY0Xd35o1+t9Sfixy/Wfby+EiPvT8D6GOP0Wuaa9jWNrWNmWnE+jOj0Va9vfXwz9f8/DPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACPzr+i6ko6VS4TGl6qM8ZJBIBkynKEXbGOUWAm8+5/PH6F6HicxdzAAAAETrOJpToOf5P0MKeqAyxK/t5/N+lpURkYQBGnPDJs6vj7Ju51iSek8IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA53oojL8kOg5/m+2CLMpxyAS2RK0jJkzwyxmQsW3UmWep+qprOyej4jMZUAADAyqvdU2n6TKcM9D2ARYDAEPsfH9FWP1xqUonUYiwu+qL06nmZHU8yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABWNK/q/8AMWn6H5o1+2yxGcxmzkLJCQiM2OUWpGTsuNTR+iei/Kn3Nrz/AOkGvZt+cY4/nWrfueq+RaXqElPWTCJzROGyDAAD63p+J9rTpx1zEYj2ZY2J3vm9PovnoW64AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACsLP143fkt0nPc72eE5ItZ6tjOZxJyYjKIE560TtaidrUNu/x+5h+o8onq/Psfy1+pvyzq9/TGlp+m3tI3NJO/Z5NuOe1hEW7p1Da1Db7fm444/YeKabPZaddfoLe83tHT8mAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABzH51/WFVa/YqDHLHT9LOWIzRK0AAAAB9X5X3Zp/SsxPT8HH5g/T/5n1u38STT9MEyCEwhvnXsx2QZAiIJx2erwWyo67p4nqeBDKsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEiheD/AFb+f9P0nJDX7E5YZM5DMAAAB0nN9VlrfoiYnpeGj83fpH87a/Y5ZE6XqQmQQBO7RnjntEXonFA6XKn3Xv5vZ0fDhZpgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPH7B+deU/VlJ6fo6/Gv2ckStBIAAgdhx/cZ6d9zE9HxMfn39BUJR1eHI0vWZAAACG7LTsxvHaZU+C+dnq6HjJFugAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxyFWU9+s+b1+t+bXRc3qeiyQiyUCUCZwg29/X1kZ6l3TE9Hx0UZedJUdOuRpetiYkAACE7vr3Xbz+StXKd3y4Z64AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGuuLLjG38ufL/WNe6vcpB0nN0dcIziEi0autWzRuOYnoeSimrlqCnoVXBo+uRMIyRMZnQWTZpVPaljeja4OvaX8oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEjH4HQoyqPjf0bFW/8Ak3V+s/hVb35ptz7/ANqcOjk2uHFT2zzmGz+bV+fZ1e5+cOk/Q2dmpU3c9DNvOxmVmsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//xABSEAABAgMEBQYICQgJBAMBAAABAgMABBEFBiExBxASQVETIDZhcbIyYHSBkaGxwRQiMEJScnOS0SNDU1RigqLCFRYkJjM0ZJPhFyU1hGOw0vD/2gAIAQEAAT8A/wDrxCaGCrzwD1ePBNN0XrvOzd6TQoJ5SadqGmiaA9Z6hE9ea2rQcK3rRfAPzG1lCR2ARZd7rast4KTPOvtjNp9RWk+nEeaLvW7L2/ZqZtkFJ8FxsmpQrh/zFfHZZoIv5MLfvZMoUTsspS2gcBSvtJ16MplxFtTcsCeTdY2yOtJ/5hPjsRWNI9jOy9potRCCWJhIQtQ+asYY9op6NVY0aWK801MWq8nZDyQ2zXemtSrsrT0QkEeO81KMzkuth9lDrSxRSFCoIid0YSbrpXJzjkuk/MWkOAdhwMWbo0s+UdDs68udKcQgjYR5wM4aaS0gJSlKQAAAkUAHj4VgGPhDRVs7aa8K4wFgmgivjvNzDcrLrfdWENNpKlqOQAzi8N9LQth9bcs85LSYNEoQdlSxxUR7I21hW1tq2s61xi7d+J+yphDM8+uYkSaHbO0tscQcyOqGHUPNIcQoKStIUlQyIO/xyrFRGevSPMrYutyaDTl3kNq7MT7uZcCZXMXUldskloraFeAOHji44htKlLUEgCpJwAEWhpEsaTcU2wp2cUnCrKRs/eOfmiX0m2atey/KTLKT84bK6RZlrSVqS3wiTmUPN8U7jwI3GK11X0spdr3beYZSVPNkOtpHzind5xXWEqWoJQkqUTQAZkxdWy12Rd+UlHB+VCCpz6yjUj3ebxwUaV7Iv/eV6bnl2TLLKZZn4r+z+cXw7B7ddi2zNWFaKJqWUdmoDjdcHE8D7uEWfONz8m1NMqq06gLSeo6lp2vNF4LgStqvrm5NfwWZWarGzVCzxI3HrEDRpbnK7JXJhP0uUPspF3LiSljPpmplZmppOKVbNEIPUOPWYSKbvHBZoCabomnVvzTzqzVa3FKJ6yTzNHTq3bpNBRJ5N1aE9la+/wAdlVoaCL0WUuyLfmWCkhtai60eKVGvqy82tKStQSkFSiaADMmLrWYbIu/Kyax+VSnac+sTU+2njtui8V3JS35PkXwpLqMWnk5oPvHVFo3Gt2QcIRJqmm9zjGNfNmIlrqW/NOBCLKmUni4nYA85i61xEWU8mdtBSXptOKEJHxGzxxzPshOXjdUcRFQcj8jgddRxEbQrSorFRxEVHH5Go4xUcR4wTMw1KS7j7ziG2mwVLWs0CQN5MXl0sTDrrkvYCEtNJNPhbqaqX1pSch1nGJu3bWn1qXNWlOOlWdX1U9ANI+FTP6zMf7qvxj4VM/rMx/vK/GEz04kUTNzIHU8r8YlZudCStU3NY4D8sv8AGPh05+tTP+8r8Y+HTn61M/7yvxj4dOfrUz/vK/GBPTlf83M/7yvxjR+tbly5Fa1KUo7dVKJJPxzvOpUX30hTfw12zLGd5FtklDsyjwlK3hJ3AcYXOTTjvKrmX1OE12y6on01i6ekKfsqablrTeXNSCiElTh2ltdYOZHUYvY6FXUmXG14FKCFIO4qG+OXd/Su/fMB939K598xyzv6Vz75/GOXd/SuffP4xy7v6V3/AHDCX3suVc++YDztP8Vz75gOu/pXPvmGLRnZZQUzNvoI4OGnoiyb6OtrDVpIC0VpyyBQjtG/zQw8h9pLiFJUhQqlSTgR4v6VbzKmrQNgyrlJdghUzsnw3Mwk9QHrPVFIGGsAqVEi/tJ5I5jLs5gzi4PQyR/f7x1Wo6tizZp5vw22VrT2hJIhKiobRxKsSeJ1UBziXecmNEUs46SVcghNTvAXQeoDVSsAYa01BgGo5lzLXUzMizXlEtuGrNT4Kt48/i86oIQVnJOJ80T80uetKanHDVb7qnCe0k8zdCBRNd5hCy2oLTmIbcDrYWnI6xnFwehsl+/3jqdbS4kpUKpIII4iL1Xdfu1bDkupCjLOKKpdzcpNcu0ZHVZNkTduWi3IyTZW6s4mmCE71HgBFu2e1ZdwlyLJPJsNNtprvooY6hqGoZQg0NOZKvKl5tl5JoptaVA9hhsgioyOPi68gLbU2clAg+fCJuXXKTsxLLFFsuKbI4EEj3cxAqrqGuSd2V8mTgrLt1jOLg9DZL9/vHXaNmylqSxlp2XbfZOaHE1Hb1Hrhei27S3tsNzSU1rsJmDs/j64smwrOsRgs2fKtsJPhFI+MrtJxMXx6Kzn7veEb4GsCg1pNRrYaU9MNtIFVLWEjzmGxspCeGHi6RURpSu25Z1sqthhFZScV+UoPAd31+tn21jdrSmmutMYl3+WaB+dkdQzi4PQ2S/f7x518ui05+73hqECAKwNaTsnXc2ylTVoCfcSeRYPxa/OX/x4v2hIS9pyL0nNtJdYdGytChgRF5NF1pWc86/ZG1PSlahuv5VHVT5w7MeqH5WYlVlExLvMqGBDjZSfWIbSdqtDHmPMlneSdx8E4HUM4uD0Nkv3+8YUKxeu+9qWja0wzJzj0rIsuKbbQyspK6Gm0ojE14Ro8vlaLtstWRaEw5NMvghpbpqtCgCaV3g0OcJy1Xy6LTn7veEb9YFNdRFYl2nX1bDTTi1cEoJiybnTU06l2frLs70V+Or8IlZZqUl0MMIShtAolKd3jBQcIW2hYotKVDrFY+CsfoW/uCDLMfoW/uCJ7C0Jr7ZfePMk3uUa2SfjJ9YgZxcHobJfv94wTSL1XAtaWtZ+Ys2VXNybyy4nksVIqalJGee+NH9yLRlLXRa9qMmWSyCWWVkbSlEUqRuABMJy1Xx6Lzf7veEHPUBWBql/8y19dPthMuyfzTf3RHwdn9E390QlCUiiQB2CkUHDxkV7xE9/5Ca+2X3jzGllp0LG7McRCCFAEYg5RcVstXRk0KzG1X7xikbKeA9EbIGQGu+HReb/AHe8IVAEDAQNUv8A5lr66fbCfGdWcTyD/SE1l/jL7xjYPERsHiI2DxEbB4iLJcSh4JdPg4oHExcZW3dSWVxUvvHnXyUE3Wmyf2e8I5ZNcjCVA40MbUBQisS5/tLX10+2EeM6onv/ACEz9svvHmb6QFkOApOKTgY0eOh65cm4N6l1+8edfXonOfu94QBtKgYaxEt/mWvrp9sIy8Z1RPf+Qmftl948wmieswI0Z9BZL6znfPOvr0UnP3e8ISKCBA1y3+aZ+0T7RCfGZ6YbYQtx1YQhAqpSjQDzxbmk6yZAras8Kn3xvQdlsH62/wA0POF59x04FaiojtNddMeqCraNdWjPoLJfWc75518sbqzn7veEb9Y1NrLbiVjNKgoeY1izL8SMyQicCpVzio7SD593nhp5DyErbWFJViFJNQfGNbqUBRUqgGZO6Lx6ULNsxTkvZdJ+ZGG0k0aQetW/zemLavPbFvvFc/OLcRWqWU/FbT2J/GsBVRXfzFGiacdVcY0adBpP67nfPOvl0WnP3e8I36xzLMte0LMfBlJhSE1qUHFJ80WVfKVmylqc/sz30iaoV593nhLgXQg1ByPi+VBOcXivbZd25bbm3yX1Yty7eK1+bcOsxeS+9rXkWptxz4PJVwlmjQH6x+d7OrW2aGmvcTwipJJOoUOMXS0hWZYF3GLOmJebW62pZKm0pKTVRO89cf8AVuxf1Sf+4j/9RLaU7GmVKSmWngoCtChOP8Uf9RbL/V5z7qfxj/qLZf6vOfdT+MJ0hWYoV+Dzn3U/jFvXwkrUsd+TZZmErcpQrAAFCDx5oy1tpoK7zG+sWTeGeslQShfKMb2lnAdnCLJt2TtZollyjoFVNLwUn8R1wDXxcUoJxUaCL46S2pBTshYi0PzQOyuYIqhvs+kfV2xMzT85MOTEy8t55w1W4s1JPbzOyEK2k9cdULOOzq6oApradUy8lxGaT6YZcDrQcSahQqISKmkAUFIHNGpCSpXUOY064w6l1lam3EmqVJNCIsG96JgplbRUlt3JLtKJX28D6oSsKyNfFqYmm5ZlbzziW2kAqUtZoEgbzF9NIj9scpZ9kuKakK0W6MFvD3J9Zgc5B2V9UZAq37o7dWEVEVEVEVEWVM7KjLqOCsU9vCG00FTv1DmDVnCRsppzaRd+9LtnlMrOKK5XJKs1N/iIZfQ+2lxtxK0KFUqTiCPFidn5ez5Ryamn0MsNJKlrUcAIvhfaYvNMKlmNpmzUKqhvIu/tL9w3RsJzpGwnhGwnhGwnhGwnhGwnhGwnhBSgA4QFqJpuEVMbW6KRSKRTUglKwoEgg1BiVmy+wle1jkRwMcorjAcXvMcorjG2rjG2rjG2rjG2r6UMqVtVOKRAxHPsC8LtkOhpyrkmo/GRvR1p/CJeabmWUOsuJW2sVSobx4rTM21KS65h91DbTaSpa1mgSBmTF9L5v3onORlypFlsrq23kXT9NXuG7tgEiEq2ue6r42zAwNdQAOPOAFIkH+Rf2VH4i8D1HjGO7mDUASaCEigpDavmnnjOLBvC7ZE1sLJVJqPx0Z7J+kPw3wxMImGUutrStCwClSciPFQqCRUkCNIl9Tbc0bKs5z/t7K6OLScH1j+UbuOfCAKCmpB2T285StkE+iK1xOocDAwy5oGNYCRAiQmA8xRR+OjA9fXzmk7+OoYGsA7QqOco7Kes6rrXgVZz4lJlf9kcOBP5tX4QFBQwIPikVUzjSdfNUoybBkHAJl1P9pcSf8NB+b2n2dsNJoK+jmIVVPZzDlC1bSurmJy5lccISKiAKRjEu8Zd5KxlkocRCTVIIyOWoakp2jT0wBQU1tqoaHI80cYUdo13QBqufb5cQLMmVfHSPyKj84D5vaN0A1HijfO8zd2bDXNVSqacq3LNn5y+PYMz/wAw687NTDjz7inHXFFa1qNSonMmBhzAaHqgZa3F7IPGBiNSQVKCQCSTQAZkxdrRTKmVbmLeW6t5Yr8GbXsJR1EjEnswi2NFFjvSyzZanpSYAqnaWVoJ6wcR2gxOyb9nTr0nNNluYZUULSdx/CLEsl63LZlrNYISp5VCsioSkYk+YQ3osu4JHklomlPbP+PyxCq8aZeakW/YTt3rZes91fKbNFNuAU20HI+7zRYFjPW7bLFnMK2S4SVLIrsJGJMDRhd34HyOzNcrs/4/LHarxpl5qRblkPWFa79nvHaU2apWBQKScQfRFg2M9b1rsyDKggrqpayMEJGZ/wD7jDejyxWZBMuj4SVgYPKc+N6MvNSLTs9yy7SfknSCptWCh84HEH0RKyzs5NNyzCdt1xQSkdcWbcGzWmAZ4uTLxHxqKKUjsAi1riSyWFu2WVodH5patpKuoE5GFJKVFKgQoGhBzHMQap5i1UTQagNSFracS42opWkhSVDMEZGLvWum2LODpIDyKJdSNyuPYc/FB15LSFLWpKUJBKlKNAAN8X1vGq81vuTCCRJs1blk/s1xVTio4+iEJonHPm0htXzeGomgrClbRrruU02/fayGnUhSDMA0PEAkesCEJonjCk1BjSxLts3tZWgUU7KIUs8SFKFfQI0Z9OJX7J3uwRgY0pil7GvJEe1UaLx/fJPk7nuinXGk3pgrydv3xouFb2OD/Sr9qYAi/CaXofPFtHsjR+wh28Di1CpbYUU9RJAgJoIUmqYvK0lq8s+lAoOU2qdZAJ9vMQdlXVryBJipNSd8DLUNVhWqux7SS9iWF0S8ninj2jOGnUuoCkkFJAII3jxO3RpVvL8AspFjy6v7TOpJcIPgtVx+8cOwGEJ2ldQ59aYiBiKw4qhpzLidO7I+3/lVAyg5GNLqqXqlPI095UaMcb8Sv2TvdjdGlTpa35Ij2qjRh0yT5O57o3RpN6YK8mb98aLeljnkq/amBF+ZjZvq8yo4KZbKe2hjR3/52Y8nPeECDlF6uk099cd0c1tWGzvEDEw4rHZGocwCLlWuXpVdnumrjI2m670cPN743eJsxMNyzDjzyglptBWtR3ACpMXith28FuzVouAgOq/JpPzUDBI9HthNEppG1G1G1G1G1G1G1CF4EHtgrxMbUA1Gq4nTuyPt/wCUwMoORjS/0qlPI095UaLztX3lupp3uwco0p1N7G/JEe1UaMOmKfJ3PdG6NJtf64K8nb98aLelrnkq/amBGkskXydINCGWsfMY0Yvcvaj7mR+DkEde0NRyi9RAvPPCvzx3RG0OMbQ4xtDjG0OMBQCq1guoSna2hHKor4QgOp+kILqPpCA6j6QjbT9IQFp+kI20/SESFoKs6eZmm1VU2qpFcxvHnES8yiZl23miChaQpJ4g+JhyjStbnwGwW7NaVR+eJCqHENJxV6TQemFKw64QrCm/5AZdsEUMDPXcTp5ZH2/8phOUHIxpf6VSnkae8qNF6dm+0qP/AIne7G4xpS6WN+SI9qo0ZdME+Tue6N0aTOl6vJ2/fGi0VvW6eEqv2pgZRpHQXL7OJG9lr2GNGQCLdmEJwSJY94ajlF7OlM/9cd0c05QHdpzY3DLUNQgahAi4tp8vZ7kis/HlzVFd6D+Br6RAy8SzkYv3bf8ATV65p5KtqXYPIM4/NTgT5zUxnFaEQDXnAVimNYKa48y4nTyyPt/5TAyjjGlxNb1yh4Sae+qNGXTiV+yd7sHIxpSFb2N+SI9qo0ZCl8EeTue6BlGkzperyZv3xot6UP8Akqu8mB4MX9bAvc8vMllseoxo16QTXkx7wgQcovZ0pn/rjujmvObKDTM4CAd8Nq201gQIEDmXctA2bbcu8TRtZ5Nz6pw9tDCTgPEu91rGxbsT86k0cS0UNY/PVgn2180KNcK14k60HdzSaQOGqlYIpruJ08sj7f8AlMDLVpb6USvkae8qNGXTiV+xd7sHIxpRFb2Nn/So9qo0Z9MEeTue6N0aTOl6vJ2/fGi3pQ/5KrvJgZARf7pU59i37DGjXpBM+THvCBByi9nSmf8ArjujmKNAYWvlFlW7cIA3wyuiqbjA1DUIGqld9Iu/Pf0hYsrME1WUbK/rDA+JRyMaYrV2GLOstBptlT7g6hgn1k+jmb4QajmU3wNQGNYIqKa7idPLI+3/AJTAy1aW+lMp5GO8qNGXTiV+yd7sHKNKStm+DQORlEe1UaMjW+CfJ3PdFcI0ndLE+TN+1UaLelD/AJKrvJjhF/ulTv2LfsMaNekEz5Me8IEHKL2dKZ/647o5j6/mg559kZ4QnDCN9IaNU45jUNQGPM0fztUTkko+CQ6gduB90DIeJKvBPZGki0Ph99p0A1RLBMun90Y+snmpNDTdzMhTUDjrVnquJ08sj7b+UwMtWlvpTKeRjvKjRl04lfsne7G6NK3S5vyRHtVGi1W1e5PES7lfVByjSd0sT5Kj2qjRYkm8swrcJVQ/iTHCL/dKnfsW/YY0a9IJnyY94QIOUXs6Uz/1x3RrWoJBJyEKUV1Ud8JGEAUikIJSqu7fAxGGsCnMupMmVvFLY0S7Vo+cYesCE+COzxJdcS0ytxZolCSo9gidmVTs9MTSiSp51ThJ6yTzkK2hqAwrziMIyNIuH08sj7b+VUDLVpb6UynkY7yo0ZdOJX7J3uxujSt0ub8kR7VRotH98k+TOe6MxGk5JVe5CU5mWQPWY0athq3nEjdLK9ojhF/ulTv2LfsMaNekEz5Me8IEHKL1r2b3WiDkVp7o1HAQ+4CrZ4ZwBv3QB6Ioa1gDHUycNk7soEDmCJd4y8y08DQtrSrDqNYbcSttK05KAI8SN0XtmzI3TtaYBoUyqwO0ig9sAUFOHOSdkxnrHNUK4xcMf36sg/8AzfymE5atLfSmU8jHeVGjLpxK/ZO93VpV6XN+SI9qo0WdMf8A1XPdq0hNVvaHDulkAeuNHXSJ3yZXtEbov90qd+xb9hjRr0gmvJj3hAhXgmL49LbR+unuiGlbSBxGcOr2UnjGeecAboGGEVgZQCIBoajdCDtCogahrIqKRYD/AMJsOScJqSykHzYe6Bl4j7o0oTHIXGnE1xeW236VV93yDaqChzipgFUVMVMVMVVFVRVUXDp/XWyePL/ymE5atLYreiV8jHeVGjIUvvLV/RO92OMaVQTe5vyRHtVGiwUvgfJXPdq0h1/rKmn6uj2mNHBP9Y3q/qyvamB4MaQD/elyn6Fv2GNGp/7/ADPH4Me8IEHIxfE/3ttH66e6IaWpKjDswVOYAbIgOn6IrAcNMhHKHOggOE7hHKK4euA4eAgOK4euGXikkEDHKA8eAjlVcBHKq4D0wXjuAgPK3gemOWP0RFyZjlrtsj9GtaPXX3wMvEfdGmF7YuxKtV/xJtPqSo88HOAfjVEA1FYHPuGaX5skcXv5TCctWlrpRK+Rp7yo0adN5X7J3uwco0rdKmPJEd5UaLumB8lc90GNIjpTe4Nk5yyKelUaOekb3kyvamB4MaQOlTn2LfsMaNOkMz5Me8IEHKL49LrQ+unuiHVbCKDMx1CAMOuBwimEDDDUKZasa4QhQUmvO0dubVjTLf0Jgn0gfhAy8SNM66WbZKOL7h9Cf+edWDhhAhskGh388Vr1RcTp1ZH2/wDKqBlq0tdKJXyNPeVGjTpvK/ZO92DlGlbpUx5GjvKjRb0wPkznu1aT6i9ySMxLI9qo0Zuh233Vb/gqq9tUwPBjSB0qc+xb9hjRp0hmfJj3hAhXgmL4YXutEnLbT3RC17airdugUgRQZwIp6YAgCMK6kKCVdvO0cK/s1oJ4OIPqP4QMvEjTTX4NY32jvsTzjlFK560K2hzd9NVxOnVkfb/yqgZatLXSiV8jT3lRozB/rvLHcGna/dg5RpX6Vy/kaO8qNF42b20/0znu1aT+lo8mR7VRorJF53wMjKq7yYHgxpA6VOfYt+wxo06QzPkx7wgQcovuul7LQRxWmv3RAFRAAED1RSAKHqgQK16oEU1AcYbNRjmObo4rsWj9Zv2GBl4kaaE1krIXuDrg/hH4fJIISe3mgDPVcTp1ZH2/8qoGWrS10olfI095UaMemjP2DvsEbo0qJretg8JNHeVGjHpd/wCs57tWk/paPJke1UaLOlL/AJKrvJgeDGkDpU59i37DGjTpDM+THvCBCsovsK3xtL66e4ITnSKRQ7oHAxSBTKN0CuoY6grZUOZSppGjpNJe0FftoHqMDLxI0yNbV35B2ngTVPSlX4c0ZY82lYQappw10rGWq4nTqyPt/wCVUDLVpawvRK+RjvKjRj00Z+wd9gg5RpT6UMeSJ7yo0Y9Lv/Wc92rSf0tHkyPaqNFnSl/yVXeTA8GNIHSpz7Fv2GNGnSGZ8mPeECDlF9B/fG0vrp7oinDOBAEACvXAEUjfrApqpDRJFDrQMKxo+RSy5pz6T9PQkQMvEc5GNKsvy1yHl0ryLzTnrI9/NHNEA0NRANRBrTCBlruJ06sj7f8AlMDLVpdVS9EkNxkx31Row6aNfYO+wQcjGlPpQx5InvKjRj0u/wDWc92rSf0tHkyPaqNFnSl/yVXeTAyEX+dH9cHmzmGWyPQY0adIJnyY94QIV4Ji+dDfG0qfTT3RAgZ1gRTfvgV1AbzqFaY6sa6gaGsA1FYAJOGq4zXJ3cQqn+I4tXrp7oGXiPui+soZ25trsgVPwVSh2p+MPZANcYqOMVEE4RUcYrFRxio4xgc4w4xUcYbOJHNufMfBr52Q4cvhKUnz4e+EGqc9WmAH+tEj5GO+qNFuN8mjwYcr6BByMaU+lDHkie8qNGPS4n/TOe6KjjGlDpYk/wCmR7VRos6UP+Sq7yYGUaSVKRfNxQzDLdPQY0YkOW5MLTkZX+YalmiYvO6Hr1Wm4P1hQ9GHugRhSBApqANddYqOYg0NOMJFBGWMXcYMtd+RapT8iCe04+/xJmGUzEu6yvwXEFB7CKRNSy5Obell1CmXFNntSSPdGPEwTTeYGOJJikUikUimEUikIgGvMl3lS0y0+g0W0tK09oNfdEjMonJFmZbIKHkJcSRwIrqvfcyUvW2yXHVy8yyCG3kJ2sDmkjeIujcaTusXXg8uZm3Bsl1SdkBOdEjdFMYvZcyUvQlla3nJeZZBSh5CdqoO4jeIuncmVuwHnUvOTM06AlTq07NE8AN0bMXsuTK3n5F0vuS000ClLqE7VU50Ii6VzJS66HlIdcmJl4ALdWnZoOAG4QBjF7Ljyt51tPmYclppsbIcSnaCk50Ii6d0ZW67LobdcffdpyjzgpUDcBuGqcmUSkm7MuEBDSC4ongBX3RMzK5qaemFqO26tThx3k198VP0j6YqfpK9MVV9JXpiqvpK9MVV9JXpiSfKhySjiMuyANVIA6zHnMecx5zClUGBNYZdLrda4jAwy0qYfbZTXacWEDzmkMthplDackpCR5vElXgnsjSNZ/8AR9954AURMbMwn94Y+sHUrGN/PAqaRSkJwPN0X2yLQuo3KKVV6RVyKq57JxSfRh5oTl8oco0m2yJC7K5JCqPTquTAGewMVe4eeK1x5yFltwOJzENOJdbC05HHVjXmE0itSTDLvJLx8E4GLpSvwu8krXwWquq/dy9dIT4I7PEk5GNMtlbSLNtVKfBKpdwgbj8ZPsV6YOtOGocxI1boSqvMuPeM3cvE266qkm/RqY6gTgrzH1VhpYWjaBBBxBBwIjP5N1wNtlZKQBiSTgBF8rwG8V4X5hskyrX5KXH7I+d5zj6PkJB7ZWWlHA4p7ecs7tRFY0ZShW1NzqwcKMoJ37z7oGXiVfSyTbV1Z+TQKu8kXGvrpxHsp5+aMeYM9dKwDswMuZo0vkHmWrBtBwcsjCVcUfDT9A9Y3cR2QmlPklUpjGki+ISh2wbPcqsmk26k+CPoDr4+iAa/IZGoNCMolnA+yF78iOvmEgCpjM11ZRdSzjZd3JSXUmjhRyjn1lYn8PN4lnIxfSxf6BvXOyiU0YUrlmfqKxHoNR5uYDTmAUGo4QMtSThTmJUptYWglKkkEEGhB7YuRpGbnW27NtlaW5vBLcyo0S71K4K9RhBwPyCzQbovtpFRLtOWZYrgXMV2XJpBqG+ITxV17oUS4oqUSSTUkmpOoZfISb/IvbJ8BWB6jzHDtGnDXdezP6WvDKyxTVpKuUd+qnE+nAeeE+COzxLOUaXbA+F2Mxa7Qq7JHZdpvaUfcaek80Go1IxPZrGsYGuo5QMcdXbF2dIlp2EES00DPSScAhavjtj9lXDqPqixb52LboSmUmkJeP5h47Cx5jn5qwOYo4RbV+LEsMKQ/NJemB+YY+OuvXuHnMXlv/advpXLND4FJE4tNq+MsftK9wwga0nGnyMk/wAszRR+OnA6lmg5mjeyPg9nvWk4KOTJ2W6/QBz859kDLxMnZNmelHpaYSFsuoKFpO8EUMW9Yz1gW3NWY8SSyuiVfSQcUq845g+LAxgCmoHHmHKE8IGfN3xZV7Lfs1TbUrakxye0AG3FconPgqsNV2Mc8NTuUWtei27UW43N2lMKbCiOTQrYRnwFK86tIBr8gw+WHgrdkR1QlQUKjEZiFK2j1a7Ls521rTl5Jqu06qhP0U7z5hEpKtScq1LsgJabQEIHUIGXiZujSzdj4bZrVtS6fy8mnZeAHhNVz/dPqJjGMYEY8ISM6nGKiKiNoRtCNoRtDjG0OMbQpnCVppnG2njG2njG2njG2njG2njEkUrtGVRntPIH8QhIpXUrdE4tLc/MpNapeWDT6xjlk9cB9AJz9EcungfRHLp4GOXR1xy6Ov0QmYTXIxyqeBjlRwMcqOBgOJMbSeMbSeMbSeMbSeMSs6lLRaUTUeDQbo+GNfteiPhjX7Xoj4Y1+16I0bWJyck5a7qfjzA2GNoZI3nzn1CBl4nPMofbU24lKkKSUqSoVBBzEXyu0u7FvOSoBMo7VyWWd6K5doy9HHWrKAaGN3y1io5S3rORxmmh/GITv1GLYQG7ctFAFAmadAB+udVK80iohBqmm8agcac4VSqoMJUFJqN+q61guXittqUFQwn476x81A95yES7KJdlDTSEobQkJSkDAAZDxQvrdlq89hqlgEpmmquSzh3L4HqOR/4h5l2WfcYfQpt1tRQtChQpUMCDAFIKsdSTu+WuwjlL12QnjONd4QN+oxeRHJ3ptdFa0nXcf3j8gk0MDnVrqZXsnZO+G0LdcS22krWshKUpFSScgIuVdtF3bHDbgCpt6i31de5I6h+PijQHdGlG5hmWzb8g2OWbT/am0Dw0j5/aN/V2QVRTWDX5W5iNu+tjD/VoPoqYGWo5RfJPJ30tpNKf2xZp24/IHKGjhSuXyFDXCNGl1FKSm3Z5vEj+yoUP4/w9MAAZAeKSkJUKKSCOsRpCuQqwZs2lIN/9tfV8ZIH+As7vqndwy4cwGnytwEcpfqyBwfJ9CVGBqMX8QEX6tgDfMV9KQfkQdk1gEEVGXMOu4VzVXinvhk2gizGFfGr+eUPmjq4nzQ22lpISlKUpAoAkUAHDxUm5NmclnJd9pDrLiSlaFCoUDui+9y37rTvKs7TtmPKo06cSg/QUePA79YBgGvymjZFb+WbhWhcP8CoTlqMaR0FF/LTrvKFfwD5JpWOz6Odc+6Mzem0PnNSDShy71P4U/tH1RIyMvZ0o3KSzKGmGkhLaE5ADxWn7PlrSk3JSbYQ6w6NlaFDAiL53ImrrzRea2nrMcXRp7MoP0V9fA7+3WMD8nnlGjBG1fyTqfBbdUPuGBlqMaT0bF+5vCm000rt+L/xqFfkMsYSoKEborXVdC585eicqNpmz21UemKZ/sp4q9kWZZkrZMg3JSjCWmGhRKU+08T1xQeK1Im5NidlnJeYZQ6y4kpWhYqFDri+2jmYsQuWhZKFv2dWq2/CWx+Kevdv4xXUK/I9UDCNFCCq+yCKfFlnSfUPfAzOoxpXRs31UqtdqWaPZmPdqNd3yLZ2TTdBrWN9IubcKZvCpE5OhcvZgNQrJb3UngP2vREjIS9nybcrLMoaYaGyhCBQARQeLFIKEkUIrF9NF6Jsu2hd9CGZgkqXKk0Q59X6J6sj1RMMzEpMOS8w0pp5s7K21popJ6xAWRuEbauqNtXVG2rqjbV1Rtq6o21dUbauqNtXVCV8QIBJjRCnave+qldmTXjwqpMDfqMaXUbN7JdVKbUonHjRStYJrqrFTwEVPARU8BFTwEVPAQDXcIaS4+4ltpBW4ohKUJFSo8AN8XO0Y0Lc/eFtJVUFEnXAda+P1fTCGW20hKEBKRgAMAIp4tlIOcXnuZZd6Jek0zsTKRRuZbwWnqPEdRi81yLYuw4pcw1y8lWiZpoVT2K+ie30wM6c/HzQccoRlTfGh1Fbx2guvgylKdqxA1HKNMSQLw2euuKpQj0LPMrz7uXQte8zwEkzsywNFzLuDaew7z1CLrXGsy7KEuNt8vOkUVMuD43YkfNEBIGQ8X1stuoUhxAUlQopKsQR1iLzaJrPtBbkzYpEhMnHkiKsqPZmnzYdUW1d21rvTBatOSWwK0S5m2rsUMDBwNN/NJwpqSaGsaGU7VrWqsCoEu2K9qj+EDUY0yoItOyV7iw4P4h+PMGB5tkWFaduzPIWbJuTCq0UoCiE9qshF2tE0nKqRMW4sTjufIIJDSe05q9QhmWZl2kNMtJbbQKJQgUCR1DxioImJOXm2VszDKHWl4KQtO0k+Yxb+iOyZ4rdsla7PezCPDaJ7Mx5j5otq4l4bCUtUxIKel0/npb8onz0xHnEUz6s9ZoTr0KJHL2yrglketUDUY00I/LWMsDEpeHrTzDAy1WNcm8FuFKpWz1oZP55/8mjzVxPmBiwtEdnShS7a7y55zMtJ+I0PefVErISsjLpl5VhtllHgttpCUjzCAkDxlpBQDxi2Ll3ftvaVOWa0Xj+eb+Iv0jPzxaehlCtpdk2mtB3NTSNofeT+EWlo4vTZu0o2aZlsfPlVhz1Z+qH5OYk1lEzLusLG51BSfXFNWhRB+C20vCnKND1KgajlGmdH9ksddcA66mnmB1UMS0nMzi9iVlnn1cGmyr2RZ2jm9NokEWaZds/PmVhHqxPqizNDaRRVq2mpR3tyqKD7yvwix7k3esXZXKWa1yw/PO/lF+k5eaAgA1xinjTSKRsiHpVmYQUPtpdSfmrSFD1xOXDutPEl+xJXaPzm07B/hpEzojuu7Xkm5xj7OYJH8QMXSufJXSYm2pN6YdTMLStRepUUFABQCMtd67oyV65eVZnHX20y7hWkskVNRQjEGJbRRdZqhcl5l8j9LMK91IlLkXZkSCxYsoCMitG2fSqsNSzLCNhlCW0j5qAEj1RsiKDx2pX/AOvE/8QANhEAAQMBBgQEBQMDBQAAAAAAAQACAxEEBRASITMgMTJQE0FxgTA0UWHRFCIjRFKQJEKx4fD/2gAIAQIBAT8A/wAg01qZEacyoLSybQaHvtoBErqqyNJmFO+yQsk6hVMiZGKNFO/SPyMLvonyOeauKsMzicju8zzCJmYr9dKTorNaBMNeYT2hzS0+afZJWuoBVWSzGOrnc+83gDlB8sLvBMhPl3xzQ4UPJGwR10JUcbYxlb3d7wwVTpHOOpVSpHkDReKV4pUJrGD9laHloACa9zTUFXo4mUH7flVKqU5xQkcNQVd94uLxFKa15HuFp8sCjqntymmEG230CliDwm2Z1f3K9RSUen5xKITK5hRN5dvkYHtonMc06hHCRlRhBtN9AhaGl2XC9d4en54C0nkFd93vLxLIKAcu5UR54SNymqg2m+gQs7Q7Nhe28PT843QAQ+v2QAHdC41WYpzc4IVnFImj7DG9QPGHp+VRUVzjR/t3Rz2tFXFHngBoo+gY3rvD0/ON1zxxlzXmlUDXuJIAqVJaa6MT6nU4AVwZMwNAJRtcINC5frYP7grxlZJKCw104ILfLAaNNR9FZbfHOKcj9O3ySBgqU+RzzriRqhpgeSnZmFRzCJ4HGgwBINQrDenKOY+/5QNeXbJJAwJ7nE1KqVUqpQGmvAaUUsYa5UCoFQJ+vBd14GI+HJ0/8f8ASBqKjtT3BoqU95calURGDRwkqVmZuLj5YEUxbyV2W2h8F59Px2qaTO7Tli4YNGiAqaIQspSiyASZVaY2hlQrNG0sqQsg8bL5VV4wRtjztFCrvssbmeI4VV52VkYEjBTBwqMGiuAJGqu+1CePXmOfaJ35W0+vCG64M6xgd73Vq21ZNtD5j3VubmioruFIKK9tkeuLmoCiIKoVYpzBMHeXmgQRUdnldmfXjZ1DB297q17asm2h8x7q3uyw1V37KvXaHri1uiOnBds3iQ0PMadmkdlaT8BnUMHb3urWP41ZNtD5j3V47Purv2Qr12h64NFTg8efBdcuSbL9ezWk6AcB4GdQwdve6tPQrKKRoupaafdXjs+6u/ZCvQfwj1waKcUL8kjXfQodltB/cB8BnUMHb/urT0KzbaJrbfdXhs+6u/YCvLaHqgyrkQVQqhRaVlKoVQqzuzRNP27LP1/AZ1DB2/7q1basu2nN/wBWCPqrx2fdXfsBXltD1TRQYE4kInCwmtnb2WfrPwGdQwPzHurVtqyba/qPdXjs+6u/YCvDbHrgTwEVxsHy7f8A3n2W0dfwGdQwPzHurXtqyba/qPdXiKw+6u/YCvDbHqjxOGFjFIGj7dltI1B4jg00NcDC4y5vJTxl7KBWeMsZQr9O7xs3krRGZGZQrNEYo8pVvGZoavBr5rwPunQloqqY0rospJoo25Ghv07LO2rPgwPzN47RJnecaV0KkbldTEBWeLxJm9mIqKIihpxUwjeWGoTHh4qOGef/AGtRHBKzM3ADXC7o+bz2edmub4LXFpqE20/3DCWUR80+dz9OQwI4ZWZSgKIAk0ChjEbA0dnc3MKIgg0PFRUVEBrhaRUBZQsoWUIgLKsqyp0YcKFeE1WOzjN4n07TPHUZh8FvMYWnkPgtiL3UCa0NFB2qaKn7h8BnUMLT08Jxa0uNAoowxtO2Sw01bxx9YwtHRxtaXGgUUQYPv26SAHVqLSOfDF1jCfo4mQuf6JjGsFB3BzQ7mn2cjpRaRzxh6xhP0HgbE53JMga3U6qncyAeaMDCjZj5FRQua6pwkaXNICFmd5lCzDzKbG1vIf5Qv//EAEARAAECBAEIBgYJBQADAAAAAAECAwAEBREQEiExNFBRcYETIEFhsdEGIjI1csEUIyQlM0KCkaEVRWKQ4VLw8f/aAAgBAwEBPwD/AGDSVKemk5YzJ3mJ2mvSnrKzp37dpq0KlUZG7+e2KwtCZNYV26OO3WJt6XN2lWh+ZefOU6q+3pdnpnUt7zaGZZphGQ2mwiuSTaAH2xbPY7ZkpRc070ac287oTQpUJsbk77xUqcqTWLG6ToMNOKaWHE6QbwzWJV1GUpWSdxir1JEzZtr2R/O2fR9aQ4tJ0keGHpAtIYSk6SduNuKbUFoNiITX5gJsUgmH5hyYXluG52vKSypl0NjnwhiSZZTZCfOOjTuhtpOm0dGjdHRo3ROC0wvifGKHJtvLU44L5NoflGXkFC05vCKQ0ENrQexREZCd0ZCd0KQndBbQRYiKhTkBJdaFraRtChAZS9+b54AXgCwtgInNYc4nxinz6pNwm1wdMP19rI+qSb98UQksqJ3+WJwXbJN9G0JOaMs6FjR2wxNNPpuhUII036k5rDnE+MLo76GOmJGi9u7Ch/gK4+WNxClAC5MVCooyC00bk6TtLKO+EeyMZzWF8T4wurzC2OhNtFr9tsKH+Crj5Y1wkKRbv+UXO1G/ZGFri0TotMuDvPjjQx9Qrj5YWiu5lI5/LajEs6+rJaTeEiyQDgBmie1lzifHGhn6hXHyxrMu65kqQLgX2khCnFZKBcxJUIe3MHl5w22htOSgWGCYMTdOmlzC1JQbEnxg02bGlsx/T5r/AMDFIZcaaUlwWN+pNSLMxnIsd4iZkHZfOc437Pk5NyaXko0dpiTkWpVNkDP2nEQMXE3ziCeoo2wIBFjE9S9LjA5eWzZGSXNuZIzAaTEvLtsIDbYsB1Cqxi8Xi8JF4Wm0WxXn6lQp3S3caHreP/dly7C33A2iJSWQw2EJ6hNoG+EnECwhYuMTgRbEZhFUkb3fb5+eyqVJdA3c+0dPliMFG5h1fRtqXuF4NSmivLyz8v2j6WpUiZgabX5xRJx9yZyHFXBB0xXJ19uYDbaiAADmgzTn9O6f82TfnFIm3nXyhaiQRfPFXnXUO9E2bARSJx11RacN81xgoXwGBFxaKhK/R3c3snRsikyvTPZStCfHshAsOoTmgRN6uvgcG/dR+ExQdc5GK/rnIR/aP0xQReat3H5RWdbVyiiaweGJSYsYsYsYnZbp2Snt0iNGbY9Ol+glwDpOcwknEQRmwmvwF8Dg0n7pJ/xMUHXORiv65yEH3R+mKCbTXI/KK1rZ4CKHrB4YpTmvB6lUl+hfJGhWfz2NJM9NMJQdGANsUjtwULRNfgL4HBr3QfhMUHXORiv63yEH3P8Apiha1yPyita2eAih6weGAF8FDt6lZZy2MsaUnY1Ebu6pe4eOKT2QBAwIuImvwF8Dg37oPwmKDrnIxX9b5CCfuj9MULWeR+UVrWzwEUMXmDwwQLDE5sZhvpGlI3jY1ERZlSt56iSLRlCMoQFCJoAsL4HwwbH3QfhMUHXORiva5yEf2n9MULWuR+UVrWzwEUDWVcICCTmixixixhSTFjFjFjEwjIeWncTsWji0qOJxJhBz26k1ml18D4YN+5z8Jig66OBiv64eAhQ+6L/4xQta5GK3rZ4CKDrB4QkWEE9RQz41IWmljv2LSdVTz8cSYEJNxgkRN6uvgcG/c5+ExQNdHAx6Qa6eAg+5v0xQta5GK3rZ4CPR4XmVcPmIJ6pF8ambza+XhsWjKvLW3E4E2xTmgCBE3q6+BwaN6OfhMUDXRwMekGuHgIPub9MUEfauRit62eAj0f1lXCCesRbCeVlTKz37FobnqrRzi8E3wEXhs5sHkZbak7xBFsxhFSaTTyx+a1opU0iWmQ45oirTSJqZLjejMINUYNM+j/mtaKTNNysxluaLERUphExMKcb0R6NslTi17hb9/wD5HRGOiMKbsItFotGTeFeqDeFqy1lW/YtKdyJgA9ubqpF4GaBhVZUsTBI0Kzj59ejSf0WVAV7RznHTChY4iKq50UspfL99jIUUKChpENOBxAWO3EQkWwSbYTkoiabKFaew7omJZyXXkOD/AL1aTSSSH3xm7B8z8obVcYE4KTcdT0hmL5LA4nwGx6PMZSCyezRgISO3qA3wfl2305LguImKBa6mVcj54SFPXOEhJAtEpR5eXOUfWPf5YJNjF83UWLHBawhJUrQImpgzDynT27HYeUy4HE9kNLS4gLToMAQk5ovF4vAJEZZjLMOLIQcKAspWsDujpVR0qo6VUIeUcxjpDGWYyzBWTpgC8V6dCEiXQc508N2yaVOdGroVnMdHcf8AsEwk268wbNKPccKGfrVDu6qTcX6k1OplWStXLvMOuqdWXFm5OyqbUOkAZcOfs78Ens602bML4HCiH69XDygdRtVjbAw88hlBWs2AidnVzbmUdA0DZYuDcRIVIOANunPv3wIBv1Z4/Z18DhRjaZ5H5dZKriJiYbYQVuGwien3JtefMkaBs6Tqi2vUdzjf2w28lxOUg3EXMXMXMXMVA/ZlnuwpB+1DgcAb4Wi0TdSalhYZ1bvOJiadmFZTh2gy+4yrKbNol6wk5nhbv7IbdQ4LoN8akbSq/wD3twpRtNp5+EEwIvD9Rl2dKrncImas876qPVH87UStSDdJsYaqswjSb8YRWk/nT+0TtRZfYKE3vhJupZfS4rQIVWWR7IJhytOH2Egfz5Q7OPu+2rN/tC//2Q==",
+      "activeUiStyle": "MINIMALIST_CLEAN",
+      "primaryColor": "#ff704d",
+      "secondaryColor": "#ac5200",
+      "backgroundColor": "#ffffff",
+      "accentColor": "#ff8313",
+      "surfaceColor": "#fffafa",
+      "accentLightColor": "#ff9e46",
+      "borderRadiusType": "SHARP",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2026-06-27T14:08:59.033Z",
+      "pages": {
+        "home": [
+          {
+            "key": "hero",
+            "label": "Hero Video",
+            "enabled": true,
+            "variant": "video",
+            "media": {
+              "videoUrl": "/uploads/media-1782569209035-y5fyx.mp4"
+            }
+          },
+          {
+            "key": "cartRecovery",
+            "label": "Cart Recovery",
+            "enabled": true
+          },
+          {
+            "key": "loyalty",
+            "label": "Loyalty Dashboard",
+            "enabled": true
+          },
+          {
+            "key": "orderAgain",
+            "label": "Order Again",
+            "enabled": true
+          },
+          {
+            "key": "recommendations",
+            "label": "Recommendations",
+            "enabled": true
+          },
+          {
+            "key": "flashDeal",
+            "label": "Flash Deal",
+            "enabled": true
+          },
+          {
+            "key": "categories",
+            "label": "Category Tiles",
+            "enabled": true
+          },
+          {
+            "key": "featured",
+            "label": "Featured",
+            "enabled": true
+          },
+          {
+            "key": "stories",
+            "label": "Stories",
+            "enabled": true
+          },
+          {
+            "key": "popular",
+            "label": "Popular",
+            "enabled": true
+          },
+          {
+            "key": "mealDeal",
+            "label": "Meal Deal Combo",
+            "enabled": true
+          },
+          {
+            "key": "offer",
+            "label": "Discount Offer",
+            "enabled": true
+          },
+          {
+            "key": "imageMosaic",
+            "label": "Image Mosaic",
+            "enabled": true
+          },
+          {
+            "key": "browser",
+            "label": "Restaurant Browser",
+            "enabled": true
+          },
+          {
+            "key": "announcement",
+            "label": "Announcement Strip",
+            "enabled": true
+          },
+          {
+            "key": "birthday",
+            "label": "Birthday Banner",
+            "enabled": true
+          }
+        ],
+        "menu": [
+          {
+            "key": "search",
+            "label": "Search & Filters",
+            "enabled": true
+          },
+          {
+            "key": "categories",
+            "label": "Category Nav",
+            "enabled": true
+          },
+          {
+            "key": "grid",
+            "label": "Product Grid",
+            "enabled": true
+          }
+        ]
+      },
+      "tokenOverrides": {}
+    },
+    {
+      "id": "tenant-greengarden",
+      "name": "Green Garden",
+      "logoUrl": "https://picsum.photos/seed/greengarden-logo/150",
+      "activeUiStyle": "MINIMALIST_CLEAN",
+      "primaryColor": "#2e7d32",
+      "secondaryColor": "#1b5e20",
+      "backgroundColor": "#ffffff",
+      "accentColor": "#66bb6a",
+      "surfaceColor": "#e8f5e9",
+      "accentLightColor": "#a5d6a7",
+      "borderRadiusType": "ROUNDED_SM",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "item-classic-burger",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Classic Burger",
+      "description": "Flame-grilled patty, lettuce, tomato, house sauce",
+      "basePrice": 9.99,
+      "imageUrl": "https://picsum.photos/seed/item-classic-burger/400/300",
+      "calories": 540,
+      "category": "Burgers",
+      "modifiers": [
+        {
+          "id": "mod-patty-size",
+          "name": "Patty Size",
+          "maxSelection": 1,
+          "options": [
+            {
+              "id": "opt-single",
+              "name": "Single Patty",
+              "price": 0
+            },
+            {
+              "id": "opt-double",
+              "name": "Double Patty",
+              "price": 2.5
+            },
+            {
+              "id": "opt-triple",
+              "name": "Triple Patty",
+              "price": 5
+            }
+          ]
+        },
+        {
+          "id": "mod-cheese",
+          "name": "Cheese",
+          "maxSelection": 3,
+          "options": [
+            {
+              "id": "opt-cheddar",
+              "name": "Cheddar",
+              "price": 0.75
+            },
+            {
+              "id": "opt-swiss",
+              "name": "Swiss",
+              "price": 1
+            },
+            {
+              "id": "opt-blue",
+              "name": "Blue Cheese",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-deluxe-burger",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Deluxe Burger",
+      "description": "Wagyu beef, caramelized onions, aged cheddar, truffle aioli",
+      "basePrice": 14.99,
+      "imageUrl": "https://picsum.photos/seed/item-deluxe-burger/400/300",
+      "calories": 680,
+      "category": "Burgers",
+      "modifiers": [
+        {
+          "id": "mod-patty-size",
+          "name": "Patty Size",
+          "maxSelection": 1,
+          "options": [
+            {
+              "id": "opt-single",
+              "name": "Single Patty",
+              "price": 0
+            },
+            {
+              "id": "opt-double",
+              "name": "Double Patty",
+              "price": 2.5
+            },
+            {
+              "id": "opt-triple",
+              "name": "Triple Patty",
+              "price": 5
+            }
+          ]
+        },
+        {
+          "id": "mod-cheese",
+          "name": "Cheese",
+          "maxSelection": 3,
+          "options": [
+            {
+              "id": "opt-cheddar",
+              "name": "Cheddar",
+              "price": 0.75
+            },
+            {
+              "id": "opt-swiss",
+              "name": "Swiss",
+              "price": 1
+            },
+            {
+              "id": "opt-blue",
+              "name": "Blue Cheese",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-spicy-burger",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Spicy Inferno Burger",
+      "description": "Ghost pepper aioli, jalapenos, crispy onions, hot sauce",
+      "basePrice": 11.99,
+      "imageUrl": "https://picsum.photos/seed/item-spicy-burger/400/300",
+      "calories": 620,
+      "category": "Burgers",
+      "modifiers": [
+        {
+          "id": "mod-patty-size",
+          "name": "Patty Size",
+          "maxSelection": 1,
+          "options": [
+            {
+              "id": "opt-single",
+              "name": "Single Patty",
+              "price": 0
+            },
+            {
+              "id": "opt-double",
+              "name": "Double Patty",
+              "price": 2.5
+            },
+            {
+              "id": "opt-triple",
+              "name": "Triple Patty",
+              "price": 5
+            }
+          ]
+        },
+        {
+          "id": "mod-cheese",
+          "name": "Cheese",
+          "maxSelection": 3,
+          "options": [
+            {
+              "id": "opt-cheddar",
+              "name": "Cheddar",
+              "price": 0.75
+            },
+            {
+              "id": "opt-swiss",
+              "name": "Swiss",
+              "price": 1
+            },
+            {
+              "id": "opt-blue",
+              "name": "Blue Cheese",
+              "price": 1.5
+            }
+          ]
+        }
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-fries",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Hand-Cut Fries",
+      "description": "Crispy hand-cut fries with sea salt",
+      "basePrice": 4.99,
+      "imageUrl": "https://picsum.photos/seed/item-fries/400/300",
+      "calories": 380,
+      "category": "Sides",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-onion-rings",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Golden Onion Rings",
+      "description": "Crispy beer-battered onion rings",
+      "basePrice": 5.99,
+      "imageUrl": "https://picsum.photos/seed/item-onion-rings/400/300",
+      "calories": 420,
+      "category": "Sides",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-cola",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Cold Cola",
+      "description": "Refreshing cola drink",
+      "basePrice": 2.49,
+      "imageUrl": "https://picsum.photos/seed/item-cola/400/300",
+      "calories": 140,
+      "category": "Drinks",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-milkshake",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Vanilla Milkshake",
+      "description": "Creamy vanilla milkshake made with real ice cream",
+      "basePrice": 5.99,
+      "imageUrl": "https://picsum.photos/seed/item-milkshake/400/300",
+      "calories": 450,
+      "category": "Drinks",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "item-brownie",
+      "restaurantId": "tenant-burgerbliss",
+      "title": "Fudge Brownie",
+      "description": "Rich, fudgy brownie with dark chocolate",
+      "basePrice": 4.99,
+      "imageUrl": "https://picsum.photos/seed/item-brownie/400/300",
+      "calories": 380,
+      "category": "Desserts",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-garden-burger",
+      "restaurantId": "tenant-greengarden",
+      "title": "Garden Burger",
+      "description": "House black-bean patty, avocado, sprouts, vegan mayo",
+      "basePrice": 10.99,
+      "imageUrl": "https://picsum.photos/seed/gg-garden-burger/400/300",
+      "calories": 410,
+      "category": "Burgers",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-quinoa-bowl",
+      "restaurantId": "tenant-greengarden",
+      "title": "Quinoa Power Bowl",
+      "description": "Quinoa, roasted veg, chickpeas, tahini drizzle",
+      "basePrice": 11.49,
+      "imageUrl": "https://picsum.photos/seed/gg-quinoa-bowl/400/300",
+      "calories": 480,
+      "category": "Burgers",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-side-salad",
+      "restaurantId": "tenant-greengarden",
+      "title": "Side Garden Salad",
+      "description": "Mixed greens, cherry tomato, cucumber, vinaigrette",
+      "basePrice": 4.49,
+      "imageUrl": "https://picsum.photos/seed/gg-side-salad/400/300",
+      "calories": 120,
+      "category": "Sides",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-sweet-fries",
+      "restaurantId": "tenant-greengarden",
+      "title": "Sweet Potato Fries",
+      "description": "Baked sweet potato fries with rosemary salt",
+      "basePrice": 5.49,
+      "imageUrl": "https://picsum.photos/seed/gg-sweet-fries/400/300",
+      "calories": 300,
+      "category": "Sides",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-green-smoothie",
+      "restaurantId": "tenant-greengarden",
+      "title": "Green Detox Smoothie",
+      "description": "Spinach, banana, mango, coconut water",
+      "basePrice": 6.49,
+      "imageUrl": "https://picsum.photos/seed/gg-green-smoothie/400/300",
+      "calories": 210,
+      "category": "Drinks",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "gg-fruit-bowl",
+      "restaurantId": "tenant-greengarden",
+      "title": "Seasonal Fruit Bowl",
+      "description": "Fresh seasonal fruit with mint and lime",
+      "basePrice": 5.99,
+      "imageUrl": "https://picsum.photos/seed/gg-fruit-bowl/400/300",
+      "calories": 160,
+      "category": "Desserts",
+      "modifiers": [],
+      "isAvailable": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-2847",
+      "restaurantId": "tenant-burgerbliss",
+      "customer": "David Chen",
+      "status": "OUT_FOR_DELIVERY",
+      "eta": "8:05 PM",
+      "driver": "Sarah Johnson",
+      "rating": 4.9,
+      "total": 24.97,
+      "items": [
+        "Classic Burger",
+        "Hand-Cut Fries"
+      ]
+    },
+    {
+      "id": "ORD-2848",
+      "restaurantId": "tenant-burgerbliss",
+      "customer": "Emily Davis",
+      "status": "PREPARING",
+      "eta": "8:20 PM",
+      "driver": "Mike Wilson",
+      "rating": 4.8,
+      "total": 14.99,
+      "items": [
+        "Deluxe Burger"
+      ]
+    }
+  ],
+  "pageLayouts": {
+    "tenant-burgerbliss": {
+      "home": [
+        {
+          "key": "hero",
+          "label": "Hero Video",
+          "enabled": true
+        },
+        {
+          "key": "cartRecovery",
+          "label": "Cart Recovery",
+          "enabled": true
+        },
+        {
+          "key": "loyalty",
+          "label": "Loyalty Dashboard",
+          "enabled": true
+        },
+        {
+          "key": "orderAgain",
+          "label": "Order Again",
+          "enabled": true
+        },
+        {
+          "key": "recommendations",
+          "label": "Recommendations",
+          "enabled": true
+        },
+        {
+          "key": "flashDeal",
+          "label": "Flash Deal",
+          "enabled": true
+        },
+        {
+          "key": "categories",
+          "label": "Category Tiles",
+          "enabled": true
+        },
+        {
+          "key": "featured",
+          "label": "Featured",
+          "enabled": true
+        },
+        {
+          "key": "stories",
+          "label": "Stories",
+          "enabled": true
+        },
+        {
+          "key": "popular",
+          "label": "Popular",
+          "enabled": true
+        }
+      ],
+      "menu": [
+        {
+          "key": "search",
+          "label": "Search & Filters",
+          "enabled": true
+        },
+        {
+          "key": "categories",
+          "label": "Category Nav",
+          "enabled": true
+        },
+        {
+          "key": "grid",
+          "label": "Product Grid",
+          "enabled": true
+        }
+      ]
+    },
+    "tenant-greengarden": {
+      "home": [
+        {
+          "key": "hero",
+          "label": "Hero Video",
+          "enabled": true
+        },
+        {
+          "key": "cartRecovery",
+          "label": "Cart Recovery",
+          "enabled": true
+        },
+        {
+          "key": "loyalty",
+          "label": "Loyalty Dashboard",
+          "enabled": true
+        },
+        {
+          "key": "orderAgain",
+          "label": "Order Again",
+          "enabled": true
+        },
+        {
+          "key": "recommendations",
+          "label": "Recommendations",
+          "enabled": true
+        },
+        {
+          "key": "flashDeal",
+          "label": "Flash Deal",
+          "enabled": true
+        },
+        {
+          "key": "categories",
+          "label": "Category Tiles",
+          "enabled": true
+        },
+        {
+          "key": "featured",
+          "label": "Featured",
+          "enabled": true
+        },
+        {
+          "key": "stories",
+          "label": "Stories",
+          "enabled": true
+        },
+        {
+          "key": "popular",
+          "label": "Popular",
+          "enabled": true
+        }
+      ],
+      "menu": [
+        {
+          "key": "search",
+          "label": "Search & Filters",
+          "enabled": true
+        },
+        {
+          "key": "categories",
+          "label": "Category Nav",
+          "enabled": true
+        },
+        {
+          "key": "grid",
+          "label": "Product Grid",
+          "enabled": true
+        }
+      ]
+    }
+  },
+  "activeRestaurantId": "tenant-burgerbliss"
+}

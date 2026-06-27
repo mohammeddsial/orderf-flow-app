@@ -1,0 +1,5 @@
+{
+  "/api/v1/restaurants/:id/menu_items": "/menu_items?restaurantId=:id",
+  "/api/v1/restaurants/:id/pages": "/pages",
+  "/api/v1/*": "/$1"
+}

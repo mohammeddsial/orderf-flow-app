@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "Order-Flow",
+    "slug": "multi-restaurant-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "entryPoint": "./index.js",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {},
+    "plugins": [
+      "expo-video"
+    ]
+  }
+}

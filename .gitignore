@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Expo / Metro / native
+.expo/
+.expo-shared/
+*.orig.*
+web-build/
+
+# Builds
+dist/
+build/
+*.tsbuildinfo
+
+# Uploaded hero media (large binaries served by the mock API)
+apps/api/uploads/
+
+# Logs / env / OS
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db

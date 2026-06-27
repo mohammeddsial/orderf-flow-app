@@ -1,0 +1,36 @@
+{
+  "name": "multi-restaurant-ecommerce",
+  "version": "1.0.0",
+  "description": "Order-Flow food delivery platform - React Native mobile + Vite admin",
+  "private": true,
+  "packageManager": "npm@10.0.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npx turbo run dev",
+    "build": "npx turbo run build",
+    "test": "npx turbo run test",
+    "lint": "npx turbo run lint",
+    "type-check": "npx turbo run type-check",
+    "mock-api": "node apps/api/server.js",
+    "dev:admin": "npm run dev --workspace=@multi-restaurant/web-admin",
+    "dev:mobile": "npm run dev --workspace=@multi-restaurant/mobile",
+    "start:all": "concurrently --kill-others-on-fail \"npm run mock-api\" \"npm run dev:admin\""
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.1",
+    "concurrently": "^10.0.3",
+    "turbo": "^2.0.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.21.0",
+    "papaparse": "^5.5.4"
+  },
+  "overrides": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  }
+}

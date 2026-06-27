@@ -1,0 +1,15 @@
+{
+  "name": "@multi-restaurant/api",
+  "version": "1.0.0",
+  "description": "Dummy REST backend (Rails-style routes) for the Order Flow apps",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
