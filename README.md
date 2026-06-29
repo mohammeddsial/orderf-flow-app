@@ -1,24 +1,26 @@
 # Order Flow
 
-A multi‑restaurant food‑delivery platform: a **React Native (Expo)** customer app, a **Vite + React** admin panel, and a small **Express** mock API — wired together so the admin configures what each restaurant's mobile app looks like in real time.
+A multi‑restaurant food‑delivery platform: a **React Native (Expo)** customer app, a **Next.js** customer web app, a **Vite + React** admin panel, and a small **Express** mock API — wired together so the admin configures what each restaurant's mobile app looks like in real time.
 
 ## Monorepo layout
 
 ```
 app/
 ├─ apps/
-│  ├─ mobile/      # React Native (Expo SDK 54) customer app — entry: index.js → src/App.tsx
-│  ├─ web-admin/   # Vite + React + Tailwind admin panel
-│  └─ api/         # Express mock backend (persists to db.json)
-├─ packages/       # shared client-side store (@multi-restaurant/database)
-├─ App.tsx         # Expo entry shim (re-exports apps/mobile/src/App)
-└─ package.json    # npm workspaces + scripts
+│  ├─ mobile/        # React Native (Expo SDK 54) customer app — entry: index.js → src/App.tsx
+│  ├─ web-customer/  # Next.js 16 customer-facing web app
+│  ├─ web-admin/     # Vite + React + Tailwind admin panel
+│  └─ api/           # Express mock backend (persists to db.json)
+├─ packages/         # shared client-side store (@multi-restaurant/database)
+├─ App.tsx           # Expo entry shim (re-exports apps/mobile/src/App)
+└─ package.json      # npm workspaces + scripts
 ```
 
 ## Design engines
 
-Two theme engines drive structure (radius, shadows, typography, spacing); the restaurant's brand colors drive the palette:
+Three theme engines drive structure (radius, shadows, typography, spacing); the restaurant's brand colors drive the palette:
 
+- **BRUTALIST_MODERNIST** — raw, bold, high‑contrast
 - **MINIMALIST_CLEAN** — soft radius, subtle shadows
 - **VIBRANT_STREET_TECH** — rounded, neon glow
 
@@ -50,6 +52,7 @@ Or run pieces individually:
 ```bash
 npm run mock-api                 # Express API on http://localhost:4000
 npm run dev:admin                # admin (Vite)
+npm run dev:customer             # customer web (Next.js)
 cd apps/mobile && npx expo start # mobile (scan the QR in Expo Go)
 ```
 
@@ -59,4 +62,4 @@ In `apps/mobile/src/api/client.ts` set `MACHINE_IP` to your computer's LAN IP (t
 
 ## Tech
 
-React Native, Expo SDK 54, expo-video, React Navigation, Vite, React, Tailwind, shadcn/ui, Express, npm workspaces.
+React Native, Expo SDK 54, expo-video, React Navigation, Next.js 16, Vite, React, Tailwind, shadcn/ui, Express, npm workspaces.
