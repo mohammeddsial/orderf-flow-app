@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, ScrollView, Text, Pressable, Image } from 'react-native';
+import { View, ScrollView, Text, Pressable, Image, Platform } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 
@@ -18,6 +18,27 @@ export const ScreenLayout: React.FC<LayoutProps> = ({
 }) => {
   const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
+
+  if (Platform.OS === 'web') {
+    const bgColor = backgroundColor || tokens.colors.background;
+    return (
+      <div
+        style={{
+          height: '100vh',
+          boxSizing: 'border-box',
+          overflowY: scrollable ? 'auto' : 'visible',
+          WebkitOverflowScrolling: 'touch',
+          backgroundColor: bgColor,
+          paddingLeft: `${paddingHorizontal}px`,
+          paddingRight: `${paddingHorizontal}px`,
+          paddingTop: `${insets.top || 0}px`,
+          paddingBottom: `${insets.bottom || 0}px`,
+        }}
+      >
+        {children}
+      </div>
+    );
+  }
 
   const Container = scrollable ? ScrollView : View;
 
