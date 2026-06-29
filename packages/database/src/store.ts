@@ -204,7 +204,6 @@ const DEFAULT_USER: User = {
   phoneNumber: '+14155555555',
   firstName: 'Alex',
   lastName: 'Johnson',
-  birthday: '2026-06-27',
   profileImageUrl: 'https://via.placeholder.com/150?text=Avatar',
   addresses: [
     {

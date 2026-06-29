@@ -14,10 +14,15 @@ import DeliveryConfigPage from '../screens/DeliveryConfigPage';
 import OrderSuccessPage from '../screens/OrderSuccessPage';
 import RewardsPage from '../screens/RewardsPage';
 import ReviewPage from '../screens/ReviewPage';
+import ProfilePage from '../screens/ProfilePage';
+import PromotionsPage from '../screens/PromotionsPage';
+import { CustomTabBar } from './CustomTabBar';
 
 const HomeStack = createStackNavigator();
 const MenuStack = createStackNavigator();
 const RewardsStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+const PromotionsStack = createStackNavigator();
 const CheckoutStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,6 +54,18 @@ const RewardsStackNavigator = () => (
   </RewardsStack.Navigator>
 );
 
+const ProfileStackNavigator = () => (
+  <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+    <ProfileStack.Screen name="ProfileScreen" component={ProfilePage} />
+  </ProfileStack.Navigator>
+);
+
+const PromotionsStackNavigator = () => (
+  <PromotionsStack.Navigator screenOptions={{ headerShown: false }}>
+    <PromotionsStack.Screen name="PromotionsScreen" component={PromotionsPage} />
+  </PromotionsStack.Navigator>
+);
+
 const CheckoutStackNavigator = () => (
   <CheckoutStack.Navigator screenOptions={{ headerShown: false }}>
     <CheckoutStack.Screen name="CartScreen" component={CartPage} />
@@ -64,54 +81,23 @@ const CheckoutStackNavigator = () => (
 );
 
 const BottomTabNavigator = () => {
-  const { tokens, engineStyle } = useTheme();
-  const isBrutalist = engineStyle === 'BRUTALIST_MODERNIST';
+  const { tokens } = useTheme();
 
   return (
     <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: tokens.colors.primary,
         tabBarInactiveTintColor: tokens.colors.textDisabled,
-        tabBarStyle: {
-          backgroundColor: tokens.colors.surface,
-          borderTopColor: tokens.colors.border,
-          // Thick border only for Brutalist; thin for others
-          borderTopWidth: isBrutalist ? tokens.borders.widthThick : tokens.borders.widthThin,
-          // No shadow for Brutalist; subtle shadow for others
-          shadowOpacity: isBrutalist ? 0 : 0.1,
-          elevation: isBrutalist ? 0 : 4,
-          height: 60,
-        },
-        tabBarLabelStyle: {
-          fontSize: tokens.typography.fontSizeXs,
-          fontWeight: '500',
-        },
+        tabBarStyle: { display: 'none' },
       }}
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackNavigator}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🏠</Text>,
-        }}
-      />
-      <Tab.Screen
-        name="Menu"
-        component={MenuStackNavigator}
-        options={{
-          tabBarLabel: 'Menu',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🍔</Text>,
-        }}
-      />
+      <Tab.Screen name="Home" component={HomeStackNavigator} />
+      <Tab.Screen name="Menu" component={MenuStackNavigator} />
       <Tab.Screen
         name="CartTab"
         component={EmptyScreen}
-        options={{
-          tabBarLabel: 'Cart',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🛒</Text>,
-        }}
         listeners={({ navigation }) => ({
           tabPress: e => {
             e.preventDefault();
@@ -119,14 +105,9 @@ const BottomTabNavigator = () => {
           },
         })}
       />
-      <Tab.Screen
-        name="Rewards"
-        component={RewardsStackNavigator}
-        options={{
-          tabBarLabel: 'Rewards',
-          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>⭐</Text>,
-        }}
-      />
+      <Tab.Screen name="Rewards" component={RewardsStackNavigator} />
+      <Tab.Screen name="Promotions" component={PromotionsStackNavigator} />
+      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );
 };

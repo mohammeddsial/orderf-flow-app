@@ -1,133 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { api, HomeSection, mediaUrl } from '../lib/api';
+import { api, HomeSection } from '../lib/api';
 import { useRestaurant } from '../context/RestaurantContext';
 import { Layout } from '../components/Layout';
 import { PageHero, SectionCard } from '../components/admin-ui';
 import { PublishDialog } from '../components/PublishDialog';
 import { Button } from '../components/ui/button';
 import { Switch } from '../components/ui/switch';
-import { Smartphone, ArrowUp, ArrowDown, Save, ChevronDown, ChevronRight, Plus, Trash2 } from 'lucide-react';
-import { VARIANTS_BY_SECTION, CardVariant } from '../lib/cardVariants';
-import { SECTION_CATALOG } from '../lib/sectionCatalog';
+import { Smartphone, ArrowUp, ArrowDown, Save, Plus, Trash2, Monitor, RefreshCw } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '../components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
+import { Label } from '../components/ui/label';
 
-const VARIANT_LABELS: Record<CardVariant, string> = {
-  listRow: 'List Row',
-  overlayPrice: 'Price on Image',
-  qtyRow: 'Qty Stepper',
-  plainGrid: 'Grid',
-  feature: 'Large Feature',
-  restaurantCard: 'Restaurant Card',
-  video: 'Hero Video',
-  slides: 'Image Slides',
+// All possible page keys – keep in sync with mobile app
+const ALL_PAGE_KEYS = [
+  'home',
+  'menu',
+  'cart',
+  'checkout',
+  'delivery',
+  'product',
+  'orderSuccess',
+  'upsell',
+  'rewards',
+  'reviews',
+];
+
+// Master list of all available sections with allowed card variants
+const ALL_SECTIONS: Record<string, { label: string; allowedVariants?: string[] }> = {
+  hero: { label: 'Hero Video' },
+  cartRecovery: { label: 'Cart Recovery', allowedVariants: ['listRow', 'overlayPrice'] },
+  loyalty: { label: 'Loyalty Dashboard' },
+  orderAgain: { label: 'Order Again', allowedVariants: ['listRow', 'plainGrid', 'overlayPrice'] },
+  recommendations: { label: 'Recommendations', allowedVariants: ['plainGrid', 'overlayPrice', 'listRow', 'feature'] },
+  flashDeal: { label: 'Flash Deal', allowedVariants: ['feature', 'overlayPrice'] },
+  categories: { label: 'Category Tiles' },
+  mealDeal: { label: 'Meal Deal Combo', allowedVariants: ['feature', 'overlayPrice'] },
+  featured: { label: 'Featured', allowedVariants: ['feature', 'overlayPrice', 'plainGrid', 'slides'] },
+  stories: { label: 'Stories' },
+  popular: { label: 'Popular', allowedVariants: ['listRow', 'plainGrid', 'overlayPrice', 'qtyRow'] },
+  videoSection: { label: 'Video Section', allowedVariants: ['video', 'slides'] },
+  announcement: { label: 'Announcement Strip' },
+  imageMosaic: { label: 'Image Mosaic' },
+  search: { label: 'Search & Filters' },
+  grid: { label: 'Product Grid', allowedVariants: ['plainGrid', 'listRow', 'overlayPrice', 'qtyRow'] },
 };
 
-// Tiny visual mock of each card layout (so the picker shows the real shape).
-const VariantPreview: React.FC<{ variant: CardVariant }> = ({ variant }) => {
-  const img = 'bg-gradient-to-br from-orange-300 to-orange-500';
-  const line = 'rounded bg-gray-300';
-  const pill = 'rounded-full bg-primary';
-
-  switch (variant) {
-    case 'listRow':
-      return (
-        <div className="flex w-full items-center gap-1.5">
-          <div className={`${img} h-9 w-9 flex-shrink-0 rounded`} />
-          <div className="flex-1 space-y-1">
-            <div className={`${line} h-1.5 w-3/4`} />
-            <div className={`${line} h-1.5 w-1/2`} />
-            <div className={`${pill} h-1.5 w-1/3`} />
-          </div>
-        </div>
-      );
-    case 'qtyRow':
-      return (
-        <div className="flex w-full items-center gap-1.5">
-          <div className={`${img} h-9 w-9 flex-shrink-0 rounded`} />
-          <div className="flex-1 space-y-1">
-            <div className={`${line} h-1.5 w-3/4`} />
-            <div className={`${line} h-1.5 w-1/3`} />
-          </div>
-          <div className="flex items-center gap-0.5">
-            <span className="h-3 w-3 rounded-full border border-gray-300" />
-            <span className="text-[8px] text-gray-500">1</span>
-            <span className="h-3 w-3 rounded-full bg-primary" />
-          </div>
-        </div>
-      );
-    case 'overlayPrice':
-      return (
-        <div className="mx-auto w-12 overflow-hidden rounded border border-gray-200">
-          <div className={`relative h-8 w-full ${img}`}>
-            <span className="absolute -bottom-1 left-1 h-2 w-5 rounded-full bg-primary" />
-          </div>
-          <div className="space-y-1 p-1 pt-1.5">
-            <div className={`${line} h-1.5 w-3/4`} />
-          </div>
-        </div>
-      );
-    case 'plainGrid':
-      return (
-        <div className="mx-auto w-12 overflow-hidden rounded border border-gray-200">
-          <div className={`h-7 w-full ${img}`} />
-          <div className="space-y-1 p-1">
-            <div className={`${line} h-1.5 w-3/4`} />
-            <div className={`${pill} h-1.5 w-1/2`} />
-          </div>
-        </div>
-      );
-    case 'feature':
-      return (
-        <div className="w-full overflow-hidden rounded border border-gray-200">
-          <div className={`h-7 w-full ${img}`} />
-          <div className="space-y-1 p-1.5">
-            <div className={`${line} h-1.5 w-3/4`} />
-            <div className="flex items-center justify-between">
-              <div className={`${line} h-1.5 w-1/3`} />
-              <div className={`${pill} h-2 w-6`} />
-            </div>
-          </div>
-        </div>
-      );
-    case 'restaurantCard':
-      return (
-        <div className="w-full overflow-hidden rounded border border-gray-200 shadow-sm">
-          <div className={`relative h-7 w-full ${img}`}>
-            <span className="absolute left-1 top-1 h-2 w-7 rounded-full bg-primary" />
-          </div>
-          <div className="space-y-1 p-1.5">
-            <div className="flex items-center justify-between">
-              <div className={`${line} h-1.5 w-1/2`} />
-              <div className={`${line} h-1.5 w-1/5`} />
-            </div>
-            <div className="flex gap-1">
-              <span className="h-2 w-5 rounded-full bg-gray-200" />
-              <span className="h-2 w-5 rounded-full bg-gray-200" />
-            </div>
-          </div>
-        </div>
-      );
-    case 'video':
-      return (
-        <div className={`relative h-9 w-full overflow-hidden rounded ${img}`}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/90 text-[8px] text-primary">▶</span>
-          </div>
-        </div>
-      );
-    case 'slides':
-      return (
-        <div className="relative h-9 w-full overflow-hidden rounded">
-          <div className={`absolute inset-0 ${img}`} />
-          <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-1">
-            <span className="h-1 w-3 rounded-full bg-white" />
-            <span className="h-1 w-1 rounded-full bg-white/60" />
-            <span className="h-1 w-1 rounded-full bg-white/60" />
-          </div>
-        </div>
-      );
-    default:
-      return <span className="text-xs">{variant}</span>;
-  }
+const CARD_VARIANT_LABELS: Record<string, string> = {
+  listRow: 'List Row',
+  overlayPrice: 'Overlay Price',
+  qtyRow: 'Quantity Row',
+  plainGrid: 'Plain Grid',
+  feature: 'Feature Card',
+  slides: 'Slides',
+  video: 'Video',
+  restaurantCard: 'Restaurant Card',
 };
 
 export const HomeLayout = () => {
@@ -135,24 +74,54 @@ export const HomeLayout = () => {
   const [pages, setPages] = useState<Record<string, HomeSection[]>>({});
   const [selectedPage, setSelectedPage] = useState('home');
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [expandedKey, setExpandedKey] = useState<string | null>(null);
-  const [addOpen, setAddOpen] = useState(false);
-  const [removeTarget, setRemoveTarget] = useState<{ key: string; label: string } | null>(null);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [addSectionDialogOpen, setAddSectionDialogOpen] = useState(false);
+  const [newSectionKey, setNewSectionKey] = useState<string>('');
+  const [newPageKey, setNewPageKey] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const [platform, setPlatform] = useState<'mobile' | 'web'>('mobile');
+  const [reloadKey, setReloadKey] = useState(0);
 
+  // Live preview URLs — both apps read active_restaurant from the API
+  const PREVIEW_URL = {
+    mobile: 'http://localhost:8081',
+    web: 'http://localhost:3000',
+  };
+
+  // Reload iframes when restaurant changes (engine/colors may have changed)
+  useEffect(() => {
+    setReloadKey((k) => k + 1);
+  }, [currentId]);
+
+  // Fetch pages from backend
   useEffect(() => {
     if (!currentId) return;
-    api.getPages(currentId).then(setPages).catch(() => {});
+    api
+      .getPages(currentId)
+      .then((data) => {
+        setPages(data);
+        // If the selected page doesn't exist, fallback to the first available
+        if (!data[selectedPage] && Object.keys(data).length > 0) {
+          setSelectedPage(Object.keys(data)[0]);
+        }
+      })
+      .catch(() => {});
   }, [currentId]);
 
   const sections = pages[selectedPage] ?? [];
   const enabled = sections.filter((s) => s.enabled);
-  const selectedLabel = selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1);
+  const pageKeys = Object.keys(pages);
 
   const setSectionsForPage = (updater: (list: HomeSection[]) => HomeSection[]) =>
-    setPages((prev) => ({ ...prev, [selectedPage]: updater(prev[selectedPage] ?? []) }));
+    setPages((prev) => ({
+      ...prev,
+      [selectedPage]: updater(prev[selectedPage] ?? []),
+    }));
 
   const toggle = (i: number) =>
-    setSectionsForPage((list) => list.map((s, idx) => (idx === i ? { ...s, enabled: !s.enabled } : s)));
+    setSectionsForPage((list) =>
+      list.map((s, idx) => (idx === i ? { ...s, enabled: !s.enabled } : s))
+    );
 
   const move = (i: number, dir: -1 | 1) =>
     setSectionsForPage((list) => {
@@ -163,99 +132,90 @@ export const HomeLayout = () => {
       return next;
     });
 
-  const setVariant = (i: number, variant: CardVariant) =>
-    setSectionsForPage((list) => list.map((s, idx) => (idx === i ? { ...s, variant } : s)));
-
-  const setHeading = (i: number, heading: string) =>
-    setSectionsForPage((list) => list.map((s, idx) => (idx === i ? { ...s, heading } : s)));
-
-  const setVideo = (i: number, url: string) =>
-    setSectionsForPage((list) =>
-      list.map((s, idx) => (idx === i ? { ...s, media: { ...(s.media || {}), videoUrl: url } } : s))
-    );
-
-  const setSlide = (i: number, slot: number, url: string) =>
-    setSectionsForPage((list) =>
-      list.map((s, idx) => {
-        if (idx !== i) return s;
-        const slides = [...(s.media?.slides || [])];
-        slides[slot] = url;
-        return { ...s, media: { ...(s.media || {}), slides } };
-      })
-    );
-
-  const readAsDataUrl = (file: File) =>
-    new Promise<string>((resolve, reject) => {
-      const r = new FileReader();
-      r.onload = () => resolve(r.result as string);
-      r.onerror = reject;
-      r.readAsDataURL(file);
-    });
-
-  const onVideoFile = async (i: number, file?: File) => {
-    if (!file) return;
-    const { url } = await api.uploadMedia(file.name, await readAsDataUrl(file));
-    setVideo(i, url);
+  const addSection = (key: string) => {
+    const meta = ALL_SECTIONS[key];
+    if (!meta) return;
+    setSectionsForPage((list) => [...list, { key, label: meta.label, enabled: true }]);
   };
 
-  const onSlideFile = async (i: number, slot: number, file?: File) => {
-    if (!file) return;
-    const { url } = await api.uploadMedia(file.name, await readAsDataUrl(file));
-    setSlide(i, slot, url);
-  };
-
-  const setContent = (i: number, patch: Record<string, unknown>) =>
-    setSectionsForPage((list) => list.map((s, idx) => (idx === i ? { ...s, content: { ...(s.content || {}), ...patch } } : s)));
-
-  const onContentImage = async (i: number, file?: File) => {
-    if (!file) return;
-    const { url } = await api.uploadMedia(file.name, await readAsDataUrl(file));
-    setContent(i, { imageUrl: url });
-  };
-
-  // Sections from the catalog for this page that aren't on the page yet.
-  const available = (SECTION_CATALOG[selectedPage] ?? []).filter(
-    (c) => !sections.some((s) => s.key === c.key)
-  );
-
-  const addSection = (c: { key: string; label: string }) => {
-    setSectionsForPage((list) =>
-      list.some((s) => s.key === c.key) ? list : [...list, { key: c.key, label: c.label, enabled: true }]
-    );
-    setAddOpen(false);
-  };
-
-  // Permanently remove a section from the page (different from the hide/show switch).
-  const removeSection = (i: number) => {
+  const removeSection = (i: number) =>
     setSectionsForPage((list) => list.filter((_, idx) => idx !== i));
-    setExpandedKey(null);
-  };
 
-  const removeByKey = (key: string) => {
-    setSectionsForPage((list) => list.filter((s) => s.key !== key));
-    setExpandedKey(null);
-  };
+  const setCardVariant = (i: number, variant: string) =>
+    setSectionsForPage((list) =>
+      list.map((s, idx) => (idx === i ? { ...s, cardVariant: variant === '_none' ? undefined : variant } : s))
+    );
+
+  const availableSections = Object.keys(ALL_SECTIONS).filter(
+    (key) => !sections.some((s) => s.key === key)
+  );
 
   const publish = async () => {
     if (!currentId) return;
-    const updatedPages = { ...pages, [selectedPage]: sections };
-    await api.updateAllPages(currentId, updatedPages);
+    await api.updatePage(currentId, selectedPage, sections);
   };
 
-  // Pages available for selection (hardcoded for now)
-  const pageKeys = ['home', 'menu'];
+  const handleAddPage = async () => {
+    if (!currentId || !newPageKey) return;
+    setLoading(true);
+    try {
+      // Add empty sections array for the new page
+      const updatedPages = { ...pages, [newPageKey]: [] };
+      await api.updateAllPages(currentId, updatedPages);
+      setPages(updatedPages);
+      setSelectedPage(newPageKey);
+      setAddDialogOpen(false);
+      setNewPageKey('');
+    } catch (error) {
+      console.error('Failed to add page:', error);
+      alert('Could not add page. Make sure the backend is running.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Which pages are not yet added
+  const availablePages = ALL_PAGE_KEYS.filter((key) => !pageKeys.includes(key));
 
   return (
-    <Layout title="Mobile Pages" breadcrumb="Mobile Pages" searchPlaceholder="Search sections...">
+    <Layout title="Pages" breadcrumb="Pages" searchPlaceholder="Search sections...">
       <div className="mx-auto max-w-5xl space-y-6 pb-4">
         <PageHero
-          title="Mobile Pages"
-          subtitle={`Add, remove and reorder the sections on each mobile page${current ? ` for ${current.name}` : ''}`}
+          title="Pages"
+          subtitle={`Add, remove and reorder the sections on each page${current ? ` for ${current.name}` : ''}`}
           status={{ label: `${enabled.length} of ${sections.length} on`, tone: 'muted' }}
         />
 
-        {/* Page selector tabs */}
+        {/* Platform toggle: Mobile | Web */}
         <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setPlatform('mobile')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
+              platform === 'mobile'
+                ? 'bg-primary text-white shadow-sm'
+                : 'border border-gray-200 bg-white text-[#1E2D4A] hover:bg-gray-50'
+            }`}
+          >
+            <Smartphone className="h-4 w-4" />
+            Mobile
+          </button>
+          <button
+            type="button"
+            onClick={() => setPlatform('web')}
+            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
+              platform === 'web'
+                ? 'bg-primary text-white shadow-sm'
+                : 'border border-gray-200 bg-white text-[#1E2D4A] hover:bg-gray-50'
+            }`}
+          >
+            <Monitor className="h-4 w-4" />
+            Web
+          </button>
+        </div>
+
+        {/* Page selector tabs + Add button */}
+        <div className="flex gap-2 flex-wrap">
           {pageKeys.map((key) => {
             const active = key === selectedPage;
             return (
@@ -264,59 +224,47 @@ export const HomeLayout = () => {
                 type="button"
                 onClick={() => setSelectedPage(key)}
                 className={`rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
-                  active ? 'bg-primary text-white shadow-sm' : 'border border-gray-200 bg-white text-[#1E2D4A] hover:bg-gray-50'
+                  active
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'border border-gray-200 bg-white text-[#1E2D4A] hover:bg-gray-50'
                 }`}
               >
                 {key.charAt(0).toUpperCase() + key.slice(1)} screen
               </button>
             );
           })}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setAddDialogOpen(true)}
+            className="gap-1"
+          >
+            <Plus className="h-4 w-4" />
+            Add Page
+          </Button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_300px]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
           {/* Section list */}
           <SectionCard
             icon={Smartphone}
-            title={`${selectedLabel} sections`}
-            description="Click a section to change its card design. Toggle off to hide it, or reorder with the arrows."
+            title={`${selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1)} sections`}
+            description="Toggle a section off to remove it, or use the arrows to reorder. Saving publishes to the app."
           >
-            {/* Add Section */}
-            <div className="mb-3">
-              <Button variant="outline" size="sm" onClick={() => setAddOpen((o) => !o)} className="gap-1">
-                <Plus className="h-4 w-4" />
-                Add Section
-              </Button>
-              {addOpen ? (
-                <div className="mt-2 flex flex-wrap gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50/60 p-3">
-                  {available.length === 0 ? (
-                    <span className="text-xs text-muted-foreground">All available sections are already added.</span>
-                  ) : (
-                    available.map((c) => (
-                      <button
-                        key={c.key}
-                        onClick={() => addSection(c)}
-                        className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-[#1E2D4A] transition-colors hover:bg-orange-50 hover:text-primary"
-                      >
-                        + {c.label}
-                      </button>
-                    ))
-                  )}
-                </div>
-              ) : null}
-            </div>
-
             <div className="space-y-2">
               {sections.map((s, i) => {
-                const allowed = VARIANTS_BY_SECTION[s.key] || [];
-                const isExpanded = expandedKey === s.key;
+                const meta = ALL_SECTIONS[s.key];
+                const variants = meta?.allowedVariants;
                 return (
-                  <div key={s.key} className="border border-gray-200 rounded-xl overflow-hidden">
-                    <div
-                      className={`flex items-center gap-3 p-3 transition-colors cursor-pointer ${
-                        s.enabled ? 'bg-white' : 'bg-gray-50/60'
-                      }`}
-                      onClick={() => setExpandedKey(isExpanded ? null : s.key)}
-                    >
+                  <div
+                    key={s.key}
+                    className={`rounded-xl border p-3 transition-colors ${
+                      s.enabled
+                        ? 'border-gray-100 bg-white'
+                        : 'border-dashed border-gray-200 bg-gray-50/60'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
                       <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-xs font-semibold text-muted-foreground">
                         {i + 1}
                       </span>
@@ -327,185 +275,133 @@ export const HomeLayout = () => {
                         <p className="text-[11px] text-muted-foreground">{s.key}</p>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" disabled={i === 0} onClick={(e) => { e.stopPropagation(); move(i, -1); }}>
+                        <Button variant="ghost" size="icon" disabled={i === 0} onClick={() => move(i, -1)}>
                           <ArrowUp className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" disabled={i === sections.length - 1} onClick={(e) => { e.stopPropagation(); move(i, 1); }}>
+                        <Button variant="ghost" size="icon" disabled={i === sections.length - 1} onClick={() => move(i, 1)}>
                           <ArrowDown className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" title="Remove section" onClick={(e) => { e.stopPropagation(); setRemoveTarget({ key: s.key, label: s.label }); }}>
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
                       </div>
-                      <Switch checked={s.enabled} onCheckedChange={() => toggle(i)} onClick={(e) => e.stopPropagation()} />
-                      {isExpanded ? <ChevronDown className="h-4 w-4 text-muted-foreground" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+                      <Button variant="ghost" size="icon" onClick={() => removeSection(i)} title="Remove section">
+                        <Trash2 className="h-4 w-4 text-red-400" />
+                      </Button>
+                      <Switch checked={s.enabled} onCheckedChange={() => toggle(i)} />
                     </div>
-
-                    {/* Expanded editor: heading + card design */}
-                    {isExpanded && (
-                      <div className="space-y-3 border-t border-gray-100 bg-gray-50/60 px-3 py-3">
-                        <div>
-                          <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Heading (shown on the app)</p>
-                          <input
-                            value={s.heading ?? ''}
-                            placeholder={s.label}
-                            onClick={(e) => e.stopPropagation()}
-                            onChange={(e) => setHeading(i, e.target.value)}
-                            className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1E2D4A] outline-none focus:border-primary"
-                          />
-                          <p className="mt-1 text-[11px] text-muted-foreground">Leave blank to use the default heading.</p>
-                        </div>
-
-                        {allowed.length > 0 && (
-                          <div>
-                            <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{s.key === 'hero' ? 'Hero Type' : 'Card Design'}</p>
-                            <div className="flex flex-wrap gap-2">
-                              {allowed.map((variant) => (
-                                <button
-                                  key={variant}
-                                  onClick={() => setVariant(i, variant)}
-                                  className={`flex w-[110px] flex-col items-center gap-1.5 rounded-xl border p-2 transition-colors ${
-                                    s.variant === variant
-                                      ? 'border-primary bg-orange-50 ring-1 ring-primary'
-                                      : 'border-gray-200 bg-white hover:bg-gray-50'
-                                  }`}
-                                >
-                                  <div className="flex h-14 w-full items-center justify-center px-1">
-                                    <VariantPreview variant={variant} />
-                                  </div>
-                                  <span className="text-[11px] font-medium text-[#1E2D4A]">{VARIANT_LABELS[variant]}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Hero media uploads: a video file, or three slide images */}
-                        {s.key === 'hero' && s.variant !== 'slides' && (
-                          <div>
-                            <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Hero Video</p>
-                            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-[#1E2D4A] hover:bg-gray-50">
-                              Browse video…
-                              <input type="file" accept="video/*" className="hidden" onClick={(e) => e.stopPropagation()} onChange={(e) => onVideoFile(i, e.target.files?.[0])} />
-                            </label>
-                            {s.media?.videoUrl ? (
-                              <video src={mediaUrl(s.media.videoUrl)} className="mt-2 h-28 w-full rounded-lg bg-black object-cover" muted controls />
-                            ) : (
-                              <p className="mt-1 text-[11px] text-muted-foreground">No video uploaded — the default video is used.</p>
-                            )}
-                          </div>
-                        )}
-
-                        {s.key === 'flashDeal' && (
-                          <div>
-                            <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Flash Deal Content</p>
-                            <div className="grid grid-cols-2 gap-2">
-                              <label className="col-span-2 block">
-                                <span className="text-[11px] text-muted-foreground">Title</span>
-                                <input value={s.content?.title ?? ''} placeholder="25% OFF ALL BURGERS" onClick={(e) => e.stopPropagation()} onChange={(e) => setContent(i, { title: e.target.value })} className="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#1E2D4A] outline-none focus:border-primary" />
-                              </label>
-                              <label className="col-span-2 block">
-                                <span className="text-[11px] text-muted-foreground">Subtitle</span>
-                                <input value={s.content?.subtitle ?? ''} placeholder="Limited time — claim before it ends" onClick={(e) => e.stopPropagation()} onChange={(e) => setContent(i, { subtitle: e.target.value })} className="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#1E2D4A] outline-none focus:border-primary" />
-                              </label>
-                              <label className="block">
-                                <span className="text-[11px] text-muted-foreground">Background color</span>
-                                <input type="color" value={s.content?.color ?? '#ff8313'} onClick={(e) => e.stopPropagation()} onChange={(e) => setContent(i, { color: e.target.value })} className="h-9 w-full rounded-lg border border-gray-200 bg-white" />
-                              </label>
-                              <label className="block">
-                                <span className="text-[11px] text-muted-foreground">Countdown (seconds)</span>
-                                <input type="number" value={s.content?.durationSec ?? ''} placeholder="1800" onClick={(e) => e.stopPropagation()} onChange={(e) => setContent(i, { durationSec: e.target.value === '' ? undefined : Number(e.target.value) })} className="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#1E2D4A] outline-none focus:border-primary" />
-                              </label>
-                              <label className="col-span-2 flex h-24 cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-dashed border-gray-300 bg-white text-center text-[11px] text-muted-foreground hover:bg-gray-50">
-                                {s.content?.imageUrl ? (
-                                  <img src={mediaUrl(s.content.imageUrl)} alt="" className="h-full w-full object-cover" />
-                                ) : (
-                                  <span>+ Deal image</span>
-                                )}
-                                <input type="file" accept="image/*" className="hidden" onClick={(e) => e.stopPropagation()} onChange={(e) => onContentImage(i, e.target.files?.[0])} />
-                              </label>
-                            </div>
-                          </div>
-                        )}
-
-                        {s.key === 'hero' && s.variant === 'slides' && (
-                          <div>
-                            <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Slide Images (3)</p>
-                            <div className="grid grid-cols-3 gap-2">
-                              {[0, 1, 2].map((slot) => {
-                                const url = s.media?.slides?.[slot];
-                                return (
-                                  <label key={slot} className="flex aspect-[3/4] cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-dashed border-gray-300 bg-white text-center text-[11px] text-muted-foreground hover:bg-gray-50">
-                                    {url ? (
-                                      <img src={mediaUrl(url)} alt="" className="h-full w-full object-cover" />
-                                    ) : (
-                                      <span>+ Image {slot + 1}</span>
-                                    )}
-                                    <input type="file" accept="image/*" className="hidden" onClick={(e) => e.stopPropagation()} onChange={(e) => onSlideFile(i, slot, e.target.files?.[0])} />
-                                  </label>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
+                    {variants && variants.length > 0 && (
+                      <div className="mt-2 ml-10 flex items-center gap-2">
+                        <span className="text-[11px] text-muted-foreground whitespace-nowrap">Card style:</span>
+                        <Select
+                          value={s.cardVariant ?? '_none'}
+                          onValueChange={(v) => setCardVariant(i, v)}
+                        >
+                          <SelectTrigger className="h-7 text-xs w-[160px]">
+                            <SelectValue placeholder="Default" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="_none">Default</SelectItem>
+                            {variants.map((v) => (
+                              <SelectItem key={v} value={v}>
+                                {CARD_VARIANT_LABELS[v] ?? v}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     )}
                   </div>
                 );
               })}
               {sections.length === 0 ? (
-                <p className="py-6 text-center text-sm text-muted-foreground">No sections — start the backend on :4000.</p>
+                <p className="py-6 text-center text-sm text-muted-foreground">
+                  No sections — add sections using the button below.
+                </p>
               ) : null}
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3 w-full gap-1"
+                onClick={() => setAddSectionDialogOpen(true)}
+                disabled={availableSections.length === 0}
+              >
+                <Plus className="h-4 w-4" />
+                Add Section
+              </Button>
             </div>
           </SectionCard>
 
-          {/* Confirm-remove dialog (reuses the Save/Publish dialog) */}
-          <PublishDialog
-            open={!!removeTarget}
-            onOpenChange={(o) => { if (!o) setRemoveTarget(null); }}
-            title={removeTarget ? `Remove “${removeTarget.label}”?` : 'Remove section?'}
-            description="This removes the section from this page. You can re-add it anytime from Add Section."
-            confirmLabel="Remove"
-            successTitle="Section removed"
-            successText="Don’t forget to Save to publish the change."
-            onConfirm={async () => {
-              if (removeTarget) removeByKey(removeTarget.key);
-            }}
-          />
-
-          {/* Live phone preview – keep as is */}
+          {/* Live preview — real app in iframe */}
           <div className="lg:sticky lg:top-4 self-start">
-            <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">Live preview</p>
-            <div className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#1E2D4A] bg-gray-50 shadow-lg" style={{ height: 520 }}>
-              <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
-                <span className="text-sm font-bold">{current?.name ?? 'Restaurant'}</span>
-                <span className="text-[10px] opacity-80">{selectedLabel}</span>
-              </div>
-              <div className="space-y-2 overflow-y-auto p-3" style={{ height: 'calc(100% - 44px)' }}>
-                {enabled.map((s) => (
-                  <div
-                    key={s.key}
-                    className="flex items-end rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-medium text-[#1E2D4A]"
-                    style={{ height: s.key === 'hero' ? 80 : undefined }}
-                  >
-                    {s.label}
-                  </div>
-                ))}
-                {enabled.length === 0 ? (
-                  <p className="pt-8 text-center text-[11px] text-muted-foreground">All sections hidden</p>
-                ) : null}
-              </div>
+            <div className="mb-2 flex items-center justify-center gap-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Live preview · {platform === 'mobile' ? 'Mobile' : 'Web'}
+              </p>
+              <button
+                type="button"
+                onClick={() => setReloadKey((k) => k + 1)}
+                className="text-muted-foreground hover:text-[#1E2D4A] transition-colors"
+                title="Reload preview"
+              >
+                <RefreshCw className="h-3.5 w-3.5" />
+              </button>
             </div>
+            {platform === 'mobile' ? (
+              // Mobile: phone frame at 390px width (iPhone 14 Pro — most popular)
+              <div
+                className="mx-auto rounded-[2rem] border-[6px] border-[#1E2D4A] bg-gray-50 shadow-lg"
+                style={{ width: 390, height: 700, overflow: 'hidden' }}
+              >
+                <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
+                  <span className="text-sm font-bold">{current?.name ?? 'Restaurant'}</span>
+                  <span className="text-[10px] opacity-80">
+                    {selectedPage.charAt(0).toUpperCase() + selectedPage.slice(1)}
+                  </span>
+                </div>
+                <iframe
+                  key={`mobile-${reloadKey}`}
+                  src={PREVIEW_URL.mobile}
+                  title="Mobile preview"
+                  className="border-0 w-full"
+                  scrolling="yes"
+                  style={{ height: 'calc(100% - 44px)' }}
+                />
+              </div>
+            ) : (
+              // Web: full-width desktop browser frame
+              <div className="w-full overflow-hidden rounded-xl border border-gray-300 bg-white shadow-lg">
+                <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-100 px-4 py-2">
+                  <div className="flex gap-1.5">
+                    <span className="h-3 w-3 rounded-full bg-red-400" />
+                    <span className="h-3 w-3 rounded-full bg-yellow-400" />
+                    <span className="h-3 w-3 rounded-full bg-green-400" />
+                  </div>
+                  <div className="ml-3 flex-1 truncate rounded-md bg-white px-3 py-1 text-[11px] text-gray-500 border border-gray-200">
+                    {PREVIEW_URL.web}
+                  </div>
+                </div>
+                <iframe
+                  key={`web-${reloadKey}`}
+                  src={PREVIEW_URL.web}
+                  title="Web preview"
+                  className="border-0 w-full"
+                  scrolling="yes"
+                  style={{ height: 'calc(100vh - 200px)', minHeight: 500 }}
+                />
+              </div>
+            )}
           </div>
         </div>
 
         {/* Publish bar */}
         <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#1E2D4A] px-6 py-4 text-white shadow-lg">
           <div className="flex items-center gap-3">
-            <Smartphone className="h-5 w-5 text-slate-300" />
+            {platform === 'mobile' ? (
+              <Smartphone className="h-5 w-5 text-slate-300" />
+            ) : (
+              <Monitor className="h-5 w-5 text-slate-300" />
+            )}
             <div>
-              <p className="font-semibold">Publish {selectedLabel} layout</p>
-              <p className="text-sm text-slate-300">The app reads this the next time it launches</p>
+              <p className="font-semibold">Publish {selectedPage} layout</p>
+              <p className="text-sm text-slate-300">The {platform} app reads this the next time it launches</p>
             </div>
           </div>
           <Button onClick={() => setConfirmOpen(true)} className="gap-2">
@@ -517,12 +413,99 @@ export const HomeLayout = () => {
         <PublishDialog
           open={confirmOpen}
           onOpenChange={setConfirmOpen}
-          title={`Publish ${selectedLabel} layout?`}
-          description={`The mobile ${selectedLabel} screen will use this section layout the next time it launches.`}
+          title={`Publish ${selectedPage} layout?`}
+          description={`The ${platform} ${selectedPage} screen will use this section layout the next time it launches.`}
           successTitle="Layout published"
-          successText={`The mobile ${selectedLabel} layout has been updated.`}
+          successText={`The ${platform} ${selectedPage} layout has been updated.`}
           onConfirm={publish}
         />
+
+        {/* Add Section Dialog */}
+        <Dialog open={addSectionDialogOpen} onOpenChange={setAddSectionDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add a section</DialogTitle>
+              <DialogDescription>
+                Choose a section to add to the {selectedPage} page.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Section</Label>
+                <Select value={newSectionKey} onValueChange={setNewSectionKey}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a section" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableSections.map((key) => (
+                      <SelectItem key={key} value={key}>
+                        {ALL_SECTIONS[key]?.label ?? key}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {availableSections.length === 0 && (
+                  <p className="text-sm text-muted-foreground">All sections have been added to this page.</p>
+                )}
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setAddSectionDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  addSection(newSectionKey);
+                  setNewSectionKey('');
+                  setAddSectionDialogOpen(false);
+                }}
+                disabled={!newSectionKey}
+              >
+                Add Section
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Add Page Dialog */}
+        <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add a new page</DialogTitle>
+              <DialogDescription>
+                Choose a page to add to the layout editor. The page will appear as a new tab.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Page name</Label>
+                <Select value={newPageKey} onValueChange={setNewPageKey}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a page" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availablePages.map((key) => (
+                      <SelectItem key={key} value={key}>
+                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {availablePages.length === 0 && (
+                  <p className="text-sm text-muted-foreground">All pages have been added.</p>
+                )}
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setAddDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleAddPage} disabled={!newPageKey || loading}>
+                {loading ? 'Adding...' : 'Add Page'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );

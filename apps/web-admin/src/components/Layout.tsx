@@ -37,7 +37,7 @@ const NAV: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/' },
   { label: 'Orders', icon: ShoppingBag, badge: '12' },
   { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu' },
-  { label: 'Mobile Pages', icon: Smartphone, to: '/home-layout' },
+  { label: 'Pages', icon: Smartphone, to: '/home-layout' },
   { label: 'Restaurant Settings', icon: SlidersHorizontal, to: '/settings' },
   { label: 'Analytics', icon: BarChart3 },
   { label: 'Customers', icon: Users },

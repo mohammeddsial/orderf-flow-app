@@ -117,9 +117,7 @@ export const MealDealCombo: React.FC<{ onSelect: (combo: ComboDeal) => void }> =
                   backgroundColor: tokens.colors.surfaceInverse,
                 }}
               />
-            )
-            }
-            
+            )}
 
             <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeMd }}>
               {combo.name}

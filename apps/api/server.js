@@ -63,12 +63,7 @@ function persist() {
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '60mb' })); // base64 logos / hero videos can be large
-
-// Static hosting for uploaded hero media (videos / slide images).
-const UPLOADS_DIR = join(__dirname, 'uploads');
-try { fs.mkdirSync(UPLOADS_DIR, { recursive: true }); } catch {}
-app.use('/uploads', express.static(UPLOADS_DIR));
+app.use(express.json({ limit: '8mb' })); // base64 logos can be large
 
 const now = () => new Date().toISOString();
 const rid = (prefix) => `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -77,30 +72,10 @@ const cleanSections = (arr) =>
     key: String(s.key),
     label: String(s.label ?? s.key),
     enabled: Boolean(s.enabled),
-    ...(s.variant ? { variant: String(s.variant) } : {}),
-    ...(s.heading ? { heading: String(s.heading) } : {}),
-    ...(s.media && typeof s.media === 'object' ? { media: s.media } : {}),
-    ...(s.content && typeof s.content === 'object' ? { content: s.content } : {}),
+    ...(s.cardVariant ? { cardVariant: String(s.cardVariant) } : {}),
   }));
 
 const api = express.Router();
-
-// Upload hero media (a video or a slide image). Body: { filename, dataUrl }.
-// Returns a relative URL the apps resolve against the API host.
-api.post('/uploads', (req, res) => {
-  try {
-    const { filename, dataUrl } = req.body || {};
-    if (typeof dataUrl !== 'string') return res.status(400).json({ error: 'dataUrl required' });
-    const m = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
-    if (!m) return res.status(400).json({ error: 'Expected a base64 data URL' });
-    const ext = (String(filename || '').match(/\.[a-zA-Z0-9]+$/) || [''])[0] || '';
-    const name = `${rid('media')}${ext}`;
-    fs.writeFileSync(join(UPLOADS_DIR, name), Buffer.from(m[2], 'base64'));
-    res.json({ url: `/uploads/${name}` });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
 // ---- Restaurants ---------------------------------------------------------
 api.get('/restaurants', (_req, res) => res.json(restaurants));
@@ -137,16 +112,7 @@ api.get('/restaurants/:id', (req, res) => {
 const updateRestaurant = (req, res) => {
   const idx = restaurants.findIndex((r) => r.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
-  // `pages` belongs in the separate pageLayouts store (what GET /pages and the
-  // mobile app read) — route it there instead of onto the restaurant object.
-  const { pages, ...rest } = req.body || {};
-  restaurants[idx] = { ...restaurants[idx], ...rest, id: restaurants[idx].id, updatedAt: now() };
-  if (pages && typeof pages === 'object') {
-    const current = pageLayouts[req.params.id] || clonePages();
-    const merged = { ...current };
-    for (const [page, list] of Object.entries(pages)) merged[page] = cleanSections(list);
-    pageLayouts[req.params.id] = merged;
-  }
+  restaurants[idx] = { ...restaurants[idx], ...req.body, id: restaurants[idx].id, updatedAt: now() };
   persist();
   res.json(restaurants[idx]);
 };

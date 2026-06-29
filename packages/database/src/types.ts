@@ -159,15 +159,14 @@ export interface User {
   phoneNumber: string;
   firstName: string;
   lastName: string;
-  birthday?: string; // <-- ADD THIS (optional ISO date)
   profileImageUrl?: string;
   addresses: Address[];
   defaultAddressId?: string;
   loyaltyProfile: LoyaltyProfile;
   preferredFulfillmentMode: FulfillmentMode;
   acceptsMarketing: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string;            // ISO 8601
+  updatedAt: string;            // ISO 8601
 }
 
 // ============================================================================

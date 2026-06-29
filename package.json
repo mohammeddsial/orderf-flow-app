@@ -14,10 +14,11 @@
     "test": "npx turbo run test",
     "lint": "npx turbo run lint",
     "type-check": "npx turbo run type-check",
-    "mock-api": "node apps/api/server.js",
+    "mock-api": "npm run dev --workspace=@multi-restaurant/api",
     "dev:admin": "npm run dev --workspace=@multi-restaurant/web-admin",
+    "dev:customer": "npm run dev --workspace=@multi-restaurant/customer-web",
     "dev:mobile": "npm run dev --workspace=@multi-restaurant/mobile",
-    "start:all": "concurrently --kill-others-on-fail \"npm run mock-api\" \"npm run dev:admin\""
+    "start:all": "concurrently --kill-others-on-fail \"npm run mock-api\" \"npm run dev:admin\" \"npm run dev:customer\" \"npm run dev:mobile\""
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.1",

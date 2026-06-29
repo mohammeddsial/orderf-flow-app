@@ -35,7 +35,7 @@ const MOSAIC_DATA: MosaicTile[] = [
   },
 ];
 
-export const ImageMosaic: React.FC<{ onTilePress: (tile: MosaicTile) => void; heading?: string }> = ({ onTilePress, heading }) => {
+export const ImageMosaic: React.FC<{ onTilePress: (tile: MosaicTile) => void }> = ({ onTilePress }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
 
@@ -43,7 +43,7 @@ export const ImageMosaic: React.FC<{ onTilePress: (tile: MosaicTile) => void; he
 
   return (
     <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-      <Text style={sectionTitleStyle(tokens, engine)}>{heading ?? 'Seasonal Highlights'}</Text>
+      <Text style={sectionTitleStyle(tokens, engine)}>Seasonal Highlights</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.md }}>
         {MOSAIC_DATA.map((tile, index) => {
           const fullWidth = index === 0;

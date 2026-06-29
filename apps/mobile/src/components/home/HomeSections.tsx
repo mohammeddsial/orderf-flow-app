@@ -7,6 +7,7 @@ import {
   Animated,
   Dimensions,
   Image,
+  ImageBackground,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { MenuItem } from '@multi-restaurant/database';
@@ -18,10 +19,14 @@ import {
   sectionTitleStyle,
   pillChrome,
   quickAddChrome,
+  layoutConfig,
+  sectionGap,
+  type CategoryLayout,
 } from './engineStyle';
 import { Story, ReorderCard } from './mockData';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { MenuItemCard, RestaurantCard } from './cards';
+import { ItemCard } from './cards';
+
 const { width: SCREEN_W } = Dimensions.get('window');
 
 // ---------------------------------------------------------------------------
@@ -71,7 +76,8 @@ export const HomeHeader: React.FC<{
   onToggleLocation: () => void;
   fulfillment: 'DELIVERY' | 'PICKUP';
   onFulfillment: (m: 'DELIVERY' | 'PICKUP') => void;
-}> = ({ brandName, location, onToggleLocation, fulfillment, onFulfillment }) => {
+  onMenu?: () => void;
+}> = ({ brandName, location, onToggleLocation, fulfillment, onFulfillment, onMenu }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const insets = useSafeAreaInsets();
@@ -125,15 +131,22 @@ export const HomeHeader: React.FC<{
         justifyContent: 'space-between',
       }}
     >
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: fg, fontSize: tokens.typography.fontSizeLg, fontWeight: '800' }}>
-          {brandName}
-        </Text>
-        <Pressable onPress={onToggleLocation} hitSlop={8}>
-          <Text style={{ color: fg, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
-            {location} • 12 min ▾
+      <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+        {onMenu ? (
+          <Pressable onPress={onMenu} hitSlop={12} style={{ marginRight: tokens.spacing.sm }}>
+            <Text style={{ color: fg, fontSize: 22, fontWeight: '900' }}>☰</Text>
+          </Pressable>
+        ) : null}
+        <View>
+          <Text style={{ color: fg, fontSize: tokens.typography.fontSizeLg, fontWeight: '800' }}>
+            {brandName}
           </Text>
-        </Pressable>
+          <Pressable onPress={onToggleLocation} hitSlop={8}>
+            <Text style={{ color: fg, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
+              {location} • 12 min ▾
+            </Text>
+          </Pressable>
+        </View>
       </View>
       <View style={{ flexDirection: 'row', gap: 6 }}>
         {Toggle('DELIVERY', 'Delivery')}
@@ -212,8 +225,7 @@ export const LoyaltyCard: React.FC<{
 export const OrderAgainRail: React.FC<{
   orders: ReorderCard[];
   onReorder: (id: string) => void;
-  heading?: string;
-}> = ({ orders, onReorder, heading }) => {
+}> = ({ orders, onReorder }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   if (orders.length === 0) return null;
@@ -221,12 +233,12 @@ export const OrderAgainRail: React.FC<{
   return (
     <View style={{ marginBottom: tokens.spacing.lg }}>
       <View style={{ paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title={heading ?? 'Order Again'} />
+        <SectionHeader title="Order Again" />
       </View>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md, paddingTop: 4, paddingBottom: 14 }}
+        contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}
       >
         {orders.map((o) => (
           <View key={o.id} style={{ width: SCREEN_W * 0.62, padding: tokens.spacing.md, ...cardChrome(tokens, engine) }}>
@@ -238,7 +250,7 @@ export const OrderAgainRail: React.FC<{
             </Text>
             <Pressable
               onPress={() => onReorder(o.id)}
-              style={{ alignItems: 'center', paddingVertical: tokens.spacing.sm, backgroundColor: tokens.colors.accent, borderRadius: 12 }}
+              style={{ alignItems: 'center', paddingVertical: tokens.spacing.sm, backgroundColor: tokens.colors.primary, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}
             >
               <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>
                 Reorder
@@ -318,21 +330,50 @@ export const QuickAddButton: React.FC<{ onAdd: () => void }> = ({ onAdd }) => {
 export const Recommendations: React.FC<{
   items: MenuItem[];
   onSelect: (id: string) => void;
-  variant?: CardVariant;
-  heading?: string;
-}> = ({ items, onSelect, variant = 'listRow', heading }) => {
-  const { tokens } = useTheme();
+  cardVariant?: string;
+}> = ({ items, onSelect, cardVariant }) => {
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   if (items.length === 0) return null;
+
   const hour = new Date().getHours();
-  const label = heading ?? (hour < 11 ? 'Morning picks for you' : hour < 17 ? 'For You' : 'Tonight’s cravings');
+  const label = hour < 11 ? 'Morning picks for you' : hour < 17 ? 'For You' : "Tonight's cravings";
+
+  if (cardVariant) {
+    return (
+      <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title={label} actionLabel="See all" onAction={() => onSelect(items[0].id)} />
+        <View style={{ gap: tokens.spacing.md }}>
+          {items.map((item) => (
+            <ItemCard key={item.id} variant={cardVariant} item={item} onPress={onSelect} onAdd={() => safeAdd(item.id)} />
+          ))}
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
       <SectionHeader title={label} actionLabel="See all" onAction={() => onSelect(items[0].id)} />
-      <View style={{ flexDirection: 'column', gap: tokens.spacing.sm }}>
-        {items.map((item) => (
-          <MenuItemCard key={item.id} item={item} variant={variant} onPress={onSelect} />
-        ))}
-      </View>
+      {items.map((item) => {
+        const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+        return (
+          <Pressable
+            key={item.id}
+            onPress={() => onSelect(item.id)}
+            style={{ flexDirection: 'row', alignItems: 'center', padding: tokens.spacing.md, marginBottom: tokens.spacing.md, ...cardChrome(tokens, engine) }}
+          >
+            <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: 64, height: 64, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd, backgroundColor: tokens.colors.surfaceInverse, marginRight: tokens.spacing.md }} />
+
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeMd }}>{item.title}</Text>
+              <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm }}>{item.calories} cal</Text>
+              <Text style={{ color: tokens.colors.text, fontWeight: '800', marginTop: 2 }}>${item.basePrice.toFixed(2)}</Text>
+            </View>
+            <QuickAddButton onAdd={() => safeAdd(item.id)} />
+          </Pressable>
+        );
+      })}
     </View>
   );
 };
@@ -348,58 +389,81 @@ const CATEGORIES = [
   { id: 'Desserts', label: 'Desserts', emoji: '🍰', tint: '#FF006E' },
 ];
 
-export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void; heading?: string }> = ({ onCategory, heading }) => {
-  const { tokens } = useTheme();
-  const gap = tokens.spacing.sm;
-  const smallH = 120;
-  const bigH = smallH * 2 + gap;
+export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({ onCategory }) => {
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
+  const layout = layoutConfig(engine);
 
-  const tileChrome = {
-    borderRadius: 16,
-    overflow: 'hidden' as const,
-    backgroundColor: tokens.colors.surfaceInverse,
-    shadowColor: '#000000',
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 3,
-  };
+  const tileBg = (c: typeof CATEGORIES[number]) =>
+    engine === 'VIBRANT_STREET_TECH'
+      ? tokens.colors.surface
+      : c.tint + (engine === 'BRUTALIST_MODERNIST' ? '' : '22');
 
-  // Image collage: real photo, a label scrim at the bottom, and an optional
-  // "+N" overlay on the last tile when there are more categories than tiles.
-  const renderTile = (c: (typeof CATEGORIES)[number], plusN = 0) => (
-    <>
-      <Image source={{ uri: getPlaceholderImage(c.label) }} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
-      <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: tokens.spacing.sm, backgroundColor: 'rgba(0,0,0,0.45)' }}>
-        <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: tokens.typography.fontSizeMd }}>{c.label}</Text>
-      </View>
-      {plusN > 0 ? (
-        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: 30 }}>+{plusN}</Text>
-        </View>
-      ) : null}
-    </>
+  const Tile = (c: typeof CATEGORIES[number]) => (
+    <Pressable
+      key={c.id}
+      onPress={() => onCategory(c.id)}
+      style={{
+        justifyContent: 'flex-end',
+        padding: tokens.spacing.md,
+        overflow: 'hidden',
+        ...cardChrome(tokens, engine),
+        backgroundColor: tileBg(c),
+      }}
+    >
+      <Text style={{ position: 'absolute', top: 8, right: 10, fontSize: 40 }}>{c.emoji}</Text>
+      <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeLg }}>{c.label}</Text>
+    </Pressable>
   );
 
-  const remaining = Math.max(0, CATEGORIES.length - 3);
-
-  return (
-    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-      <SectionHeader title={heading ?? 'Browse'} />
-      <View style={{ flexDirection: 'row', gap }}>
-        {/* Left: one large tile */}
-        <Pressable onPress={() => onCategory(CATEGORIES[0].id)} style={{ flex: 1, height: bigH, ...tileChrome }}>
-          {renderTile(CATEGORIES[0])}
-        </Pressable>
-        {/* Right: two stacked tiles, last shows "+N more" */}
-        <View style={{ flex: 1, gap }}>
-          <Pressable onPress={() => onCategory(CATEGORIES[1].id)} style={{ height: smallH, ...tileChrome }}>
-            {renderTile(CATEGORIES[1])}
-          </Pressable>
-          <Pressable onPress={() => onCategory(CATEGORIES[2].id)} style={{ height: smallH, ...tileChrome }}>
-            {renderTile(CATEGORIES[2], remaining)}
-          </Pressable>
+  // List layout (Brutalist) — full-width vertical rows
+  if (layout.categoryLayout === 'list') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Browse" />
+        <View style={{ gap: tokens.spacing.sm }}>
+          {CATEGORIES.map((c) => (
+            <View key={c.id} style={{ height: 64 }}>
+              {Tile(c)}
+            </View>
+          ))}
         </View>
+      </View>
+    );
+  }
+
+  // Carousel layout (Vibrant) — horizontal scrolling pills
+  if (layout.categoryLayout === 'carousel') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing) }}>
+        <View style={{ paddingHorizontal: tokens.spacing.md }}>
+          <SectionHeader title="Browse" />
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}
+        >
+          {CATEGORIES.map((c) => (
+            <View key={c.id} style={{ width: 120, height: 120 }}>
+              {Tile(c)}
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
+
+  // Grid 2x2 (Minimalist) — default
+  return (
+    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+      <SectionHeader title="Browse" />
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+        {CATEGORIES.map((c) => (
+          <View key={c.id} style={{ width: '48%', height: 110, marginBottom: tokens.spacing.md }}>
+            {Tile(c)}
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -409,32 +473,68 @@ export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void; headin
 // 7. Featured / seasonal tier (large card)
 // ---------------------------------------------------------------------------
 
-export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void; variant?: CardVariant; heading?: string }> = ({ item, onSelect, variant, heading }) => {
+export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void }> = ({ item, onSelect }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
+  const layout = layoutConfig(engine);
   if (!item) return null;
 
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+  const imgRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd;
 
-  return (
-    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-      <SectionHeader title={heading ?? 'Chef’s Featured'} />
-      {variant ? (
-        // Use the admin-selected card design.
-        <MenuItemCard item={item} variant={variant} onPress={onSelect} />
-      ) : (
-        // Default: large hero card.
+  // Overlay (Vibrant) — text overlaid on the image with a dark scrim
+  if (layout.featuredCardStyle === 'overlay') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Chef's Featured" />
         <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 170, width: '100%', backgroundColor: tokens.colors.surfaceInverse }} />
-          <View style={{ padding: tokens.spacing.lg }}>
-            <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
+          <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 220, justifyContent: 'flex-end' }}>
+            <View style={{ backgroundColor: 'rgba(0,0,0,0.55)', padding: tokens.spacing.lg }}>
+              <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
+                {item.description}
+              </Text>
+              <Text style={{ color: tokens.colors.accent, fontWeight: '900' }}>${item.basePrice.toFixed(2)}</Text>
+            </View>
+          </ImageBackground>
+        </Pressable>
+      </View>
+    );
+  }
+
+  // Editorial (Minimalist) — side-by-side image + text
+  if (layout.featuredCardStyle === 'editorial') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Chef's Featured" />
+        <Pressable onPress={() => onSelect(item.id)} style={{ flexDirection: 'row', overflow: 'hidden', ...cardChrome(tokens, engine) }}>
+          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: '45%', backgroundColor: tokens.colors.surfaceInverse }} />
+          <View style={{ flex: 1, padding: tokens.spacing.lg, justifyContent: 'center' }}>
+            <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeLg, marginBottom: 4 }}>{item.title}</Text>
             <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
               {item.description}
             </Text>
-            <Text style={{ color: tokens.colors.accent, fontWeight: '800' }}>${item.basePrice.toFixed(2)}</Text>
+            <Text style={{ color: tokens.colors.accent, fontWeight: '700' }}>${item.basePrice.toFixed(2)}</Text>
           </View>
         </Pressable>
-      )}
+      </View>
+    );
+  }
+
+  // Stacked (Brutalist) — image on top, text below, sharp edges
+  return (
+    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+      <SectionHeader title="Chef's Featured" />
+      <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
+        <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 170, width: '100%', backgroundColor: tokens.colors.surfaceInverse }} />
+        <View style={{ padding: tokens.spacing.lg }}>
+          <Text style={{ color: tokens.colors.text, fontWeight: '900', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
+          <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
+            {item.description}
+          </Text>
+          <Text style={{ color: tokens.colors.accent, fontWeight: '900' }}>${item.basePrice.toFixed(2)}</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -449,7 +549,7 @@ export const StoriesRail: React.FC<{ stories: Story[] }> = ({ stories }) => {
   if (stories.length === 0) return null;
   return (
     <View style={{ marginBottom: tokens.spacing.lg }}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md, paddingTop: 4, paddingBottom: 14 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}>
         {stories.map((s) => (
           <View key={s.id} style={{ alignItems: 'center', width: 68 }}>
             <View
@@ -477,60 +577,87 @@ export const StoriesRail: React.FC<{ stories: Story[] }> = ({ stories }) => {
 // 8. Popular rail with quick-add
 // ---------------------------------------------------------------------------
 
-export const PopularRail: React.FC<{
-  items: MenuItem[];
-  onSelect: (id: string) => void;
-  variant?: CardVariant;
-  heading?: string;
-}> = ({ items, onSelect, variant = 'overlayPrice', heading }) => {
-  const { tokens } = useTheme();
+export const PopularRail: React.FC<{ items: MenuItem[]; onSelect: (id: string) => void; cardVariant?: string }> = ({ items, onSelect, cardVariant }) => {
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
+  const layout = layoutConfig(engine);
   if (items.length === 0) return null;
-  return (
-    <View style={{ marginBottom: tokens.spacing.lg }}>
-      <View style={{ paddingHorizontal: tokens.spacing.md, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <SectionHeader title={heading ?? 'Popular Foods'} />
-        <Pressable onPress={() => {}}><Text style={{ color: tokens.colors.primary }}>View All</Text></Pressable>
+
+  if (cardVariant) {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Popular Right Now" />
+        <View style={{ gap: tokens.spacing.md }}>
+          {items.map((item) => (
+            <ItemCard key={item.id} variant={cardVariant} item={item} onPress={onSelect} onAdd={() => safeAdd(item.id)} />
+          ))}
+        </View>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md, paddingTop: 4, paddingBottom: 14 }}>
+    );
+  }
+
+  const PopularCard = ({ item }: { item: MenuItem }) => {
+    const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+    const imgR = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd;
+    return (
+      <View style={{ padding: tokens.spacing.md, ...cardChrome(tokens, engine) }}>
+        <Pressable onPress={() => onSelect(item.id)}>
+          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 80, borderRadius: imgR, backgroundColor: tokens.colors.surfaceInverse, marginBottom: tokens.spacing.sm }} />
+          <Text numberOfLines={1} style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>{item.title}</Text>
+        </Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.sm }}>
+          <Text style={{ color: tokens.colors.text, fontWeight: '800' }}>${item.basePrice.toFixed(2)}</Text>
+          <QuickAddButton onAdd={() => safeAdd(item.id)} />
+        </View>
+      </View>
+    );
+  };
+
+  // List layout (Brutalist) — full-width vertical rows
+  if (layout.popularLayout === 'list') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Popular Right Now" />
+        <View style={{ gap: tokens.spacing.md }}>
+          {items.map((item) => (
+            <View key={item.id}>
+              <PopularCard item={item} />
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  }
+
+  // Grid layout (Minimalist / default) — 2-column wrap
+  if (layout.popularLayout === 'grid') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Popular Right Now" />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.md }}>
+          {items.map((item) => (
+            <View key={item.id} style={{ width: '48%' }}>
+              <PopularCard item={item} />
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  }
+
+  // Horizontal carousel (Vibrant) — default
+  return (
+    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing) }}>
+      <View style={{ paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Popular Right Now" />
+      </View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}>
         {items.map((item) => (
-          <MenuItemCard key={item.id} item={item} variant={variant} onPress={onSelect} />
+          <View key={item.id} style={{ width: SCREEN_W * 0.4 }}>
+            <PopularCard item={item} />
+          </View>
         ))}
       </ScrollView>
-    </View>
-  );
-};
-// ---------------------------------------------------------------------------
-// 9. Restaurant browser (card-7) — restaurant cards with Free Delivery badge
-// ---------------------------------------------------------------------------
-
-export const RestaurantBrowser: React.FC<{ onSelect: (id: string) => void; heading?: string }> = ({ onSelect, heading }) => {
-  const { tokens } = useTheme();
-  const tenant = store.getCurrentTenant();
-  const items = store.getMenuItems();
-
-  // The mobile app holds a single active tenant, so build a small browse list:
-  // the current restaurant plus a couple of entries derived from menu items.
-  const restaurants = [
-    { id: tenant.id, name: tenant.name, imageUrl: tenant.logoUrl, rating: 4.9, etaText: '20–25 Min', tags: ['Popular', 'Top Rated'], freeDelivery: true },
-    ...items.slice(0, 2).map((m, i) => ({
-      id: `browse-${m.id}`,
-      name: m.title,
-      imageUrl: m.imageUrl,
-      rating: 4.7 - i * 0.1,
-      etaText: '25–30 Min',
-      tags: [m.category || 'Food'],
-      freeDelivery: true,
-    })),
-  ];
-
-  return (
-    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-      <SectionHeader title={heading ?? 'Restaurants Near You'} />
-      <View style={{ gap: tokens.spacing.md }}>
-        {restaurants.map((r) => (
-          <RestaurantCard key={r.id} restaurant={r} onPress={onSelect} />
-        ))}
-      </View>
     </View>
   );
 };

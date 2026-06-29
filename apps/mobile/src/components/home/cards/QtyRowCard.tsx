@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { softCard } from './shared';
+import { engineCard, imageRadiusFor } from './shared';
+import { EngineId } from '../engineStyle';
 
 interface CardProps {
   item: any;
@@ -11,27 +12,28 @@ interface CardProps {
   onAdd?: (id: string, qty: number) => void;
 }
 
-// Reference design: cart-style row. Image left, title + subtitle, price, and a
-// round orange − qty + stepper. Rounded white card with soft shadow.
 export const QtyRowCard: React.FC<CardProps> = ({ item, onPress, onAdd }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
   const [qty, setQty] = useState(1);
+  const imgR = imageRadiusFor(engine, tokens);
+  const stepR = engine === 'BRUTALIST_MODERNIST' ? 0 : 14;
 
   const stepBtn = {
     width: 28,
     height: 28,
-    borderRadius: 14,
+    borderRadius: stepR,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
   };
 
   return (
-    <Pressable onPress={() => onPress(item.id)} style={{ flexDirection: 'row', alignItems: 'center', padding: tokens.spacing.sm, ...softCard(tokens) }}>
+    <Pressable onPress={() => onPress(item.id)} style={{ flexDirection: 'row', alignItems: 'center', padding: tokens.spacing.sm, ...engineCard(tokens, engine) }}>
       <Image
         source={{ uri: imageUrl }}
         resizeMode="cover"
-        style={{ width: 64, height: 64, borderRadius: 14, backgroundColor: tokens.colors.surfaceInverse, marginRight: tokens.spacing.md }}
+        style={{ width: 64, height: 64, borderRadius: imgR, backgroundColor: tokens.colors.surfaceInverse, marginRight: tokens.spacing.md }}
       />
       <View style={{ flex: 1 }}>
         <Text numberOfLines={1} style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text }}>{item.title}</Text>

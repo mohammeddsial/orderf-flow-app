@@ -1,7 +1,7 @@
 import { NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '@multi-restaurant/database';
-import { CardVariant } from "../components/home/cardVariants"
+
 const STORAGE_KEY = '@active_restaurant_id';
 
 // --- HARDCODE YOUR MACHINE'S IP ---
@@ -9,15 +9,10 @@ const MACHINE_IP = '192.168.18.16';  // ← CHANGE THIS TO YOUR CURRENT IP
 export const API_BASE = `http://${MACHINE_IP}:4000/api/v1`;
 // -----------------------------------
 
-// Uploaded hero media is served at <host>/uploads/... — resolve relative paths.
-const API_ORIGIN = API_BASE.replace(/\/api\/v1\/?$/, '');
-export const resolveMedia = (p?: string): string | undefined =>
-  p && p.startsWith('/uploads') ? `${API_ORIGIN}${p}` : p;
-
 // Fallback restaurant ID (used only if no active restaurant is found)
 export const RESTAURANT_ID = 'tenant-burgerbliss';
 
-export type SectionConfig = { key: string; label: string; enabled: boolean; variant?: CardVariant; heading?: string; media?: { videoUrl?: string; slides?: string[] }; content?: { color?: string; imageUrl?: string; title?: string; subtitle?: string; durationSec?: number }; };
+export type SectionConfig = { key: string; label: string; enabled: boolean; cardVariant?: string };
 
 const DEFAULT_HOME: SectionConfig[] = [
   { key: 'hero', label: 'Hero Video', enabled: true },
@@ -31,6 +26,7 @@ const DEFAULT_HOME: SectionConfig[] = [
   { key: 'featured', label: 'Featured', enabled: true },
   { key: 'stories', label: 'Stories', enabled: true },
   { key: 'popular', label: 'Popular', enabled: true },
+  { key: 'videoSection', label: 'Video Section', enabled: true, cardVariant: 'video' },
   { key: 'announcement', label: 'Announcement Strip', enabled: true },
   { key: 'imageMosaic', label: 'Image Mosaic', enabled: true },
 ];

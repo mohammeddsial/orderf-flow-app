@@ -4,25 +4,11 @@ import type { MenuItem, RestaurantTenant } from '@multi-restaurant/database';
 
 const BASE = (import.meta as any).env?.VITE_API_URL ?? 'http://localhost:4000/api/v1';
 
-// Origin of the API (without the /api/v1 suffix) — used to resolve uploaded
-// media URLs like "/uploads/xyz.mp4".
-export const apiOrigin = BASE.replace(/\/api\/v1\/?$/, '');
-export const mediaUrl = (p?: string): string | undefined =>
-  p && p.startsWith('/uploads') ? `${apiOrigin}${p}` : p;
-
-export interface SectionMedia {
-  videoUrl?: string;
-  slides?: string[];
-}
-
 export interface HomeSection {
   key: string;
   label: string;
   enabled: boolean;
-  variant?: string;
-  heading?: string; // custom title shown on the mobile app (overrides default)
-  media?: SectionMedia; // hero video / slide images
-  content?: { color?: string; imageUrl?: string; title?: string; subtitle?: string; durationSec?: number }; // flash deal etc.
+  cardVariant?: string;
 }
 
 export interface AdminOrder {
@@ -93,12 +79,5 @@ export const api = {
     req<Record<string, HomeSection[]>>(`/restaurants/${restaurantId}`, {
       method: 'PATCH',
       body: JSON.stringify({ pages }),
-    }),
-
-  // Upload a hero video or slide image; returns a relative /uploads/... URL.
-  uploadMedia: (filename: string, dataUrl: string) =>
-    req<{ url: string }>('/uploads', {
-      method: 'POST',
-      body: JSON.stringify({ filename, dataUrl }),
     }),
 };

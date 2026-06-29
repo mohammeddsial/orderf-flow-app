@@ -5,3 +5,6 @@ export * from './QtyRowCard';
 export * from './PlainGridCard';
 export * from './FeatureCard';
 export * from './RestaurantCard';
+export * from './VideoCard';
+export * from './SlidesCard';
+export * from './ItemCard';

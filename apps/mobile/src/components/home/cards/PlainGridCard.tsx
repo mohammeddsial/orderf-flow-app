@@ -3,28 +3,29 @@ import React from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { softCard, Favorite, RatingRow } from './shared';
+import { engineCard, Favorite, RatingRow, imageRadiusFor } from './shared';
+import { EngineId } from '../engineStyle';
 
 interface CardProps {
   item: any;
   onPress: (id: string) => void;
 }
 
-// Reference design: vertical grid card, image top (with favorite heart),
-// title, plain bold price, rating/time row. Rounded white card, soft shadow.
 export const PlainGridCard: React.FC<CardProps> = ({ item, onPress }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+  const imgR = imageRadiusFor(engine, tokens);
 
   return (
-    <Pressable onPress={() => onPress(item.id)} style={{ width: 160, padding: tokens.spacing.sm, ...softCard(tokens) }}>
+    <Pressable onPress={() => onPress(item.id)} style={{ width: 160, padding: tokens.spacing.sm, ...engineCard(tokens, engine) }}>
       <View style={{ position: 'relative' }}>
         <Image
           source={{ uri: imageUrl }}
           resizeMode="cover"
-          style={{ height: 110, width: '100%', borderRadius: 14, backgroundColor: tokens.colors.surfaceInverse }}
+          style={{ height: 110, width: '100%', borderRadius: imgR, backgroundColor: tokens.colors.surfaceInverse }}
         />
-        <Favorite />
+        <Favorite engine={engine} t={tokens} />
       </View>
       <Text numberOfLines={1} style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text, marginTop: tokens.spacing.sm }}>
         {item.title}

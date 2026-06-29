@@ -38,15 +38,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const accent = tenant.accentColor || base.colors.accent;
     const background = tenant.backgroundColor || base.colors.background;
     const foreground = tenant.secondaryColor || base.colors.text; // "Foreground — text & icons"
-
-    // Per-restaurant overrides for engine tokens, edited in the admin
-    // (Restaurant Settings → Style & Typography). Applied on top of the engine.
-    const ov = ((tenant as any).tokenOverrides || {}) as {
-      borders?: Record<string, number>;
-      shadows?: Record<string, string>;
-      typography?: Record<string, number | string>;
-    };
-
     return {
       ...base,
       colors: {
@@ -61,9 +52,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         text: foreground,
         textInverse: contrastOn(primary),
       },
-      borders: { ...base.borders, ...(ov.borders || {}) },
-      shadows: { ...base.shadows, ...(ov.shadows || {}) },
-      typography: { ...base.typography, ...(ov.typography || {}) },
     };
   }, [
     activeStyle,
@@ -73,7 +61,6 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     tenant.accentLightColor,
     tenant.backgroundColor,
     tenant.surfaceColor,
-    JSON.stringify((tenant as any).tokenOverrides || {}),
   ]);
 
   const forceRefresh = useCallback(() => {

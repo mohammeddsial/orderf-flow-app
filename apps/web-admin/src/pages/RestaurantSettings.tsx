@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { RestaurantTenant } from '@multi-restaurant/database';
 import { api } from '../lib/api';
-import { ENGINE_TOKENS, TOKEN_GROUPS, type TokenOverrides, type EngineId, type EngineTokenGroups } from '../lib/engineTokens';
 import { useRestaurant } from '../context/RestaurantContext';
 import { Layout } from '../components/Layout';
 import { PublishDialog } from '../components/PublishDialog';
@@ -15,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../components/ui/select';
-import { ImagePlus, SlidersHorizontal, Settings2, Palette, Save, Upload, Sparkles, Eye } from 'lucide-react';
+import { ImagePlus, SlidersHorizontal, Settings2, Palette, Save, Upload, Sparkles } from 'lucide-react';
 
 type ColorSwatchProps = {
   label: string;
@@ -62,7 +61,6 @@ export const RestaurantSettings = () => {
   const [accentLight, setAccentLight] = useState('#FF9E46');
   const [style, setStyle] = useState<RestaurantTenant['activeUiStyle']>('VIBRANT_STREET_TECH');
   const [borderRadius, setBorderRadius] = useState<RestaurantTenant['borderRadiusType']>('ROUNDED_SM');
-  const [overrides, setOverrides] = useState<TokenOverrides>({});
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,7 +81,6 @@ export const RestaurantSettings = () => {
         setAccentLight(t.accentLightColor);
         setStyle(t.activeUiStyle);
         setBorderRadius(t.borderRadiusType);
-        setOverrides((t as any).tokenOverrides || {});
       })
       .catch(() => {
         /* backend offline — keep defaults */
@@ -111,26 +108,9 @@ export const RestaurantSettings = () => {
       accentLightColor: accentLight,
       activeUiStyle: style,
       borderRadiusType: borderRadius,
-      tokenOverrides: overrides,
-    } as any);
+    });
     await refresh(); // update the name shown in the switcher/sidebar
   };
-
-  // Only two engines are supported now; fall back to Minimalist for any legacy value.
-  const tokenStyle: EngineId = style === 'VIBRANT_STREET_TECH' ? 'VIBRANT_STREET_TECH' : 'MINIMALIST_CLEAN';
-
-  // Edit a single engine-token property as an override (blank / equal-to-default
-  // removes the override so the engine value is used).
-  const setField = (group: keyof EngineTokenGroups, key: string, raw: string) =>
-    setOverrides((prev) => {
-      const def = ENGINE_TOKENS[tokenStyle][group][key];
-      const numeric = typeof def === 'number';
-      const next: Record<string, number | string> = { ...(prev[group] || {}) };
-      const val = raw === '' ? undefined : numeric ? Number(raw) : raw;
-      if (val === undefined || val === def) delete next[key];
-      else next[key] = val;
-      return { ...prev, [group]: next };
-    });
 
   return (
     <Layout title="Restaurant Settings" breadcrumb="Settings" searchPlaceholder="Search settings...">
@@ -187,6 +167,7 @@ export const RestaurantSettings = () => {
                     <SelectContent>
                       <SelectItem value="VIBRANT_STREET_TECH">Bold &amp; Vibrant</SelectItem>
                       <SelectItem value="MINIMALIST_CLEAN">Minimal &amp; Clean</SelectItem>
+                      <SelectItem value="BRUTALIST_MODERNIST">Brutalist Modern</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -194,40 +175,6 @@ export const RestaurantSettings = () => {
                   <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
                   <span className="text-xs">Style engine settings affect how your menu page renders to customers in real time.</span>
                 </div>
-              </div>
-            </SectionCard>
-
-            <SectionCard icon={Eye} title="Style &amp; Typography">
-              <p className="mb-3 text-xs text-muted-foreground">
-                Every Border, Shadow &amp; Typography property from the{' '}
-                <span className="font-semibold text-[#1E2D4A]">{style}</span> engine. Edit to override for this restaurant — blank uses the engine default (shown as the placeholder).
-              </p>
-              <div className="space-y-4">
-                {TOKEN_GROUPS.map((grp) => (
-                  <div key={grp.key}>
-                    <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{grp.label}</p>
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                      {Object.keys(ENGINE_TOKENS[tokenStyle][grp.key]).map((k) => {
-                        const def = ENGINE_TOKENS[tokenStyle][grp.key][k];
-                        const numeric = typeof def === 'number';
-                        const g = overrides[grp.key] as Record<string, number | string> | undefined;
-                        const current = g && g[k] !== undefined ? g[k] : '';
-                        return (
-                          <label key={k} className="block">
-                            <span className="block truncate text-[11px] text-muted-foreground" title={k}>{k}</span>
-                            <input
-                              type={numeric ? 'number' : 'text'}
-                              value={current as string | number}
-                              placeholder={String(def)}
-                              onChange={(e) => setField(grp.key, k, e.target.value)}
-                              className="w-full rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs text-[#1E2D4A] outline-none focus:border-primary"
-                            />
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
               </div>
             </SectionCard>
           </div>

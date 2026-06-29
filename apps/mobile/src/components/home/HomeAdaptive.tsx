@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Image } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
 import { EngineId, cardChrome, pillChrome } from './engineStyle';
 import { FlashDeal, ActiveOrderInfo, AbandonedCart } from './mockData';
-import { resolveMedia } from '../../api/client';
-import { getPlaceholderImage } from '@multi-restaurant/database';
-
-// Admin-editable content for the Flash Deal card (color, image, text, time).
-export interface FlashContent {
-  color?: string;
-  imageUrl?: string;
-  title?: string;
-  subtitle?: string;
-  durationSec?: number;
-}
 
 const fmt = (s: number): string => {
   const m = Math.floor(s / 60);
@@ -26,55 +15,51 @@ const fmt = (s: number): string => {
 // Adaptive: Urgency / Flash deal with ticking countdown
 // ---------------------------------------------------------------------------
 
-// Offer-banner style: rounded colored card with a soft shadow, big title +
-// subtitle and a live countdown chip on the left, and a food image on the right.
-// Color / image / text / time are admin-editable via `content`.
-export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; content?: FlashContent }> = ({ deal, onClaim, content }) => {
-  const { tokens } = useTheme();
-  const duration = content?.durationSec ?? deal.durationSec;
-  const [remaining, setRemaining] = useState(duration);
+export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void }> = ({ deal, onClaim }) => {
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
+  const [remaining, setRemaining] = useState(deal.durationSec);
 
-  useEffect(() => setRemaining(duration), [duration]);
   useEffect(() => {
-    const id = setInterval(() => setRemaining((r) => (r > 0 ? r - 1 : 0)), 1000);
+    const id = setInterval(() => {
+      setRemaining((r) => (r > 0 ? r - 1 : 0));
+    }, 1000);
     return () => clearInterval(id);
   }, []);
 
-  const bg = content?.color || tokens.colors.primary;
-  const title = content?.title || deal.title;
-  const subtitle = content?.subtitle || deal.subtitle;
-  const img = (content?.imageUrl && resolveMedia(content.imageUrl)) || getPlaceholderImage(title);
-
   return (
-    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-      <Pressable
-        onPress={onClaim}
+    <Pressable
+      onPress={onClaim}
+      style={{
+        marginBottom: tokens.spacing.lg,
+        padding: tokens.spacing.md,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        ...cardChrome(tokens, engine),
+        backgroundColor: tokens.colors.accent,
+        borderColor: tokens.colors.accent,
+      }}
+    >
+      <View style={{ flex: 1 }}>
+        <Text style={{ color: tokens.colors.textInverse, fontWeight: '900', fontSize: tokens.typography.fontSizeMd }}>
+          {deal.title}
+        </Text>
+        <Text style={{ color: tokens.colors.textInverse, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
+          {deal.subtitle}
+        </Text>
+      </View>
+      <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: bg,
-          borderRadius: 22,
-          overflow: 'hidden',
-          minHeight: 140,
-          shadowColor: '#000000',
-          shadowOpacity: 0.12,
-          shadowRadius: 16,
-          shadowOffset: { width: 0, height: 8 },
-          elevation: 5,
+          paddingVertical: 4,
+          paddingHorizontal: tokens.spacing.sm,
+          borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusSm,
+          backgroundColor: 'rgba(0,0,0,0.35)',
         }}
       >
-        <View style={{ flex: 1, padding: tokens.spacing.lg }}>
-          <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXl }}>{title}</Text>
-          {subtitle ? (
-            <Text style={{ color: '#FFFFFF', opacity: 0.9, fontSize: tokens.typography.fontSizeSm, marginTop: 2 }}>{subtitle}</Text>
-          ) : null}
-          <View style={{ alignSelf: 'flex-start', marginTop: tokens.spacing.sm, flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.35)', borderRadius: 999, paddingVertical: 5, paddingHorizontal: 12 }}>
-            <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}>⏱ {fmt(remaining)}</Text>
-          </View>
-        </View>
-        <Image source={{ uri: img }} resizeMode="cover" style={{ width: 130, height: 140 }} />
-      </Pressable>
-    </View>
+        <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}>⏱ {fmt(remaining)}</Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -88,7 +73,6 @@ export const CartRecovery: React.FC<{ cart: AbandonedCart; onResume: () => void 
   return (
     <View
       style={{
-        marginTop: tokens.spacing.md,
         marginBottom: tokens.spacing.lg,
         padding: tokens.spacing.md,
         flexDirection: 'row',

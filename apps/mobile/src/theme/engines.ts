@@ -86,19 +86,19 @@ export interface ThemeTokens {
 
 export const BRUTALIST_MODERNIST: ThemeTokens = {
   colors: {
-    primary: '#F24F04',          // orange-red (guide)
-    secondary: '#369FFF',        // sky blue (guide)
-    background: '#FAFAFA',       // off-white
+    primary: '#000000',
+    secondary: '#FF6B35',
+    background: '#FAFAFA',
     surface: '#FFFFFF',
-    surfaceInverse: '#444251',   // dark grey
-    text: '#444251',             // dark grey (guide)
+    surfaceInverse: '#000000',
+    text: '#000000',
     textInverse: '#FFFFFF',
     textDisabled: '#999999',
-    border: '#444251',           // dark grey (guide)
+    border: '#000000',
     borderLight: '#CCCCCC',
-    borderHeavy: '#444251',
-    accent: '#FCC342',           // yellow (guide)
-    accentLight: '#FDE68A',      // lighter yellow
+    borderHeavy: '#000000',
+    accent: '#FF6B35',
+    accentLight: '#FFB3A1',
     error: '#D32F2F',
     errorLight: '#FFEBEE',
     success: '#388E3C',
@@ -111,23 +111,23 @@ export const BRUTALIST_MODERNIST: ThemeTokens = {
     xs: 4,
     sm: 8,
     md: 16,
-    lg: 28,
-    xl: 36,
-    '2xl': 52,
-    '3xl': 72,
-    '4xl': 88,
+    lg: 24,
+    xl: 32,
+    '2xl': 48,
+    '3xl': 64,
+    '4xl': 80,
   },
   typography: {
     fontSizeXs: 10,
     fontSizeSm: 12,
-    fontSizeMd: 15,
-    fontSizeLg: 18,
-    fontSizeXl: 24,
+    fontSizeMd: 14,
+    fontSizeLg: 16,
+    fontSizeXl: 20,
     lineHeightXs: 14,
     lineHeightSm: 16,
     lineHeightMd: 20,
     lineHeightLg: 24,
-    lineHeightXl: 32,
+    lineHeightXl: 28,
     fontWeightLight: 300,
     fontWeightRegular: 400,
     fontWeightMedium: 500,
@@ -138,15 +138,15 @@ export const BRUTALIST_MODERNIST: ThemeTokens = {
   },
   borders: {
     radiusSharp: 0,
-    radiusSm: 2,
-    radiusMd: 6,        // card rounding
-    radiusLg: 10,
-    radiusXl: 14,
-    radiusPill: 32,     // pill buttons
+    radiusSm: 0,
+    radiusMd: 0,
+    radiusLg: 0,
+    radiusXl: 0,
+    radiusPill: 0,
     widthHairline: 0.5,
     widthThin: 1,
-    widthMedium: 3,
-    widthThick: 4,
+    widthMedium: 2,
+    widthThick: 3,
   },
   shadows: {
     sm: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -332,15 +332,16 @@ export const VIBRANT_STREET_TECH: ThemeTokens = {
   },
 };
 
-// Brutalist engine retired — two engines supported. Legacy values fall back to
-// Minimalist.
 export const getEngineTokens = (style: UIStyleEngine): ThemeTokens => {
   switch (style) {
+    case 'BRUTALIST_MODERNIST':
+      return BRUTALIST_MODERNIST;
+    case 'MINIMALIST_CLEAN':
+      return MINIMALIST_CLEAN;
     case 'VIBRANT_STREET_TECH':
       return VIBRANT_STREET_TECH;
-    case 'MINIMALIST_CLEAN':
     default:
-      return MINIMALIST_CLEAN;
+      return BRUTALIST_MODERNIST;
   }
 };
 

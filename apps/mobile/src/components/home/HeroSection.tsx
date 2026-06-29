@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Dimensions, StyleSheet, Image } from 'react-native';
+import React from 'react';
+import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
-import { EngineId } from './engineStyle';
-import { CardVariant } from './cardVariants';
-import { resolveMedia } from '../../api/client';
+import { EngineId, layoutConfig } from './engineStyle';
 
 
 const { height: SCREEN_H } = Dimensions.get('window');
@@ -17,45 +15,21 @@ const HERO_VIDEO =
 type Props = {
   brandName: string;
   onExplore: () => void;
-  // 'video' (default) plays the looping hero video; 'slides' shows a
-  // 3-image auto-rotating slideshow instead.
-  variant?: CardVariant;
-  // Admin-uploaded hero media (video URL and/or slide image URLs).
-  media?: { videoUrl?: string; slides?: string[] };
 };
 
-export const HeroSection: React.FC<Props> = ({ brandName, onExplore, variant, media }) => {
+export const HeroSection: React.FC<Props> = ({ brandName, onExplore }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const insets = useSafeAreaInsets();
+  const layout = layoutConfig(engine);
 
-  const isSlides = variant === 'slides';
-
-  // Use the admin-uploaded video if present, otherwise the default b-roll.
-  const videoUri = (media?.videoUrl && resolveMedia(media.videoUrl)) || HERO_VIDEO;
-  const player = useVideoPlayer(videoUri, (p) => {
+  const player = useVideoPlayer(HERO_VIDEO, (p) => {
     p.loop = true;
     p.muted = true;
     p.play();
   });
 
-  // Slideshow: admin-uploaded images if provided, else generated placeholders.
-  const uploadedSlides = (media?.slides || []).map((u) => resolveMedia(u)!).filter(Boolean);
-  const slides = uploadedSlides.length
-    ? uploadedSlides
-    : [
-        `https://picsum.photos/seed/${encodeURIComponent(brandName)}-hero1/900/1300`,
-        `https://picsum.photos/seed/${encodeURIComponent(brandName)}-hero2/900/1300`,
-        `https://picsum.photos/seed/${encodeURIComponent(brandName)}-hero3/900/1300`,
-      ];
-  const [slide, setSlide] = useState(0);
-  useEffect(() => {
-    if (!isSlides) return;
-    const id = setInterval(() => setSlide((s) => (s + 1) % slides.length), 3500);
-    return () => clearInterval(id);
-  }, [isSlides, slides.length]);
-
-  const heroHeight = Math.round(SCREEN_H * 0.78);
+  const heroHeight = Math.round(SCREEN_H * layout.heroHeightRatio);
 
   const titleStyle =
     engine === 'VIBRANT_STREET_TECH'
@@ -84,44 +58,13 @@ export const HeroSection: React.FC<Props> = ({ brandName, onExplore, variant, me
   return (
     <View style={{ height: heroHeight, backgroundColor: tokens.colors.surfaceInverse }}>
       <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-        {isSlides ? (
-          <Image source={{ uri: slides[slide] }} style={StyleSheet.absoluteFill} resizeMode="cover" />
-        ) : (
-          <VideoView
-            player={player}
-            style={StyleSheet.absoluteFill}
-            contentFit="cover"
-            nativeControls={false}
-          />
-        )}
+        <VideoView
+          player={player}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+          nativeControls={false}
+        />
       </View>
-
-      {isSlides ? (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            top: insets.top + 12,
-            left: 0,
-            right: 0,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            gap: 6,
-          }}
-        >
-          {slides.map((_, i) => (
-            <View
-              key={i}
-              style={{
-                width: i === slide ? 18 : 6,
-                height: 6,
-                borderRadius: 3,
-                backgroundColor: i === slide ? '#FFFFFF' : 'rgba(255,255,255,0.5)',
-              }}
-            />
-          ))}
-        </View>
-      ) : null}
 
       {/* Cinematic bottom-up scrim for text legibility. */}
       <View
