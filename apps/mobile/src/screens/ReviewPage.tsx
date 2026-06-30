@@ -82,7 +82,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin
+                  borderWidth: tokens.borders.widthThin,
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -109,7 +109,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.widthThin
+              borderWidth: tokens.borders.widthThin,
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,
@@ -152,7 +152,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin
+                  borderWidth: tokens.borders.widthThin,
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -179,7 +179,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.widthThin
+              borderWidth: tokens.borders.widthThin,
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,

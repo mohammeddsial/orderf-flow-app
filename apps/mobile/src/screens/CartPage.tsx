@@ -219,7 +219,7 @@ export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           paddingBottom: tokens.spacing.lg,
           backgroundColor: tokens.colors.surface,
           borderTopColor: tokens.colors.border,
-          borderTopWidth: tokens.borders.widthThin
+          borderTopWidth: tokens.borders.widthThin,
         }}
       >
         <Pressable

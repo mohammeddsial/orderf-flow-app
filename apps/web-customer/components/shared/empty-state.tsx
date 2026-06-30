@@ -12,7 +12,7 @@ type EmptyStateProps = {
   className?: string
 }
 
-export function EmptyState({ icon = "🍽️", title, description, action, className }: EmptyStateProps) {
+export function EmptyState({ icon: Icon = UtensilsCrossed, title, description, action, className }: EmptyStateProps) {
   return (
     <div className={cn("flex flex-col items-center justify-center py-20 text-center", className)}>
       <span className="text-6xl mb-4 opacity-40">{icon}</span>

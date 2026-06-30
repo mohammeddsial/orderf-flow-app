@@ -16,7 +16,7 @@ const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.widthThin
+        borderBottomWidth: tokens.borders.widthThin,
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -245,7 +245,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               <View
                 style={{
                   borderTopColor: tokens.colors.border,
-                  borderTopWidth: tokens.borders.widthThin
+                  borderTopWidth: tokens.borders.widthThin,
                   paddingTop: tokens.spacing.md,
                   marginTop: tokens.spacing.md,
                 }}

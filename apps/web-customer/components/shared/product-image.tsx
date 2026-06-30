@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { UtensilsCrossed } from "lucide-react"
 
 type ProductImageProps = {
   src: string
@@ -22,7 +23,7 @@ export function ProductImage({ src, alt, className, aspectRatio = "aspect-[4/3]"
       )}
       {error ? (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-4xl opacity-30">🍽️</span>
+          <UtensilsCrossed className="h-10 w-10 opacity-30" />
         </div>
       ) : (
         <img
