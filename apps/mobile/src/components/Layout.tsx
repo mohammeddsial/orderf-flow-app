@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, ScrollView, Text, Pressable, Image, Platform, useWindowDimensions } from 'react-native';
+import { View, ScrollView, Text, Pressable, Image, Platform } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { cardChrome, pillChrome, sectionTitleStyle, type EngineId } from './home/engineStyle';
@@ -20,45 +20,30 @@ export const ScreenLayout: React.FC<LayoutProps> = ({
 }) => {
   const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
-  const { height: screenHeight } = useWindowDimensions();
+
+  const Container = scrollable ? ScrollView : View;
+  const bgColor = backgroundColor || tokens.colors.background;
 
   if (Platform.OS === 'web') {
-    const bgColor = backgroundColor || tokens.colors.background;
     return (
-      <div
-        style={{
-          height: `${screenHeight}px`,
-          boxSizing: 'border-box',
-          overflowY: scrollable ? 'auto' : 'visible',
-          WebkitOverflowScrolling: 'touch',
-          backgroundColor: bgColor,
-          paddingLeft: `${paddingHorizontal}px`,
-          paddingRight: `${paddingHorizontal}px`,
-          paddingTop: `${insets.top || 0}px`,
-          paddingBottom: `${insets.bottom || 0}px`,
-        }}
-      >
-        {children}
-      </div>
+      <View style={{ flex: 1, backgroundColor: bgColor }}>
+        <Container
+          style={{ flex: 1, paddingHorizontal }}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={true}
+        >
+          <View style={{ minHeight: '100%' }}>
+            {children}
+          </View>
+        </Container>
+      </View>
     );
   }
 
-  const Container = scrollable ? ScrollView : View;
-
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: backgroundColor || tokens.colors.background,
-      }}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }}>
       <Container
-        style={{
-          flex: 1,
-          paddingHorizontal,
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-        }}
+        style={{ flex: 1, paddingHorizontal, paddingTop: insets.top, paddingBottom: insets.bottom }}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
