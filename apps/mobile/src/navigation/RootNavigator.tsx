@@ -123,7 +123,7 @@ export const RootNavigator = () => {
       <RootStack.Navigator
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: tokens.colors.background },
+          cardStyle: { backgroundColor: tokens.colors.background, overflow: 'visible' },
         }}
       >
         <RootStack.Screen name="MainApp" component={BottomTabNavigator} />

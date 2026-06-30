@@ -31,31 +31,31 @@ if ($missing) {
 
 Write-Host "All folders found. Launching terminals..." -ForegroundColor Green
 
-# 1. Mobile (Expo) - QR code will show
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'MOBILE (Expo)'; Write-Host 'Starting MOBILE...' -ForegroundColor Cyan; cd 'apps/mobile'; npx expo start --web --port 8081"
+# 1. MOBILE (Expo) - Dark Blue background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'MOBILE (Expo)'; `$Host.UI.RawUI.BackgroundColor = 'DarkBlue'; Clear-Host; Write-Host 'Starting MOBILE...' -ForegroundColor White; cd 'apps/mobile'; npx expo start --web --port 8081"
 
-# 2. Customer Web
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB CUSTOMER'; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor Cyan; cd 'apps/web-customer'; npm run dev"
+# 2. WEB CUSTOMER - Dark Green background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB CUSTOMER'; `$Host.UI.RawUI.BackgroundColor = 'DarkGreen'; Clear-Host; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor White; cd 'apps/web-customer'; npm run dev"
 
-# 3. Admin Panel
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB ADMIN'; Write-Host 'Starting WEB ADMIN...' -ForegroundColor Cyan; cd 'apps/web-admin'; npm run dev"
+# 3. WEB ADMIN - Dark Red background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB ADMIN'; `$Host.UI.RawUI.BackgroundColor = 'DarkRed'; Clear-Host; Write-Host 'Starting WEB ADMIN...' -ForegroundColor White; cd 'apps/web-admin'; npm run dev"
 
-# 4. Restaurant Web
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB RESTAURANT'; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor Cyan; cd 'apps/web-restaurant'; npm run dev"
+# 4. WEB RESTAURANT - Dark Magenta background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB RESTAURANT'; `$Host.UI.RawUI.BackgroundColor = 'DarkMagenta'; Clear-Host; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor White; cd 'apps/web-restaurant'; npm run dev"
 
-# 5. API - Running server.js
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'API (server.js)'; Write-Host 'Starting API...' -ForegroundColor Cyan; cd 'apps/api'; node server.js"
+# 5. API (server.js) - Dark Cyan background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'API (server.js)'; `$Host.UI.RawUI.BackgroundColor = 'DarkCyan'; Clear-Host; Write-Host 'Starting API...' -ForegroundColor White; cd 'apps/api'; node server.js"
 
-# 6. Database - watch mode
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'DATABASE'; Write-Host 'Starting DATABASE...' -ForegroundColor Cyan; cd 'packages/database'; npm run build -- --watch"
+# 6. DATABASE - Dark Yellow background
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'DATABASE'; `$Host.UI.RawUI.BackgroundColor = 'DarkYellow'; Clear-Host; Write-Host 'Starting DATABASE...' -ForegroundColor Black; cd 'packages/database'; npm run build -- --watch"
 
 Write-Host ""
 Write-Host "All 6 services launched!" -ForegroundColor Green
 Write-Host "Services running:" -ForegroundColor Yellow
-Write-Host "  Mobile (Expo)      → http://localhost:8081" -ForegroundColor Gray
-Write-Host "  Customer Web       → (check console for port)" -ForegroundColor Gray
-Write-Host "  Admin Panel        → (check console for port)" -ForegroundColor Gray
-Write-Host "  Restaurant Web     → (check console for port)" -ForegroundColor Gray
-Write-Host "  API (server.js)    → (check console for port)" -ForegroundColor Gray
-Write-Host "  Database           → watching for changes" -ForegroundColor Gray
+Write-Host "  Mobile (Expo)      -> http://localhost:8081  (DARK BLUE)" -ForegroundColor Gray
+Write-Host "  Customer Web       -> (check console)        (DARK GREEN)" -ForegroundColor Gray
+Write-Host "  Admin Panel        -> (check console)        (DARK RED)" -ForegroundColor Gray
+Write-Host "  Restaurant Web     -> (check console)        (DARK MAGENTA)" -ForegroundColor Gray
+Write-Host "  API (server.js)    -> (check console)        (DARK CYAN)" -ForegroundColor Gray
+Write-Host "  Database           -> watching for changes   (DARK YELLOW)" -ForegroundColor Gray
 Read-Host "Press Enter to close this launcher"

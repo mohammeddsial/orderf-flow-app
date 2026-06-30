@@ -26,7 +26,7 @@ export const ScreenLayout: React.FC<LayoutProps> = ({
     return (
       <div
         style={{
-          height: '100vh',
+          height: '100%',
           boxSizing: 'border-box',
           overflowY: scrollable ? 'auto' : 'visible',
           WebkitOverflowScrolling: 'touch',
