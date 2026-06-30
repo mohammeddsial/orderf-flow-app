@@ -64,12 +64,12 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 28, color: tokens.colors.textInverse, fontWeight: '900' }}>
-                {user.name?.charAt(0)?.toUpperCase() ?? '?'}
+                {user.firstName?.charAt(0)?.toUpperCase() ?? '?'}
               </Text>
             </View>
             <View style={{ flex: 1 }}>
               <Heading level={3} marginBottom={2}>
-                {user.name}
+                {user.firstName} {user.lastName}
               </Heading>
               <BodyText size="sm" color={tokens.colors.textDisabled}>
                 {user.email}

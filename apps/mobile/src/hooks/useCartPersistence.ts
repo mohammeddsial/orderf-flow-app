@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCart as useCartState } from '@multi-restaurant/database';
+import { useCart as useCartState, store } from '@multi-restaurant/database';
 import type { Cart } from '@multi-restaurant/database';
 
 const CART_STORAGE_KEY = '@order_flow_app:cart';
@@ -15,8 +15,8 @@ function validateCartItem(item: unknown): boolean {
     typeof obj.title === 'string' &&
     typeof obj.itemTotal === 'number';
 
-  const quantityValid = obj.quantity > 0 && obj.quantity <= 999;
-  const totalValid = obj.itemTotal >= 0;
+  const quantityValid = (obj.quantity as number) > 0 && (obj.quantity as number) <= 999;
+  const totalValid = (obj.itemTotal as number) >= 0;
 
   return hasRequiredFields && quantityValid && totalValid;
 }
@@ -30,10 +30,10 @@ function validateCart(cart: unknown): boolean {
     typeof obj.itemCount === 'number' &&
     Array.isArray(obj.items);
 
-  const subtotalValid = obj.subtotal >= 0;
-  const itemCountValid = obj.itemCount >= 0;
+  const subtotalValid = (obj.subtotal as number) >= 0;
+  const itemCountValid = (obj.itemCount as number) >= 0;
   const itemsValid = Array.isArray(obj.items) &&
-    obj.items.length <= 500 &&
+    (obj.items as unknown[]).length <= 500 &&
     obj.items.every(validateCartItem);
 
   return hasRequiredFields && subtotalValid && itemCountValid && itemsValid;
@@ -41,8 +41,6 @@ function validateCart(cart: unknown): boolean {
 
 export function useCartPersistence() {
   const cart = useCartState();
-  const cartActions = useCartState();
-  const { addToCart } = cartActions;
   const isInitializedRef = useRef(false);
 
   const loadCartFromStorage = useCallback(async () => {
@@ -63,7 +61,7 @@ export function useCartPersistence() {
           for (const item of validatedCart.items) {
             const modifiers = item.modifierSelections || undefined;
             const instructions = item.specialInstructions || undefined;
-            addToCart?.(
+            store.addToCart(
               item.menuItemId,
               item.quantity,
               modifiers,
@@ -77,7 +75,7 @@ export function useCartPersistence() {
       console.error('Failed to load cart from AsyncStorage:', error);
       isInitializedRef.current = true;
     }
-  }, [addToCart]);
+  }, []);
 
   const persistCartToStorage = useCallback(async () => {
     if (!cart || !isInitializedRef.current) return;

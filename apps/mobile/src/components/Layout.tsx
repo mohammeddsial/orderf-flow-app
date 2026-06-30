@@ -389,9 +389,10 @@ export const Button: React.FC<ButtonProps> = ({
 
 interface HeadingProps {
   level: 1 | 2 | 3 | 4;
-  children: string;
+  children: ReactNode;
   color?: string;
   marginBottom?: number;
+  style?: any;
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -399,6 +400,7 @@ export const Heading: React.FC<HeadingProps> = ({
   children,
   color,
   marginBottom,
+  style,
 }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
@@ -414,7 +416,7 @@ export const Heading: React.FC<HeadingProps> = ({
 
   return (
     <Text
-      style={{
+      style={[{
         fontSize: fontSizes[level - 1],
         fontWeight: level <= 2 ? titleStyle.fontWeight : '700',
         color: color || tokens.colors.text,
@@ -423,7 +425,7 @@ export const Heading: React.FC<HeadingProps> = ({
           textTransform: titleStyle.textTransform as any,
           letterSpacing: titleStyle.letterSpacing,
         } : {}),
-      }}
+      }, style]}
     >
       {children}
     </Text>
@@ -431,10 +433,12 @@ export const Heading: React.FC<HeadingProps> = ({
 };
 
 interface BodyTextProps {
-  children: string | ReactNode;
+  children: ReactNode;
   color?: string;
   size?: 'sm' | 'md' | 'lg';
   marginBottom?: number;
+  numberOfLines?: number;
+  style?: any;
 }
 
 export const BodyText: React.FC<BodyTextProps> = ({
@@ -442,6 +446,8 @@ export const BodyText: React.FC<BodyTextProps> = ({
   color,
   size = 'md',
   marginBottom,
+  numberOfLines,
+  style,
 }) => {
   const { tokens } = useTheme();
 
@@ -453,12 +459,13 @@ export const BodyText: React.FC<BodyTextProps> = ({
 
   return (
     <Text
-      style={{
+      numberOfLines={numberOfLines}
+      style={[{
         fontSize: fontSizes[size],
         color: color || tokens.colors.text,
         marginBottom: marginBottom || 0,
         lineHeight: fontSizes[size] * 1.5,
-      }}
+      }, style]}
     >
       {children}
     </Text>

@@ -25,7 +25,7 @@ const ICON_MAP: Record<string, IconName> = {
   star: 'star-outline',
 
   // Status / order
-  celebration: 'party-popper-outline',
+  celebration: 'gift-outline',
   cooking: 'flame-outline',
   delivery: 'bicycle-outline',
   checkmark: 'checkmark-circle-outline',

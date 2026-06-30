@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, Pressable } from 'react-native';
-import { useMenuItemById, useCart } from '@multi-restaurant/database';
+import { useMenuItemById, useCart, store } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import {
   ScreenLayout,
@@ -66,7 +66,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
       });
 
       try {
-        cart.addToCart(item.id, quantity, modifierSelections, isMealDeal ? 'Made it a meal' : '');
+        store.addToCart(item.id, quantity, modifierSelections, isMealDeal ? 'Made it a meal' : '');
         navigation.navigate('Upsell');
       } catch (error) {
         console.error('Error adding to cart:', error);

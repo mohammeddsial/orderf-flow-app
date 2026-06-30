@@ -22,7 +22,7 @@ export const BirthdayBanner: React.FC<{ onClaim: () => void }> = ({ onClaim }) =
   const engine = engineStyle as EngineId;
   const user = useCurrentUser();
 
-  const isBirthday = isToday(user?.birthday);
+  const isBirthday = isToday((user as any)?.birthday);
 
   if (!isBirthday || !user) return null;
 

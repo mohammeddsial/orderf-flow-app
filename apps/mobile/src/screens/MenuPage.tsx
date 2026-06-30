@@ -41,7 +41,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
   const handleAddToCart = useCallback(() => {
     if (selectedItem && cart) {
       try {
-        cart.addToCart(selectedItem.id, quantity);
+        store.addToCart(selectedItem.id, quantity);
         setCustomizerOpen(false);
         setQuantity(1);
         setSelectedItem(null);

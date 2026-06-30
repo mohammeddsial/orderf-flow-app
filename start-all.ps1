@@ -51,7 +51,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.W
 
 Write-Host ""
 Write-Host "All 6 services launched!" -ForegroundColor Green
-Write-Host "Services running:" -ForegroundColor Yellow
+Write-Host "Services running in separate windows:" -ForegroundColor Yellow
 Write-Host "  Mobile (Expo)      -> http://localhost:8081  (DARK BLUE)" -ForegroundColor Gray
 Write-Host "  Customer Web       -> (check console)        (DARK GREEN)" -ForegroundColor Gray
 Write-Host "  Admin Panel        -> (check console)        (DARK RED)" -ForegroundColor Gray

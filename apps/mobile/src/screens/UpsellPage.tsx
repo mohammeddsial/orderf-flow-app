@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Pressable, Text } from 'react-native';
-import { useMenuItems, useCart } from '@multi-restaurant/database';
+import { useMenuItems, useCart, store } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import {
   ScreenLayout,
@@ -23,7 +23,7 @@ export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const handleAddUpsell = (itemId: string) => {
     if (cart) {
       try {
-        cart.addToCart(itemId, 1);
+        store.addToCart(itemId, 1);
         setAddedItems([...addedItems, itemId]);
       } catch (error) {
         console.error('Error adding item:', error);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, Pressable, TextInput } from 'react-native';
-import { useCart, useCreateOrder, useTenant } from '@multi-restaurant/database';
+import { useCart, useCreateOrder, useTenant, store } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { useCartPersistence } from '../hooks/useCartPersistence';
 import { Icon } from '../components/shared/Icon';
@@ -91,7 +91,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   }
 
   const calculateRegionalTax = (subtotal: number): number => {
-    const region = tenant.region || 'US';
+    const region = (tenant as any).region || 'US';
     const taxRate = region === 'CA' ? 0.13 : region === 'UK' ? 0.20 : 0.08;
     return Math.floor(subtotal * taxRate * 100) / 100;
   };
@@ -112,7 +112,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         items: cart.items.map(item => ({
           menuItemId: item.menuItemId,
           quantity: item.quantity,
-          title: item.title,
+          title: store.getMenuItemById(item.menuItemId)?.title ?? 'Item',
           itemTotal: item.itemTotal,
           modifierSelections: item.modifierSelections || [],
           specialInstructions: item.specialInstructions,
@@ -145,7 +145,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const taxes = calculateRegionalTax(cart.subtotal);
   const deliveryFee = 4.99;
   const total = cart.subtotal + taxes + deliveryFee + tipAmount;
-  const region = tenant.region || 'US';
+  const region = (tenant as any).region || 'US';
   const taxRate = region === 'CA' ? 13 : region === 'UK' ? 20 : 8;
 
   const paymentMethods = [
