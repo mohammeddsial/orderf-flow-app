@@ -1,5 +1,5 @@
 import { EngineId } from '../components/home/engineStyle';
-import { Easing } from 'react-native';
+import { Easing } from 'react-native-reanimated';
 
 export interface EngineAnimationConfig {
   pressScale: number;
