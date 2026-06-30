@@ -87,8 +87,8 @@ export const HomeHeader: React.FC<{
       ? 'rgba(255,255,255,0.78)'
       : engine === 'VIBRANT_STREET_TECH'
       ? 'rgba(10,14,19,0.6)'
-      : 'rgba(0,0,0,0.55)';
-  const fg = engine === 'MINIMALIST_CLEAN' ? '#1A1A1A' : '#FFFFFF';
+      : 'rgba(255,255,255,0.95)';
+  const fg = engine === 'MINIMALIST_CLEAN' ? '#1A1A1A' : engine === 'VIBRANT_STREET_TECH' ? '#FFFFFF' : '#000000';
 
   const Toggle = (mode: 'DELIVERY' | 'PICKUP', label: string) => {
     const active = fulfillment === mode;
@@ -104,8 +104,9 @@ export const HomeHeader: React.FC<{
         <Text
           style={{
             fontSize: tokens.typography.fontSizeXs,
-            fontWeight: '700',
+            fontWeight: engine === 'BRUTALIST_MODERNIST' ? '900' : '700',
             color: active ? tokens.colors.textInverse : fg,
+            ...(engine === 'BRUTALIST_MODERNIST' ? { textTransform: 'uppercase' } : {}),
           }}
         >
           {label}
@@ -129,6 +130,8 @@ export const HomeHeader: React.FC<{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        ...(engine === 'BRUTALIST_MODERNIST' ? { borderBottomWidth: tokens.borders.widthThick, borderBottomColor: tokens.colors.border } : {}),
+        ...(engine === 'VIBRANT_STREET_TECH' ? { borderBottomWidth: tokens.borders.widthThin, borderBottomColor: tokens.colors.secondary } : {}),
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
@@ -138,7 +141,16 @@ export const HomeHeader: React.FC<{
           </Pressable>
         ) : null}
         <View>
-          <Text style={{ color: fg, fontSize: tokens.typography.fontSizeLg, fontWeight: '800' }}>
+          <Text
+            style={{
+              color: fg,
+              fontSize: tokens.typography.fontSizeLg,
+              fontWeight: engine === 'BRUTALIST_MODERNIST' ? '900' : '800',
+              ...(engine === 'BRUTALIST_MODERNIST' || engine === 'VIBRANT_STREET_TECH' ? { textTransform: 'uppercase' } : {}),
+              ...(engine === 'VIBRANT_STREET_TECH' ? { textShadowColor: tokens.colors.secondary, textShadowRadius: 8 } : {}),
+              letterSpacing: engine === 'BRUTALIST_MODERNIST' ? 1 : engine === 'VIBRANT_STREET_TECH' ? 1.5 : 0,
+            }}
+          >
             {brandName}
           </Text>
           <Pressable onPress={onToggleLocation} hitSlop={8}>
