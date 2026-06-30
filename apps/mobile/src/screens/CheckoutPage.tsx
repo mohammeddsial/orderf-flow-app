@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Pressable, TextInput } from 'react-native';
 import { useCart, useCreateOrder, useTenant } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { useCartPersistence } from '../hooks/useCartPersistence';
+import { Icon } from '../components/shared/Icon';
 import {
   ScreenLayout,
   Card,
@@ -148,10 +149,10 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const taxRate = region === 'CA' ? 13 : region === 'UK' ? 20 : 8;
 
   const paymentMethods = [
-    { id: 'apple-pay', label: 'Apple Pay', icon: '🍎' },
-    { id: 'google-pay', label: 'Google Pay', icon: '🔵' },
-    { id: 'card', label: 'Credit/Debit Card', icon: '💳' },
-    { id: 'interac', label: 'Interac', icon: '🏦' },
+    { id: 'apple-pay', label: 'Apple Pay', icon: 'payments' },
+    { id: 'google-pay', label: 'Google Pay', icon: 'payments' },
+    { id: 'card', label: 'Credit/Debit Card', icon: 'payments' },
+    { id: 'interac', label: 'Interac', icon: 'payments' },
   ];
 
   return (
@@ -201,9 +202,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                   alignItems: 'center',
                 }}
               >
-                <Text style={{ fontSize: 20, marginRight: tokens.spacing.md }}>
-                  {method.icon}
-                </Text>
+                <Icon name={method.icon} size={20} color={paymentMethod === method.id ? tokens.colors.primary : tokens.colors.text} />
                 <BodyText
                   color={
                     paymentMethod === method.id

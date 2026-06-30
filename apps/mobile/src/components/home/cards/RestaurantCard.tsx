@@ -4,6 +4,7 @@ import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
 import { cardChrome, EngineId, imageRadiusFor } from '../engineStyle';
+import { Icon } from '../../shared/Icon';
 
 interface Restaurant {
   id: string;
@@ -49,13 +50,13 @@ export const RestaurantCard: React.FC<CardProps> = ({ restaurant, onPress }) => 
           onPress={() => setSaved((s) => !s)}
           style={{ position: 'absolute', top: 10, right: 10, width: 32, height: 32, borderRadius: saveR, backgroundColor: 'rgba(255,255,255,0.92)', alignItems: 'center', justifyContent: 'center' }}
         >
-          <Text style={{ fontSize: 16, color: saved ? tokens.colors.primary : '#9aa0a6' }}>{saved ? '♥' : '♡'}</Text>
+          <Icon name="rewards" size={16} color={saved ? tokens.colors.primary : '#9aa0a6'} />
         </Pressable>
       </View>
       <View style={{ padding: tokens.spacing.md }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text numberOfLines={1} style={{ flex: 1, fontWeight: '800', fontSize: tokens.typography.fontSizeLg, color: tokens.colors.text }}>{restaurant.name}</Text>
-          <Text style={{ fontWeight: '700', fontSize: tokens.typography.fontSizeSm, color: tokens.colors.text }}>⭐ {rating.toFixed(1)}</Text>
+          <Text style={{ fontWeight: '700', fontSize: tokens.typography.fontSizeSm, color: tokens.colors.text }}>{rating.toFixed(1)}</Text>
         </View>
         <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeXs, marginTop: 2 }}>
           ⏰ {eta}{freeDelivery ? ' • Free Delivery' : ''}

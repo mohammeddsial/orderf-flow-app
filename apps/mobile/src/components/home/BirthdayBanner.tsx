@@ -4,6 +4,7 @@ import { View, Text, Pressable } from 'react-native';
 import { useTheme } from '../../theme';
 import { useCurrentUser } from '@multi-restaurant/database';
 import { EngineId, cardChrome } from './engineStyle';
+import { Icon } from '../shared/Icon';
 
 // Helper to check if today is the user's birthday
 const isToday = (dateStr?: string): boolean => {
@@ -41,7 +42,7 @@ export const BirthdayBanner: React.FC<{ onClaim: () => void }> = ({ onClaim }) =
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.md }}>
-          <Text style={{ fontSize: 48 }}>🎂</Text>
+          <Icon name="celebration" size={48} color={tokens.colors.accent} />
           <View style={{ flex: 1 }}>
             <Text
               style={{
@@ -50,7 +51,7 @@ export const BirthdayBanner: React.FC<{ onClaim: () => void }> = ({ onClaim }) =
                 fontSize: tokens.typography.fontSizeLg,
               }}
             >
-              Happy Birthday, {user.firstName}! 🎉
+              Happy Birthday, {user.firstName}!
             </Text>
             <Text
               style={{
@@ -71,7 +72,7 @@ export const BirthdayBanner: React.FC<{ onClaim: () => void }> = ({ onClaim }) =
             }}
           >
             <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>
-              Claim 🎁
+              Claim
             </Text>
           </View>
         </View>

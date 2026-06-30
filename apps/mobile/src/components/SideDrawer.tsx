@@ -132,7 +132,7 @@ export const SideDrawer: React.FC<Props> = ({
             {isDelivery ? 'Deliver to' : 'Pick up from'}
           </Text>
           <Text numberOfLines={2} style={{ marginTop: 2, fontWeight: '700', fontSize: tokens.typography.fontSizeSm, color: tokens.colors.text }}>
-            📍 {isDelivery ? customerLocation : tenantLocation}
+            <Icon name="mapPin" size={12} color={tokens.colors.text} /> {isDelivery ? customerLocation : tenantLocation}
           </Text>
         </View>
 

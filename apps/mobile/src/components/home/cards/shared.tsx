@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, ViewStyle } from 'react-native';
 import { ThemeTokens } from '../../../theme/engines';
 import { cardChrome, EngineId, imageRadiusFor } from '../engineStyle';
+import { Icon } from '../../shared/Icon';
 
 // Engine-aware card container (replaces the old hardcoded softCard).
 export const engineCard = (t: ThemeTokens, engine: EngineId): ViewStyle =>
@@ -42,15 +43,15 @@ export const Favorite: React.FC<{ engine?: EngineId; t?: ThemeTokens }> = ({ eng
         justifyContent: 'center',
       }}
     >
-      <Text style={{ fontSize: 15, color: heartColor }}>{fav ? '♥' : '♡'}</Text>
+      <Icon name="rewards" size={15} color={heartColor} />
     </Pressable>
   );
 };
 
 export const RatingRow: React.FC<{ t: ThemeTokens }> = ({ t }) => (
   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 4 }}>
-    <Text style={{ fontSize: t.typography.fontSizeXs, color: t.colors.text, fontWeight: '700' }}>⭐ 4.9</Text>
-    <Text style={{ fontSize: t.typography.fontSizeXs, color: t.colors.textDisabled }}>⏰ 20–25 Min</Text>
+    <Text style={{ fontSize: t.typography.fontSizeXs, color: t.colors.text, fontWeight: '700' }}> 4.9</Text>
+    <Text style={{ fontSize: t.typography.fontSizeXs, color: t.colors.textDisabled }}> 20-25 Min</Text>
   </View>
 );
 

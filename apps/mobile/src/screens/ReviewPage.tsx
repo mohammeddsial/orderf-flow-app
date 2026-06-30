@@ -3,6 +3,7 @@ import { View, TextInput, Pressable, Text } from 'react-native';
 import { useSubmitReview, useOrderById } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, DismissalHeader } from '../components/Layout';
+import { Icon } from '../components/shared/Icon';
 
 export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
   const { tokens, engineStyle } = useTheme();
@@ -60,9 +61,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                 onPress={() => setFoodRating(star)}
                 style={{ padding: tokens.spacing.sm }}
               >
-                <Text style={{ fontSize: 32, opacity: star <= foodRating ? 1 : 0.3 }}>
-                  ⭐
-                </Text>
+                <Icon name="rewards" size={32} color={star <= foodRating ? '#FFD700' : '#ccc'} />
               </Pressable>
             ))}
           </View>
@@ -132,9 +131,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                 onPress={() => setDeliveryRating(star)}
                 style={{ padding: tokens.spacing.sm }}
               >
-                <Text style={{ fontSize: 32, opacity: star <= deliveryRating ? 1 : 0.3 }}>
-                  ⭐
-                </Text>
+                <Icon name="rewards" size={32} color={star <= deliveryRating ? '#FFD700' : '#ccc'} />
               </Pressable>
             ))}
           </View>
@@ -195,7 +192,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
 
         <Card marginBottom={tokens.spacing.lg} padding={tokens.spacing.lg}>
           <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 32, marginBottom: tokens.spacing.sm }}>📸</Text>
+            <Icon name="camera" size={32} color={tokens.colors.textDisabled} />
             <Heading level={4} marginBottom={tokens.spacing.sm}>
               Add Photos (Optional)
             </Heading>

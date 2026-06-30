@@ -3,6 +3,7 @@ import { View, Text, Pressable, ScrollView } from 'react-native';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, SolidHeader } from '../components/Layout';
 import { cardChrome, type EngineId } from '../components/home/engineStyle';
+import { Icon } from '../components/shared/Icon';
 import { useTenant } from '@multi-restaurant/database';
 
 type Promotion = {
@@ -24,7 +25,7 @@ const PROMOTIONS: Promotion[] = [
     discount: '20% OFF',
     code: 'WELCOME20',
     expiry: 'Dec 31, 2026',
-    icon: '🎉',
+    icon: 'celebration',
     color: '#FF6B35',
   },
   {
@@ -34,7 +35,7 @@ const PROMOTIONS: Promotion[] = [
     discount: '2 for $18',
     code: 'BURGER2',
     expiry: 'Jul 15, 2026',
-    icon: '🍔',
+    icon: 'burger',
     color: '#FF9E46',
   },
   {
@@ -44,7 +45,7 @@ const PROMOTIONS: Promotion[] = [
     discount: 'FREE DELIVERY',
     code: 'FREESHIP',
     expiry: 'Jul 31, 2026',
-    icon: '🛵',
+    icon: 'delivery',
     color: '#388E3C',
   },
   {
@@ -54,7 +55,7 @@ const PROMOTIONS: Promotion[] = [
     discount: '50% OFF',
     code: 'SHAKE50',
     expiry: 'Jul 7, 2026',
-    icon: '🥤',
+    icon: 'gift',
     color: '#9C27B0',
   },
   {
@@ -64,7 +65,7 @@ const PROMOTIONS: Promotion[] = [
     discount: 'SAVE $3',
     code: 'COMBO3',
     expiry: 'Jul 14, 2026',
-    icon: '🍟',
+    icon: 'burger',
     color: '#FF6B35',
   },
   {
@@ -74,7 +75,7 @@ const PROMOTIONS: Promotion[] = [
     discount: '2X POINTS',
     code: 'TUESDAY2X',
     expiry: 'Ongoing',
-    icon: '⭐',
+    icon: 'rewards',
     color: '#FFD700',
   },
 ];
@@ -91,7 +92,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
         {/* Hero banner */}
         <Card marginBottom={tokens.spacing.lg} shadow>
           <View style={{ alignItems: 'center', paddingVertical: tokens.spacing.lg }}>
-            <Text style={{ fontSize: 48, marginBottom: tokens.spacing.sm }}>🎁</Text>
+            <Icon name="gift" size={48} color={tokens.colors.accent} />
             <Heading level={2} marginBottom={tokens.spacing.xs}>
               Deals & Offers
             </Heading>
@@ -120,7 +121,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
                   marginRight: tokens.spacing.md,
                 }}
               >
-                <Text style={{ fontSize: 26 }}>{promo.icon}</Text>
+                <Icon name={promo.icon} size={26} color="#FFFFFF" />
               </View>
 
               {/* Content */}

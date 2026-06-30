@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, Pressable, ScrollView, Image } from 'react-native';
 import { useTheme } from '../../theme';
 import { EngineId, cardChrome, sectionTitleStyle } from './engineStyle';
+import { Icon } from '../shared/Icon';
 import { store } from '@multi-restaurant/database';
 import { getPlaceholderImage } from '@multi-restaurant/database';
 
@@ -10,7 +11,7 @@ import { getPlaceholderImage } from '@multi-restaurant/database';
 interface ComboItem {
   id: string;
   title: string;
-  emoji: string;
+  icon: string;
   price: number;
 }
 
@@ -30,9 +31,9 @@ const DEMO_COMBOS: ComboDeal[] = [
     name: 'Classic Burger Combo',
     description: 'Burger + Fries + Drink',
     items: [
-      { id: 'c1-1', title: 'Classic Burger', emoji: '🍔', price: 9.99 },
-      { id: 'c1-2', title: 'Hand-Cut Fries', emoji: '🍟', price: 4.99 },
-      { id: 'c1-3', title: 'Cold Cola', emoji: '🥤', price: 2.49 },
+      { id: 'c1-1', title: 'Classic Burger', icon: 'burger', price: 9.99 },
+      { id: 'c1-2', title: 'Hand-Cut Fries', icon: 'burger', price: 4.99 },
+      { id: 'c1-3', title: 'Cold Cola', icon: 'burger', price: 2.49 },
     ],
     originalPrice: 17.47,
     comboPrice: 13.99,
@@ -43,9 +44,9 @@ const DEMO_COMBOS: ComboDeal[] = [
     name: 'Deluxe Meal Deal',
     description: 'Deluxe Burger + Onion Rings + Milkshake',
     items: [
-      { id: 'c2-1', title: 'Deluxe Burger', emoji: '🍔', price: 14.99 },
-      { id: 'c2-2', title: 'Onion Rings', emoji: '🧅', price: 5.99 },
-      { id: 'c2-3', title: 'Milkshake', emoji: '🥛', price: 5.99 },
+      { id: 'c2-1', title: 'Deluxe Burger', icon: 'burger', price: 14.99 },
+      { id: 'c2-2', title: 'Onion Rings', icon: 'burger', price: 5.99 },
+      { id: 'c2-3', title: 'Milkshake', icon: 'gift', price: 5.99 },
     ],
     originalPrice: 26.97,
     comboPrice: 19.99,
@@ -74,7 +75,7 @@ export const MealDealCombo: React.FC<{ onSelect: (combo: ComboDeal) => void }> =
   return (
     <View style={{ marginBottom: tokens.spacing.lg }}>
       <View style={{ paddingHorizontal: tokens.spacing.md }}>
-        <Text style={sectionTitleStyle(tokens, engine)}>Build a Meal Deal 🍔</Text>
+        <Text style={sectionTitleStyle(tokens, engine)}>Build a Meal Deal</Text>
         <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.md }}>
           Save up to $5 when you bundle!
         </Text>
@@ -129,7 +130,7 @@ export const MealDealCombo: React.FC<{ onSelect: (combo: ComboDeal) => void }> =
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: tokens.spacing.sm }}>
               {combo.items.map((item, idx) => (
                 <React.Fragment key={item.id}>
-                  <Text style={{ fontSize: tokens.typography.fontSizeSm }}>{item.emoji}</Text>
+                  <Icon name={item.icon} size={16} color={tokens.colors.accent} />
                   {idx < combo.items.length - 1 ? (
                     <Text style={{ color: tokens.colors.textDisabled }}>+</Text>
                   ) : null}

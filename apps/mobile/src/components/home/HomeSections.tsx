@@ -10,6 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import type { MenuItem } from '@multi-restaurant/database';
 import { store } from '@multi-restaurant/database';
 import { useTheme } from '../../theme';
@@ -26,6 +27,7 @@ import {
 import { Story, ReorderCard } from './mockData';
 import { getPlaceholderImage } from '@multi-restaurant/database';
 import { ItemCard } from './cards';
+import { Icon } from '../shared/Icon';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -87,8 +89,14 @@ export const HomeHeader: React.FC<{
       ? 'rgba(255,255,255,0.78)'
       : engine === 'VIBRANT_STREET_TECH'
       ? 'rgba(10,14,19,0.6)'
-      : 'rgba(255,255,255,0.95)';
+      : 'rgba(250,250,250,0.95)';
   const fg = engine === 'MINIMALIST_CLEAN' ? '#1A1A1A' : engine === 'VIBRANT_STREET_TECH' ? '#FFFFFF' : '#000000';
+
+  // BRUTALIST: solid pill-shaped bar, cream bg, thick shadow
+  // MINIMALIST: frosted blur, no border, transparent
+  // VIBRANT: dark pill, neon border glow
+  const headerRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : engine === 'MINIMALIST_CLEAN' ? 24 : 20;
+  const headerMargin = engine === 'MINIMALIST_CLEAN' ? 8 : engine === 'VIBRANT_STREET_TECH' ? 8 : 0;
 
   const Toggle = (mode: 'DELIVERY' | 'PICKUP', label: string) => {
     const active = fulfillment === mode;
@@ -120,8 +128,8 @@ export const HomeHeader: React.FC<{
       style={{
         position: 'absolute',
         top: 0,
-        left: 0,
-        right: 0,
+        left: headerMargin,
+        right: headerMargin,
         zIndex: 20,
         paddingTop: insets.top + 6,
         paddingBottom: tokens.spacing.sm,
@@ -130,14 +138,18 @@ export const HomeHeader: React.FC<{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        borderBottomLeftRadius: headerRadius,
+        borderBottomRightRadius: headerRadius,
         ...(engine === 'BRUTALIST_MODERNIST' ? { borderBottomWidth: tokens.borders.widthThick, borderBottomColor: tokens.colors.border } : {}),
         ...(engine === 'VIBRANT_STREET_TECH' ? { borderBottomWidth: tokens.borders.widthThin, borderBottomColor: tokens.colors.secondary } : {}),
+        ...(engine === 'MINIMALIST_CLEAN' ? { shadowColor: '#000000', shadowOpacity: 0.06, shadowRadius: 10, shadowOffset: { width: 0, height: 2 }, elevation: 3 } : {}),
+        ...(engine === 'VIBRANT_STREET_TECH' ? { shadowColor: tokens.colors.secondary, shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 0 }, elevation: 6 } : {}),
       }}
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
         {onMenu ? (
           <Pressable onPress={onMenu} hitSlop={12} style={{ marginRight: tokens.spacing.sm }}>
-            <Text style={{ color: fg, fontSize: 22, fontWeight: '900' }}>☰</Text>
+            <Ionicons name="menu" size={26} color={fg} />
           </Pressable>
         ) : null}
         <View>
@@ -155,7 +167,7 @@ export const HomeHeader: React.FC<{
           </Text>
           <Pressable onPress={onToggleLocation} hitSlop={8}>
             <Text style={{ color: fg, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
-              {location} • 12 min ▾
+              {location} • 12 min
             </Text>
           </Pressable>
         </View>
@@ -456,10 +468,10 @@ export const Recommendations: React.FC<{
 // ---------------------------------------------------------------------------
 
 const CATEGORIES = [
-  { id: 'Burgers', label: 'Burgers', emoji: '🍔', tint: '#FF6B35' },
-  { id: 'Sides', label: 'Sides', emoji: '🍟', tint: '#F5A623' },
-  { id: 'Drinks', label: 'Drinks', emoji: '🥤', tint: '#00D9FF' },
-  { id: 'Desserts', label: 'Desserts', emoji: '🍰', tint: '#FF006E' },
+  { id: 'Burgers', label: 'Burgers', icon: 'burger', tint: '#FF6B35' },
+  { id: 'Sides', label: 'Sides', icon: 'burger', tint: '#F5A623' },
+  { id: 'Drinks', label: 'Drinks', icon: 'gift', tint: '#00D9FF' },
+  { id: 'Desserts', label: 'Desserts', icon: 'gift', tint: '#FF006E' },
 ];
 
 export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({ onCategory }) => {
@@ -484,7 +496,7 @@ export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({
         backgroundColor: tileBg(c),
       }}
     >
-      <Text style={{ position: 'absolute', top: 8, right: 10, fontSize: 40 }}>{c.emoji}</Text>
+      <Icon name={c.icon} size={40} color={c.tint} />
       <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeLg }}>{c.label}</Text>
     </Pressable>
   );

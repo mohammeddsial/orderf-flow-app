@@ -8,10 +8,10 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 // Mock announcements – can be fetched from backend later
 const ANNOUNCEMENTS = [
-  '🔥 New Spicy Inferno Burger – try it now!',
-  '🍟 Free fries with any combo – limited time!',
-  '📍 Now delivering to downtown!',
-  '🎉 Download our app for exclusive deals!',
+  'New Spicy Inferno Burger – try it now!',
+  'Free fries with any combo – limited time!',
+  'Now delivering to downtown!',
+  'Download our app for exclusive deals!',
 ];
 
 export const AnnouncementStrip: React.FC = () => {
