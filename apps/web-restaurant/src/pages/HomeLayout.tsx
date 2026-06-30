@@ -361,8 +361,9 @@ export const HomeLayout = () => {
                   src={PREVIEW_URL.mobile}
                   title="Mobile preview"
                   className="border-0 w-full"
-                  scrolling="yes"
-                  style={{ height: 'calc(100% - 44px)' }}
+                  sandbox="allow-scripts allow-same-origin"
+                  loading="lazy"
+                  style={{ height: 'calc(100% - 44px)', overflow: 'auto' }}
                 />
               </div>
             ) : (
@@ -383,8 +384,9 @@ export const HomeLayout = () => {
                   src={PREVIEW_URL.web}
                   title="Web preview"
                   className="border-0 w-full"
-                  scrolling="yes"
-                  style={{ height: 'calc(100vh - 200px)', minHeight: 500 }}
+                  sandbox="allow-scripts allow-same-origin"
+                  loading="lazy"
+                  style={{ height: 'calc(100vh - 200px)', minHeight: 500, overflow: 'auto' }}
                 />
               </div>
             )}
