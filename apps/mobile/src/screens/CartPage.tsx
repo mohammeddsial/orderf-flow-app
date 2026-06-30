@@ -123,7 +123,7 @@ export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.md }}>
               {/* Qty stepper */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: tokens.borders.widthThin borderColor: tokens.colors.border, borderRadius: radius }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: tokens.borders.widthThin, borderColor: tokens.colors.border, borderRadius: radius }}>
                 <Pressable onPress={() => setQty(item.id, item.quantity - 1)} style={{ paddingVertical: 6, paddingHorizontal: tokens.spacing.md }}>
                   <Text style={{ fontSize: 18, fontWeight: '800', color: tokens.colors.text }}>−</Text>
                 </Pressable>
@@ -200,7 +200,7 @@ export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               <BodyText size="sm" color={isDiscount ? tokens.colors.success : tokens.colors.text}>{value as string}</BodyText>
             </View>
           ))}
-          <View style={{ height: tokens.borders.widthThin backgroundColor: tokens.colors.border, marginVertical: tokens.spacing.sm }} />
+          <View style={{ height: tokens.borders.widthThin, backgroundColor: tokens.colors.border, marginVertical: tokens.spacing.sm }} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Heading level={3}>Total</Heading>
             <Heading level={3}>${total.toFixed(2)}</Heading>
