@@ -16,6 +16,7 @@
     "type-check": "npx turbo run type-check",
     "mock-api": "npm run dev --workspace=@multi-restaurant/api",
     "dev:admin": "npm run dev --workspace=@multi-restaurant/web-admin",
+    "dev:restaurant": "npm run dev --workspace=@multi-restaurant/web-restaurant",
     "dev:customer": "npm run dev --workspace=@multi-restaurant/customer-web",
     "dev:mobile": "npm run dev --workspace=@multi-restaurant/mobile",
     "start:all": "concurrently --kill-others-on-fail \"npm run mock-api\" \"npm run dev:admin\" \"npm run dev:customer\" \"npm run dev:mobile\""

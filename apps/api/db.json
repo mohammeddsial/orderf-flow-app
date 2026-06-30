@@ -470,19 +470,20 @@
       ],
       "menu": [
         {
-          "key": "search",
-          "label": "Search & Filters",
-          "enabled": true
-        },
-        {
           "key": "categories",
           "label": "Category Nav",
           "enabled": true
         },
         {
+          "key": "search",
+          "label": "Search & Filters",
+          "enabled": true
+        },
+        {
           "key": "grid",
           "label": "Product Grid",
-          "enabled": true
+          "enabled": true,
+          "cardVariant": "overlayPrice"
         }
       ]
     },
