@@ -3,6 +3,7 @@ import { View, Text, Pressable, Image, Animated, Dimensions, Modal } from 'react
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { pillChrome, type EngineId } from './home/engineStyle';
+import { Icon } from './shared/Icon';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const PANEL_W = Math.min(320, Math.round(SCREEN_W * 0.82));
@@ -16,12 +17,12 @@ interface MenuItem {
 }
 
 const MENU: MenuItem[] = [
-  { key: 'settings', label: 'Settings', icon: '⚙️' },
-  { key: 'orders', label: 'My Orders', icon: '🧾' },
-  { key: 'rewards', label: 'Rewards', icon: '⭐' },
-  { key: 'addresses', label: 'Addresses', icon: '📍' },
-  { key: 'help', label: 'Help & Support', icon: '❓' },
-  { key: 'signout', label: 'Sign out', icon: '↩️' },
+  { key: 'settings', label: 'Settings', icon: 'settings' },
+  { key: 'orders', label: 'My Orders', icon: 'orders' },
+  { key: 'rewards', label: 'Rewards', icon: 'rewards' },
+  { key: 'addresses', label: 'Addresses', icon: 'addresses' },
+  { key: 'help', label: 'Help & Support', icon: 'help' },
+  { key: 'signout', label: 'Sign out', icon: 'signout' },
 ];
 
 interface Props {
@@ -146,7 +147,7 @@ export const SideDrawer: React.FC<Props> = ({
               }}
               style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.md, paddingVertical: tokens.spacing.md }}
             >
-              <Text style={{ fontSize: 18 }}>{m.icon}</Text>
+              <Icon name={m.icon} size={20} color={tokens.colors.text} />
               <Text style={{ fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text, fontWeight: '600' }}>{m.label}</Text>
             </Pressable>
           ))}

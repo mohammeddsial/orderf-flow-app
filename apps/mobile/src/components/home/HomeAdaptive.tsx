@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
 import { EngineId, cardChrome, pillChrome } from './engineStyle';
+import { Icon } from '../shared/Icon';
 import { FlashDeal, ActiveOrderInfo, AbandonedCart } from './mockData';
 
 const fmt = (s: number): string => {
@@ -47,7 +48,7 @@ export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; ca
           {deal.title}
         </Text>
         <View style={{ paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusSm, backgroundColor: 'rgba(0,0,0,0.35)' }}>
-          <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXs, fontVariant: ['tabular-nums'] }}>⏱ {fmt(remaining)}</Text>
+          <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXs, fontVariant: ['tabular-nums'] }}> {fmt(remaining)}</Text>
         </View>
       </Pressable>
     );
@@ -84,7 +85,7 @@ export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; ca
           backgroundColor: 'rgba(0,0,0,0.35)',
         }}
       >
-        <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}>⏱ {fmt(remaining)}</Text>
+        <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}> {fmt(remaining)}</Text>
       </View>
     </Pressable>
   );

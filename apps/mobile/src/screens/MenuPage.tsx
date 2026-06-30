@@ -11,6 +11,7 @@ import {
   SolidHeader,
 } from '../components/Layout';
 import { SectionHeader, QuickAddButton, cardChrome, EngineId, layoutConfig, imageRadiusFor } from '../components/home';
+import { Icon } from '../components/shared/Icon';
 import { getMenuSectionConfig } from '../api/client';
 
 export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
@@ -64,7 +65,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
           alignItems: 'center',
         }}
       >
-        <Text style={{ fontSize: 16, marginRight: tokens.spacing.sm }}>🔍</Text>
+        <Icon name="search" size={16} color={tokens.colors.textDisabled} />
         <TextInput
           placeholder="Search menu..."
           placeholderTextColor={tokens.colors.textDisabled}

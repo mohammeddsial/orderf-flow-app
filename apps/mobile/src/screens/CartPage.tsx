@@ -4,6 +4,7 @@ import { store } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { ScreenLayout, SolidHeader, Heading, BodyText, Button } from '../components/Layout';
 import { EngineId, cardChrome, sectionTitleStyle, pillChrome } from '../components/home';
+import { Icon } from '../components/shared/Icon';
 
 export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { tokens, engineStyle } = useTheme();
@@ -52,7 +53,7 @@ export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
       <View style={{ flex: 1, backgroundColor: tokens.colors.background }}>
         <SolidHeader title="Your Cart" onBackPress={() => navigation.goBack()} />
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: tokens.spacing.xl }}>
-          <Text style={{ fontSize: 56, marginBottom: tokens.spacing.md }}>🛒</Text>
+          <Icon name="cart" size={56} color={tokens.colors.textDisabled} />
           <Heading level={2} marginBottom={tokens.spacing.sm}>
             Your cart is empty
           </Heading>
@@ -102,8 +103,8 @@ export const CartPage: React.FC<{ navigation: any }> = ({ navigation }) => {
       >
         {/* Fulfillment validation ribbon */}
         <View style={{ flexDirection: 'row', gap: tokens.spacing.sm, marginBottom: tokens.spacing.lg }}>
-          {Fulfillment('DELIVERY', '🛵  Delivery')}
-          {Fulfillment('PICKUP', '🏪  Pickup')}
+          {Fulfillment('DELIVERY', 'Delivery')}
+          {Fulfillment('PICKUP', 'Pickup')}
         </View>
 
         {/* Itemized manifest */}

@@ -3,6 +3,7 @@ import { View, Text, Pressable } from 'react-native';
 import { useOrderById, useUpdateOrderStatus } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText } from '../components/Layout';
+import { Icon } from '../components/shared/Icon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
@@ -55,11 +56,11 @@ const getPhaseForTime = (etaMinutes: number, totalMinutes: number): OrderPhase =
 const getPhaseLabel = (phase: OrderPhase): string => {
   switch (phase) {
     case 'KITCHEN_ASSEMBLY':
-      return '🍳 Kitchen Assembly';
+      return 'Kitchen Assembly';
     case 'COURIER_OUT_FOR_DELIVERY':
-      return '🚗 Courier Out for Delivery';
+      return 'Courier Out for Delivery';
     case 'ARRIVED':
-      return '✅ Arrived';
+      return 'Arrived';
   }
 };
 
@@ -114,7 +115,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
             alignItems: 'center',
           }}
         >
-          <Text style={{ fontSize: 60, marginBottom: tokens.spacing.md }}>🎉</Text>
+          <Icon name="celebration" size={60} color={tokens.colors.textInverse} />
           <Heading level={1} color={tokens.colors.textInverse} marginBottom={tokens.spacing.sm}>
             Order Confirmed!
           </Heading>
@@ -201,7 +202,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               </BodyText>
               <Heading level={4}>{order.driverName || 'En route'}</Heading>
             </View>
-            <Text style={{ fontSize: 32 }}>🚗</Text>
+            <Icon name="truck" size={32} color={tokens.colors.text} />
           </View>
         </Card>
 

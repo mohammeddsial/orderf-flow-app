@@ -4,6 +4,7 @@ import { useCurrentUser, useTenant, useOrders } from '@multi-restaurant/database
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, SolidHeader } from '../components/Layout';
 import { cardChrome, type EngineId } from '../components/home/engineStyle';
+import { Icon } from '../components/shared/Icon';
 
 export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { tokens, engineStyle } = useTheme();
@@ -19,7 +20,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
         <ScreenLayout scrollable>
           <Card padding={tokens.spacing.xl}>
             <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 56, marginBottom: tokens.spacing.md }}>👤</Text>
+              <Icon name="profile" size={56} color={tokens.colors.textDisabled} />
               <Heading level={3}>Not signed in</Heading>
               <BodyText color={tokens.colors.textDisabled} marginBottom={tokens.spacing.lg}>
                 Sign in to view your profile
@@ -36,12 +37,12 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const tierColor = user.loyaltyProfile?.tier === 'GOLD' ? '#FFD700' : user.loyaltyProfile?.tier === 'SILVER' ? '#C0C0C0' : '#CD7F32';
 
   const menuItems = [
-    { key: 'orders', label: 'Order History', icon: '📋' },
-    { key: 'addresses', label: 'Saved Addresses', icon: '📍' },
-    { key: 'payments', label: 'Payment Methods', icon: '💳' },
-    { key: 'dietary', label: 'Dietary Preferences', icon: '🥗' },
-    { key: 'help', label: 'Help & Support', icon: '❓' },
-    { key: 'settings', label: 'Settings', icon: '⚙️' },
+    { key: 'orders', label: 'Order History', icon: 'orders' },
+    { key: 'addresses', label: 'Saved Addresses', icon: 'addresses' },
+    { key: 'payments', label: 'Payment Methods', icon: 'payments' },
+    { key: 'dietary', label: 'Dietary Preferences', icon: 'dietary' },
+    { key: 'help', label: 'Help & Support', icon: 'help' },
+    { key: 'settings', label: 'Settings', icon: 'settings' },
   ];
 
   return (
@@ -143,7 +144,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
                   }}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: tokens.spacing.sm }}>
-                    <Text style={{ fontSize: 24, marginRight: tokens.spacing.sm }}>🍔</Text>
+                    <Icon name="burger" size={24} color={tokens.colors.accent} />
                     <View style={{ flex: 1 }}>
                       <Heading level={4}>{order.id}</Heading>
                       <BodyText size="sm" color={tokens.colors.textDisabled}>
@@ -183,7 +184,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
               marginBottom: tokens.spacing.sm,
             }}
           >
-            <Text style={{ fontSize: 22, marginRight: tokens.spacing.md }}>{item.icon}</Text>
+            <Icon name={item.icon} size={22} color={tokens.colors.text} />
             <BodyText style={{ flex: 1 }}>{item.label}</BodyText>
             <Text style={{ color: tokens.colors.textDisabled, fontSize: 20 }}>›</Text>
           </Pressable>

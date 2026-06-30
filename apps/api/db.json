@@ -13,7 +13,7 @@
       "accentLightColor": "#ff9e46",
       "borderRadiusType": "SHARP",
       "createdAt": "2024-01-01T00:00:00Z",
-      "updatedAt": "2026-06-29T21:39:56.871Z"
+      "updatedAt": "2026-06-30T00:57:24.441Z"
     },
     {
       "id": "tenant-greengarden",
@@ -419,7 +419,8 @@
         {
           "key": "orderAgain",
           "label": "Order Again",
-          "enabled": true
+          "enabled": true,
+          "cardVariant": "overlayPrice"
         },
         {
           "key": "recommendations",
