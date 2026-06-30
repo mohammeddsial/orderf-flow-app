@@ -1,16 +1,19 @@
 import React from 'react';
-import { View, Text, Pressable, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Pressable, Image, Dimensions, StyleSheet } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
-import { EngineId, layoutConfig } from './engineStyle';
+import { EngineId, layoutConfig, imageRadiusFor } from './engineStyle';
 
 
-const { height: SCREEN_H } = Dimensions.get('window');
+const { height: SCREEN_H, width: SCREEN_W } = Dimensions.get('window');
 
 // Royalty-free, muted-friendly looping food b-roll. Swap for a branded asset.
 const HERO_VIDEO =
   'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4';
+
+const HERO_IMAGE =
+  'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200';
 
 type Props = {
   brandName: string;
@@ -31,15 +34,6 @@ export const HeroSection: React.FC<Props> = ({ brandName, onExplore }) => {
 
   const heroHeight = Math.round(SCREEN_H * layout.heroHeightRatio);
 
-  const titleStyle =
-    engine === 'VIBRANT_STREET_TECH'
-      ? {
-          textShadowColor: tokens.colors.secondary,
-          textShadowRadius: 16,
-          textShadowOffset: { width: 0, height: 0 },
-        }
-      : null;
-
   const ctaChrome =
     engine === 'BRUTALIST_MODERNIST'
       ? { borderRadius: 0, backgroundColor: '#FFFFFF', borderWidth: 2, borderColor: '#000000' }
@@ -55,6 +49,120 @@ export const HeroSection: React.FC<Props> = ({ brandName, onExplore }) => {
   const ctaTextColor =
     engine === 'VIBRANT_STREET_TECH' ? tokens.colors.secondary : '#111111';
 
+  const titleFontWeight = engine === 'MINIMALIST_CLEAN' ? '700' : '900';
+  const titleTransform = engine === 'MINIMALIST_CLEAN' ? 'none' : 'uppercase';
+  const titleLetterSpacing = engine === 'MINIMALIST_CLEAN' ? -1 : 1;
+
+  // ── Split hero (Vibrant) — video left, text right ──
+  if (layout.heroStyle === 'split') {
+    return (
+      <View style={{ height: heroHeight, backgroundColor: tokens.colors.surface, flexDirection: 'row' }}>
+        <View style={{ flex: 1, overflow: 'hidden' }}>
+          <VideoView
+            player={player}
+            style={{ flex: 1 }}
+            contentFit="cover"
+            nativeControls={false}
+          />
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.3)' }]} />
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: tokens.spacing.xl, paddingVertical: tokens.spacing.xl, paddingTop: insets.top + tokens.spacing.xl }}>
+          <Text
+            style={{
+              color: tokens.colors.text,
+              fontSize: 36,
+              lineHeight: 40,
+              fontWeight: titleFontWeight,
+              textTransform: titleTransform,
+              letterSpacing: titleLetterSpacing,
+              marginBottom: tokens.spacing.sm,
+            }}
+          >
+            {brandName}
+          </Text>
+          <Text
+            style={{
+              color: tokens.colors.textDisabled,
+              fontSize: tokens.typography.fontSizeMd,
+              marginBottom: tokens.spacing.lg,
+            }}
+          >
+            Crafted fast. Delivered hot.
+          </Text>
+          <Pressable
+            onPress={onExplore}
+            style={{
+              alignSelf: 'flex-start',
+              paddingVertical: tokens.spacing.md,
+              paddingHorizontal: tokens.spacing.xl,
+              ...ctaChrome,
+            }}
+          >
+            <Text style={{ color: ctaTextColor, fontWeight: '700', fontSize: tokens.typography.fontSizeMd }}>
+              Explore menu
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
+
+  // ── Compact hero (Minimalist) — smaller image, no video ──
+  if (layout.heroStyle === 'compact') {
+    return (
+      <View
+        style={{
+          height: heroHeight,
+          backgroundColor: tokens.colors.surface,
+          marginBottom: 0,
+        }}
+      >
+        <Image
+          source={{ uri: HERO_IMAGE }}
+          style={{ width: '100%', height: '100%', position: 'absolute' }}
+          resizeMode="cover"
+        />
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.25)' }]} />
+        <View
+          style={{
+            position: 'absolute',
+            left: tokens.spacing.lg,
+            right: tokens.spacing.lg,
+            bottom: insets.bottom + tokens.spacing.lg,
+          }}
+        >
+          <Text
+            style={{
+              color: '#FFFFFF',
+              fontSize: 32,
+              lineHeight: 36,
+              fontWeight: titleFontWeight,
+              textTransform: titleTransform,
+              letterSpacing: titleLetterSpacing,
+              marginBottom: tokens.spacing.xs,
+            }}
+          >
+            {brandName}
+          </Text>
+          <Pressable
+            onPress={onExplore}
+            style={{
+              alignSelf: 'flex-start',
+              paddingVertical: tokens.spacing.sm,
+              paddingHorizontal: tokens.spacing.lg,
+              ...ctaChrome,
+            }}
+          >
+            <Text style={{ color: ctaTextColor, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>
+              Explore
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    );
+  }
+
+  // ── Full-bleed hero (Brutalist / default) — full-screen video, text overlay ──
   return (
     <View style={{ height: heroHeight, backgroundColor: tokens.colors.surfaceInverse }}>
       <View pointerEvents="none" style={StyleSheet.absoluteFill}>
@@ -66,14 +174,7 @@ export const HeroSection: React.FC<Props> = ({ brandName, onExplore }) => {
         />
       </View>
 
-      {/* Cinematic bottom-up scrim for text legibility. */}
-      <View
-        pointerEvents="none"
-        style={[
-          StyleSheet.absoluteFill,
-          { backgroundColor: 'transparent' },
-        ]}
-      >
+      <View pointerEvents="none" style={[StyleSheet.absoluteFill]}>
         <View style={{ flex: 1 }} />
         <View style={{ height: '55%', backgroundColor: 'rgba(0,0,0,0.45)' }} />
       </View>
@@ -87,18 +188,15 @@ export const HeroSection: React.FC<Props> = ({ brandName, onExplore }) => {
         }}
       >
         <Text
-          style={[
-            {
-              color: '#FFFFFF',
-              fontSize: 40,
-              lineHeight: 44,
-              fontWeight: engine === 'MINIMALIST_CLEAN' ? '700' : '900',
-              textTransform: engine === 'MINIMALIST_CLEAN' ? 'none' : 'uppercase',
-              letterSpacing: engine === 'MINIMALIST_CLEAN' ? -1 : 1,
-              marginBottom: tokens.spacing.sm,
-            },
-            titleStyle,
-          ]}
+          style={{
+            color: '#FFFFFF',
+            fontSize: 40,
+            lineHeight: 44,
+            fontWeight: titleFontWeight,
+            textTransform: titleTransform,
+            letterSpacing: titleLetterSpacing,
+            marginBottom: tokens.spacing.sm,
+          }}
         >
           {brandName}
         </Text>
