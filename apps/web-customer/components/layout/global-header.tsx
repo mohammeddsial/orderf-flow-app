@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useCartStore, useUserStore, useFulfillmentStore, useUIStore } from "@/stores"
 import { stores } from "@/lib/mock"
+import { useRestaurantConfig } from "@/lib/mock"
 import {
   ShoppingBag,
   MapPin,
@@ -38,6 +39,9 @@ export function GlobalHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [selectedStore, setSelectedStore] = useState(stores[0])
+  const { config: restaurant } = useRestaurantConfig()
+  const brandName = restaurant?.name ?? "Order Flow"
+  const logoUrl = restaurant?.logoUrl
 
   useEffect(() => setMounted(true), [])
 
@@ -50,8 +54,11 @@ export function GlobalHeader() {
       <div className="flex h-16 items-center gap-4 px-4 lg:px-6 max-w-[1400px] mx-auto">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
-          <span className="text-primary">ored</span>
-          <span>Flow</span>
+          {logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt={brandName} className="h-8 w-8 rounded-full object-cover" />
+          ) : null}
+          <span className="text-primary">{brandName}</span>
         </Link>
 
         {/* Desktop Nav */}

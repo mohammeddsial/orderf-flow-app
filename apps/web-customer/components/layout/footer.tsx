@@ -1,14 +1,19 @@
+"use client"
+
 import Link from "next/link"
+import { useRestaurantConfig } from "@/lib/mock"
 
 export function Footer() {
+  const { config: restaurant } = useRestaurantConfig()
+  const brandName = restaurant?.name ?? "Order Flow"
+
   return (
     <footer className="border-t bg-muted/30">
       <div className="max-w-[1400px] mx-auto px-4 lg:px-6 py-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <div className="font-bold text-lg tracking-tight mb-3">
-              <span className="text-primary">ored</span>
-              <span>Flow</span>
+            <div className="font-bold text-lg tracking-tight mb-3 text-primary">
+              {brandName}
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed">
               Premium food delivery. Fresh ingredients, crafted with passion, delivered to your door.
@@ -44,7 +49,7 @@ export function Footer() {
         </div>
         <div className="border-t mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} oredFlow. All rights reserved.
+            &copy; {new Date().getFullYear()} {brandName}. All rights reserved.
           </p>
           <div className="flex gap-4 text-xs text-muted-foreground">
             <span>Privacy</span>

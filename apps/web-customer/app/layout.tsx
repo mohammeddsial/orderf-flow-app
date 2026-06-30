@@ -18,9 +18,34 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export const metadata: Metadata = {
-  title: "oredFlow - Premium Food Delivery",
-  description: "Order from the best local restaurants. Fast delivery, fresh food.",
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000/api/v1"
+
+async function fetchRestaurantName(): Promise<string> {
+  try {
+    const activeRes = await fetch(`${API_BASE_URL}/active_restaurant`, {
+      cache: "no-store",
+    })
+    if (!activeRes.ok) return "Order Flow"
+    const { restaurantId } = await activeRes.json()
+    if (!restaurantId) return "Order Flow"
+    const res = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}`, {
+      cache: "no-store",
+    })
+    if (!res.ok) return "Order Flow"
+    const restaurant = await res.json()
+    return restaurant?.name || "Order Flow"
+  } catch {
+    return "Order Flow"
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const name = await fetchRestaurantName()
+  return {
+    title: `${name} — Premium Food Delivery`,
+    description: `Order from ${name}. Fast delivery, fresh food.`,
+  }
 }
 
 export default function RootLayout({
