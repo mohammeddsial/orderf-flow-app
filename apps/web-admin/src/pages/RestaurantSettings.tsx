@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { RestaurantTenant } from '@multi-restaurant/database';
 import { api } from '../lib/api';
 import { useRestaurant } from '../context/RestaurantContext';
+import { useAuth } from '../context/AuthContext';
 import { Layout } from '../components/Layout';
 import { PublishDialog } from '../components/PublishDialog';
 import { PageHero, SectionCard, FieldLabel } from '../components/admin-ui';
@@ -48,6 +49,7 @@ function ColorSwatch({ label, sub, value, onChange }: ColorSwatchProps) {
 
 export const RestaurantSettings = () => {
   const { currentId, refresh } = useRestaurant();
+  const { isSuperAdmin } = useAuth();
   const [name, setName] = useState('');
   const [logo, setLogo] = useState('');
   const [tagline, setTagline] = useState('Flame-Grilled Perfection Since 2008');
@@ -158,19 +160,21 @@ export const RestaurantSettings = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <FieldLabel>Visual Theme Variant</FieldLabel>
-                  <Select value={style} onValueChange={(v) => setStyle(v as typeof style)}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="VIBRANT_STREET_TECH">Bold &amp; Vibrant</SelectItem>
-                      <SelectItem value="MINIMALIST_CLEAN">Minimal &amp; Clean</SelectItem>
-                      <SelectItem value="BRUTALIST_MODERNIST">Brutalist Modern</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                {isSuperAdmin && (
+                  <div>
+                    <FieldLabel>Visual Theme Variant</FieldLabel>
+                    <Select value={style} onValueChange={(v) => setStyle(v as typeof style)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="VIBRANT_STREET_TECH">Bold &amp; Vibrant</SelectItem>
+                        <SelectItem value="MINIMALIST_CLEAN">Minimal &amp; Clean</SelectItem>
+                        <SelectItem value="BRUTALIST_MODERNIST">Brutalist Modern</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
                 <div className="flex items-start gap-2 rounded-xl bg-orange-50 p-3 text-sm text-[#1E2D4A]">
                   <Sparkles className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
                   <span className="text-xs">Style engine settings affect how your menu page renders to customers in real time.</span>

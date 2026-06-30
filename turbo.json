@@ -4,7 +4,8 @@
   "tasks": {
     "dev": {
       "cache": false,
-      "interactive": false
+      "interactive": true,
+      "persistent": true
     },
     "build": {
       "outputs": ["dist/**", "build/**", ".next/**"],
