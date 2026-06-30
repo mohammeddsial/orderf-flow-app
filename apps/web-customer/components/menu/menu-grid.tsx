@@ -5,14 +5,33 @@ import { ProductCard } from "@/components/shared/product-card"
 import { EmptyState } from "@/components/shared/empty-state"
 import type { DietaryTag } from "@/types"
 import { useMemo } from "react"
+import { cn } from "@/lib/utils"
+
+type CardVariant = "default" | "compact" | "featured" | "listRow" | "overlayPrice"
+
+const VARIANT_MAP: Record<string, CardVariant> = {
+  plainGrid: "default",
+  listRow: "listRow",
+  overlayPrice: "overlayPrice",
+  feature: "featured",
+  qtyRow: "listRow",
+}
+
+export function resolveCardVariant(apiVariant: string | undefined): CardVariant {
+  if (!apiVariant) return "default"
+  return VARIANT_MAP[apiVariant] ?? "default"
+}
 
 type MenuGridProps = {
   searchQuery: string
   activeFilters: DietaryTag[]
   onSelectProduct: (productId: string) => void
+  cardVariant?: string
 }
 
-export function MenuGrid({ searchQuery, activeFilters, onSelectProduct }: MenuGridProps) {
+export function MenuGrid({ searchQuery, activeFilters, onSelectProduct, cardVariant }: MenuGridProps) {
+  const variant = resolveCardVariant(cardVariant)
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       if (searchQuery) {
@@ -51,6 +70,8 @@ export function MenuGrid({ searchQuery, activeFilters, onSelectProduct }: MenuGr
     )
   }
 
+  const isListVariant = variant === "listRow"
+
   return (
     <div className="flex-1 space-y-10 pb-20 lg:pb-0">
       {groupedCategories.map((group) => (
@@ -59,10 +80,18 @@ export function MenuGrid({ searchQuery, activeFilters, onSelectProduct }: MenuGr
             <h2 className="text-lg font-bold tracking-tight">{group.name}</h2>
             <p className="text-sm text-muted-foreground">{group.description}</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div
+            className={cn(
+              isListVariant
+                ? "flex flex-col gap-3"
+                : variant === "featured"
+                  ? "grid grid-cols-1 md:grid-cols-2 gap-4"
+                  : "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3",
+            )}
+          >
             {group.items.map((product) => (
               <div key={product.id} onClick={() => onSelectProduct(product.id)}>
-                <ProductCard product={product} variant="default" />
+                <ProductCard product={product} variant={variant} />
               </div>
             ))}
           </div>

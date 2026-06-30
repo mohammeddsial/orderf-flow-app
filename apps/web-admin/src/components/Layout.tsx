@@ -17,6 +17,7 @@ import {
   Bell,
   Flame,
   Star,
+  Shield,
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -42,6 +43,7 @@ const NAV: NavItem[] = [
   { label: 'Analytics', icon: BarChart3 },
   { label: 'Customers', icon: Users },
   { label: 'Promotions', icon: Tag },
+  { label: 'Super Admin', icon: Shield, to: '/super-admin' },
 ];
 
 const RestaurantSwitcher: React.FC = () => {

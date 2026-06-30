@@ -114,3 +114,90 @@ export type ApiActiveRestaurant = {
 }
 
 export type ApiPageLayouts = Record<string, ApiPageSection[]>
+
+// ---- Deals / Rewards / Stores / User (match server.js shapes) -------------
+
+export type ApiDeal = {
+  id: string
+  title: string
+  description: string
+  image: string
+  discountType: "percentage" | "fixed"
+  discountValue: number
+  code: string
+  minOrder: number
+  expiryDate: string
+  isLimited: boolean
+  remainingCount: number | null
+  applicableProducts: string[]
+}
+
+export type ApiLimitedTimeOffer = {
+  id: string
+  title: string
+  description: string
+  image: string
+  originalPrice: number
+  discountedPrice: number
+  expiryDate: string
+}
+
+export type ApiReward = {
+  id: string
+  name: string
+  description: string
+  image: string
+  pointsCost: number
+  tier: "all" | "silver" | "gold" | "platinum"
+  category: "food" | "drink" | "dessert" | "merchandise" | "delivery"
+}
+
+export type ApiStore = {
+  id: string
+  name: string
+  address: string
+  distance: number
+  isOpen: boolean
+  hours: string
+  kitchenOpenUntil: string
+  acceptingOrders: boolean
+}
+
+export type ApiUser = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  avatar: string
+  points: number
+  tier: "bronze" | "silver" | "gold" | "platinum"
+  tierPointsNeeded: number
+  tierPointsCurrent: number
+  birthday: string
+  savedAddresses: {
+    formatted: string
+    street: string
+    city: string
+    state: string
+    postalCode: string
+    country: string
+    lat: number
+    lng: number
+  }[]
+  savedPayments: {
+    id: string
+    type: "visa" | "mastercard" | "amex" | "apple-pay" | "google-pay" | "interac"
+    lastFour: string
+    expiryDate: string
+    isDefault: boolean
+  }[]
+  pastOrders: {
+    orderId: string
+    items: { productId: string; productName: string; quantity: number }[]
+    total: number
+    placedAt: string
+    isFavourite: boolean
+  }[]
+  dietaryPreferences: string[]
+  allergenAlerts: string[]
+}

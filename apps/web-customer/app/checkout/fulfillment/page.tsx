@@ -25,7 +25,7 @@ export default function FulfillmentPage() {
     setScheduledTime,
     toggleEcoPackaging,
   } = useFulfillmentStore()
-  const stores = useStores()
+  const { data: stores = [] } = useStores()
 
   const [street, setStreet] = useState(fulfillment.address?.street ?? "")
   const [city, setCity] = useState(fulfillment.address?.city ?? "")

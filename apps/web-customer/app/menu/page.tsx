@@ -11,7 +11,7 @@ import { OrderAgainShortcuts } from "@/components/menu/order-again-shortcuts"
 import { CrossSellInjector } from "@/components/menu/cross-sell-injector"
 import { AllergenMatrix } from "@/components/menu/allergen-matrix"
 import { DaypartNotice } from "@/components/menu/daypart-notice"
-import { useProducts, useRestaurantConfig } from "@/lib/mock"
+import { useProducts, useRestaurantConfig, usePageLayouts } from "@/lib/mock"
 import type { DietaryTag } from "@/types"
 
 export default function MenuPage() {
@@ -21,6 +21,9 @@ export default function MenuPage() {
 
   const { restaurantId } = useRestaurantConfig()
   const { data: products = [] } = useProducts(restaurantId)
+  const { data: pageLayouts } = usePageLayouts(restaurantId)
+
+  const gridVariant = pageLayouts?.menu?.find((s) => s.key === "grid")?.cardVariant
 
   const selectedProduct = selectedProductId
     ? products.find((p) => p.id === selectedProductId) ?? null
@@ -64,6 +67,7 @@ export default function MenuPage() {
             searchQuery={searchQuery}
             activeFilters={activeFilters}
             onSelectProduct={handleSelectProduct}
+            cardVariant={gridVariant}
           />
 
           {/* OPTIONAL 10: Smart Cross-Sell Injector */}

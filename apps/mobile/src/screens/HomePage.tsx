@@ -84,19 +84,19 @@ export const HomePage: React.FC<{ navigation: any }> = ({ navigation }) => {
           </Gutter>
         );
       case 'orderAgain':
-        return isGuest ? null : <OrderAgainRail orders={DEMO_REORDERS} onReorder={() => goToMenu()} />;
+        return isGuest ? null : <OrderAgainRail orders={DEMO_REORDERS} onReorder={() => goToMenu()} cardVariant={cardVariant} />;
       case 'recommendations':
         return <Recommendations items={recommended} onSelect={goToProduct} cardVariant={cardVariant} />;
       case 'flashDeal':
         return (
           <Gutter>
-            <FlashCountdown deal={DEMO_FLASH} onClaim={() => goToMenu('Burgers')} />
+            <FlashCountdown deal={DEMO_FLASH} onClaim={() => goToMenu('Burgers')} cardVariant={cardVariant} />
           </Gutter>
         );
       case 'categories':
         return <CategoryTiles onCategory={(cat) => goToMenu(cat)} />;
       case 'featured':
-        return <FeaturedTier item={featured} onSelect={goToProduct} />;
+        return <FeaturedTier item={featured} onSelect={goToProduct} cardVariant={cardVariant} />;
       case 'stories':
         return <StoriesRail stories={DEMO_STORIES} />;
       case 'popular':

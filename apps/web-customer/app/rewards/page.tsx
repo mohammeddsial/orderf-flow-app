@@ -53,8 +53,8 @@ export default function RewardsPage() {
   const progress = (user.tierPointsCurrent / user.tierPointsNeeded) * 100
   const pointsToNext = user.tierPointsNeeded - user.tierPointsCurrent
 
-  const myRewards = useRewards()
-  const deals = useDeals()
+  const { data: myRewards = [] } = useRewards()
+  const { data: deals = [] } = useDeals()
   const groupedRewards = myRewards.filter((r) => {
     if (activeTab === "all") return true
     const points = parseInt(activeTab)

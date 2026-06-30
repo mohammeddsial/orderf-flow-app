@@ -12,6 +12,11 @@ import {
   menuItems as seedItems,
   orders as seedOrders,
   defaultPages as seedPages,
+  deals as seedDeals,
+  limitedTimeOffer as seedLto,
+  rewards as seedRewards,
+  stores as seedStores,
+  user as seedUser,
 } from './data.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,6 +34,11 @@ function seedState() {
     orders: seedOrders.map((o) => ({ ...o })),
     pageLayouts,
     activeRestaurantId: restaurants[0]?.id ?? null,
+    deals: seedDeals.map((d) => ({ ...d })),
+    limitedTimeOffer: { ...seedLto },
+    rewards: seedRewards.map((r) => ({ ...r })),
+    stores: seedStores.map((s) => ({ ...s })),
+    user: { ...seedUser },
   };
 }
 
@@ -42,19 +52,24 @@ function loadState() {
       orders: Array.isArray(db.orders) ? db.orders : seed.orders,
       pageLayouts: db.pageLayouts && typeof db.pageLayouts === 'object' ? db.pageLayouts : seed.pageLayouts,
       activeRestaurantId: typeof db.activeRestaurantId === 'string' ? db.activeRestaurantId : seed.activeRestaurantId,
+      deals: Array.isArray(db.deals) ? db.deals : seed.deals,
+      limitedTimeOffer: db.limitedTimeOffer && typeof db.limitedTimeOffer === 'object' ? db.limitedTimeOffer : seed.limitedTimeOffer,
+      rewards: Array.isArray(db.rewards) ? db.rewards : seed.rewards,
+      stores: Array.isArray(db.stores) ? db.stores : seed.stores,
+      user: db.user && typeof db.user === 'object' ? db.user : seed.user,
     };
   } catch {
     return seedState();
   }
 }
 
-let { restaurants, menuItems, orders, pageLayouts, activeRestaurantId } = loadState();
+let { restaurants, menuItems, orders, pageLayouts, activeRestaurantId, deals, limitedTimeOffer, rewards, stores, user } = loadState();
 
 function persist() {
   try {
     fs.writeFileSync(
       DB_FILE,
-      JSON.stringify({ restaurants, menuItems, orders, pageLayouts, activeRestaurantId }, null, 2)
+      JSON.stringify({ restaurants, menuItems, orders, pageLayouts, activeRestaurantId, deals, limitedTimeOffer, rewards, stores, user }, null, 2)
     );
   } catch (e) {
     console.error('Failed to persist db.json:', e.message);
@@ -189,6 +204,19 @@ api.get('/orders', (req, res) => {
   const r = req.query.restaurantId;
   res.json(r ? orders.filter((o) => o.restaurantId === r) : orders);
 });
+
+// ---- Deals ----------------------------------------------------------------
+api.get('/deals', (_req, res) => res.json(deals));
+api.get('/limited_time_offer', (_req, res) => res.json(limitedTimeOffer));
+
+// ---- Rewards --------------------------------------------------------------
+api.get('/rewards', (_req, res) => res.json(rewards));
+
+// ---- Stores ---------------------------------------------------------------
+api.get('/stores', (_req, res) => res.json(stores));
+
+// ---- User -----------------------------------------------------------------
+api.get('/user', (_req, res) => res.json(user));
 
 // ---- Mobile page layouts (per restaurant, per page) ----------------------
 api.get('/restaurants/:id/pages', (req, res) => {

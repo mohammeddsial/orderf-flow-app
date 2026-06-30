@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useTheme } from '../theme';
+import { cardChrome, type EngineId } from '../components/home/engineStyle';
 
 const ICONS: Record<string, { name: keyof typeof Ionicons.glyphMap; size: number }> = {
   Home: { name: 'home', size: 24 },
@@ -36,8 +37,15 @@ const AnimatedIcon: React.FC<{
 
 // Rounded floating bottom bar with an elevated center star button.
 export const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   const insets = useSafeAreaInsets();
+
+  const tabRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : 26;
+  const centerButtonRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : 29;
+  const tabShadow = engine === 'VIBRANT_STREET_TECH'
+    ? { shadowColor: tokens.colors.secondary, shadowOpacity: 0.5, shadowRadius: 16, shadowOffset: { width: 0, height: -4 }, elevation: 16 }
+    : { shadowColor: '#000000', shadowOpacity: 0.12, shadowRadius: 16, shadowOffset: { width: 0, height: -4 }, elevation: 16 };
 
   return (
     <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
@@ -47,16 +55,13 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation })
           alignItems: 'center',
           justifyContent: 'space-around',
           backgroundColor: tokens.colors.surface,
-          borderTopLeftRadius: 26,
-          borderTopRightRadius: 26,
+          borderTopLeftRadius: tabRadius,
+          borderTopRightRadius: tabRadius,
           paddingTop: 12,
           paddingBottom: insets.bottom + 8,
           height: 66 + insets.bottom,
-          shadowColor: '#000000',
-          shadowOpacity: 0.12,
-          shadowRadius: 16,
-          shadowOffset: { width: 0, height: -4 },
-          elevation: 16,
+          ...(engine === 'BRUTALIST_MODERNIST' ? { borderTopWidth: tokens.borders.widthThick, borderTopColor: tokens.colors.border } : {}),
+          ...tabShadow,
         }}
       >
         {state.routes.map((route, index) => {

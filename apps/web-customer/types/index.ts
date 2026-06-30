@@ -220,6 +220,27 @@ export type Reward = {
   category: "food" | "drink" | "dessert" | "merchandise" | "delivery"
 }
 
+export type LimitedTimeOffer = {
+  id: string
+  title: string
+  description: string
+  image: string
+  originalPrice: number
+  discountedPrice: number
+  expiryDate: string
+}
+
+export type Store = {
+  id: string
+  name: string
+  address: string
+  distance: number
+  isOpen: boolean
+  hours: string
+  kitchenOpenUntil: string
+  acceptingOrders: boolean
+}
+
 export type Review = {
   id: string
   orderId: string

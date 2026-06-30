@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Providers } from "@/components/providers"
+import { RestaurantThemeProvider } from "@/components/restaurant-theme-provider"
 import { GlobalHeader } from "@/components/layout/global-header"
 import { MiniCart } from "@/components/layout/mini-cart"
 import { ActiveOrderTracker } from "@/components/layout/active-order-tracker"
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Providers>
+            <RestaurantThemeProvider />
             <div className="flex min-h-screen flex-col">
               <GlobalHeader />
               <ActiveOrderTracker />

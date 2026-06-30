@@ -1,19 +1,29 @@
 import type {
+  ApiDeal,
+  ApiLimitedTimeOffer,
   ApiMenuItem,
   ApiModifierGroup,
   ApiModifierOption,
   ApiOrder,
   ApiRestaurant,
+  ApiReward,
+  ApiStore,
+  ApiUser,
 } from "./client"
 import type {
   Category,
   Deal,
+  LimitedTimeOffer,
   Order,
   OrderStatus,
   Product,
   Reward,
+  Store,
+  User,
 } from "@/types"
 import { getProductImages } from "@/lib/images"
+
+import type { UiEngine } from "@/lib/engines"
 
 // ---- Restaurant → design tokens -------------------------------------------
 
@@ -21,7 +31,7 @@ export type RestaurantConfig = {
   id: string
   name: string
   logoUrl: string
-  activeUiStyle: string
+  activeUiStyle: UiEngine
   primaryColor: string
   secondaryColor: string
   backgroundColor: string
@@ -31,12 +41,25 @@ export type RestaurantConfig = {
   borderRadiusType: string
 }
 
+const DEFAULT_ENGINE: UiEngine = "MINIMALIST_CLEAN"
+
+function normalizeEngine(style: string | undefined): UiEngine {
+  if (
+    style === "BRUTALIST_MODERNIST" ||
+    style === "MINIMALIST_CLEAN" ||
+    style === "VIBRANT_STREET_TECH"
+  ) {
+    return style
+  }
+  return DEFAULT_ENGINE
+}
+
 export function adaptRestaurant(r: ApiRestaurant): RestaurantConfig {
   return {
     id: r.id,
     name: r.name,
     logoUrl: r.logoUrl,
-    activeUiStyle: r.activeUiStyle,
+    activeUiStyle: normalizeEngine(r.activeUiStyle),
     primaryColor: r.primaryColor,
     secondaryColor: r.secondaryColor,
     backgroundColor: r.backgroundColor,
@@ -161,13 +184,34 @@ const STATUS_MAP: Record<string, OrderStatus> = {
   PICKED_UP: "picked-up",
 }
 
-export function adaptOrder(o: ApiOrder): Partial<Order> {
+export function adaptOrder(o: ApiOrder): Order {
   return {
     id: o.id,
     status: STATUS_MAP[o.status] || "preparing",
+    items: [],
+    subtotal: o.total,
+    deliveryFee: 0,
+    serviceFee: 0,
+    tax: 0,
+    tip: null,
+    tipPercentage: null,
+    discount: 0,
     total: o.total,
-    estimatedDelivery: o.eta,
+    fulfillment: {
+      mode: "delivery",
+      pickupStoreId: null,
+      address: null,
+      dropOffInstructions: "",
+      dropOffOption: "leave-at-door",
+      entryBuzzerCode: "",
+      scheduledTime: null,
+      ecoPackaging: false,
+    },
+    couponCode: null,
+    rewardsApplied: 0,
+    carbonOffset: false,
     placedAt: new Date().toISOString(),
+    estimatedDelivery: o.eta,
     driver: {
       id: o.id,
       name: o.driver,
@@ -177,6 +221,39 @@ export function adaptOrder(o: ApiOrder): Partial<Order> {
       lat: 0,
       lng: 0,
     },
+    tracking: [],
+  }
+}
+
+// ---- Deals -----------------------------------------------------------------
+
+export function adaptDeal(d: ApiDeal): Deal {
+  return { ...d }
+}
+
+export function adaptLimitedTimeOffer(lto: ApiLimitedTimeOffer): LimitedTimeOffer {
+  return { ...lto }
+}
+
+// ---- Rewards ---------------------------------------------------------------
+
+export function adaptReward(r: ApiReward): Reward {
+  return { ...r }
+}
+
+// ---- Stores ----------------------------------------------------------------
+
+export function adaptStore(s: ApiStore): Store {
+  return { ...s }
+}
+
+// ---- User ------------------------------------------------------------------
+
+export function adaptUser(u: ApiUser): User {
+  return {
+    ...u,
+    dietaryPreferences: u.dietaryPreferences as User["dietaryPreferences"],
+    allergenAlerts: u.allergenAlerts as User["allergenAlerts"],
   }
 }
 

@@ -1,17 +1,196 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
+import { useCurrentUser, useTenant, useOrders } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
-import { useTenant } from '@multi-restaurant/database';
+import { ScreenLayout, Card, Heading, BodyText, Button, SolidHeader } from '../components/Layout';
+import { getPlaceholderImage } from '@multi-restaurant/database';
 
-export const ProfilePage: React.FC = () => {
-  const { tokens } = useTheme();
+export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { tokens, engineStyle } = useTheme();
+  const user = useCurrentUser();
   const tenant = useTenant();
+  const orders = useOrders();
+
+  if (!user) {
+    return (
+      <>
+        <SolidHeader title="Profile" onBackPress={() => navigation.navigate('Home')} />
+        <ScreenLayout scrollable>
+          <Card padding={tokens.spacing.xl}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 56, marginBottom: tokens.spacing.md }}>👤</Text>
+              <Heading level={3}>Not signed in</Heading>
+              <BodyText color={tokens.colors.textDisabled} marginBottom={tokens.spacing.lg}>
+                Sign in to view your profile
+              </BodyText>
+              <Button label="Sign In" onPress={() => {}} />
+            </View>
+          </Card>
+        </ScreenLayout>
+      </>
+    );
+  }
+
+  const recentOrders = orders.slice(0, 3);
+  const tierColor = user.loyaltyProfile?.tier === 'GOLD' ? '#FFD700' : user.loyaltyProfile?.tier === 'SILVER' ? '#C0C0C0' : '#CD7F32';
+
+  const menuItems = [
+    { key: 'orders', label: 'Order History', icon: '📋' },
+    { key: 'addresses', label: 'Saved Addresses', icon: '📍' },
+    { key: 'payments', label: 'Payment Methods', icon: '💳' },
+    { key: 'dietary', label: 'Dietary Preferences', icon: '🥗' },
+    { key: 'help', label: 'Help & Support', icon: '❓' },
+    { key: 'settings', label: 'Settings', icon: '⚙️' },
+  ];
+
   return (
-    <View style={{ flex: 1, backgroundColor: tokens.colors.background, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <Text style={{ fontSize: 56 }}>👤</Text>
-      <Text style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeXl, color: tokens.colors.text, marginTop: 8 }}>Your Profile</Text>
-      <Text style={{ color: tokens.colors.textDisabled, marginTop: 4 }}>{tenant.name} member</Text>
-    </View>
+    <>
+      <SolidHeader title="Profile" onBackPress={() => navigation.navigate('Home')} />
+      <ScreenLayout scrollable paddingHorizontal={tokens.spacing.lg}>
+        {/* Profile header */}
+        <Card marginBottom={tokens.spacing.lg} shadow>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: tokens.spacing.lg }}>
+            <View
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 32,
+                backgroundColor: tokens.colors.primary,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: tokens.spacing.md,
+              }}
+            >
+              <Text style={{ fontSize: 28, color: tokens.colors.textInverse, fontWeight: '900' }}>
+                {user.name?.charAt(0)?.toUpperCase() ?? '?'}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Heading level={3} marginBottom={2}>
+                {user.name}
+              </Heading>
+              <BodyText size="sm" color={tokens.colors.textDisabled}>
+                {user.email}
+              </BodyText>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: tokens.spacing.xs }}>
+                <View
+                  style={{
+                    backgroundColor: tierColor,
+                    paddingHorizontal: tokens.spacing.sm,
+                    paddingVertical: 2,
+                    borderRadius: 4,
+                    marginRight: tokens.spacing.sm,
+                  }}
+                >
+                  <Text style={{ color: '#fff', fontWeight: '900', fontSize: 10 }}>
+                    {user.loyaltyProfile?.tier ?? 'BRONZE'}
+                  </Text>
+                </View>
+                <BodyText size="sm" color={tokens.colors.accent}>
+                  {user.loyaltyProfile?.pointsBalance ?? 0} pts
+                </BodyText>
+              </View>
+            </View>
+          </View>
+        </Card>
+
+        {/* Loyalty summary */}
+        <Card marginBottom={tokens.spacing.lg} padding={tokens.spacing.lg}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View>
+              <BodyText size="sm" color={tokens.colors.textDisabled}>
+                Loyalty Points
+              </BodyText>
+              <Heading level={2} marginBottom={tokens.spacing.xs}>
+                {user.loyaltyProfile?.pointsBalance ?? 0}
+              </Heading>
+              <BodyText size="sm" color={tokens.colors.accent}>
+                {tenant.name} member
+              </BodyText>
+            </View>
+            <Button
+              label="View Rewards"
+              onPress={() => navigation.navigate('Rewards')}
+              size="sm"
+              variant="outline"
+            />
+          </View>
+        </Card>
+
+        {/* Recent orders */}
+        {recentOrders.length > 0 && (
+          <>
+            <Heading level={3} marginBottom={tokens.spacing.md}>
+              Recent Orders
+            </Heading>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: tokens.spacing.md, marginBottom: tokens.spacing.lg }}
+            >
+              {recentOrders.map((order: any) => (
+                <Pressable
+                  key={order.id}
+                  onPress={() => navigation.navigate('OrderSuccess', { orderId: order.id })}
+                  style={{
+                    width: 220,
+                    padding: tokens.spacing.md,
+                    backgroundColor: tokens.colors.surface,
+                    borderRadius: tokens.borders.radiusMd,
+                    borderWidth: 1,
+                    borderColor: tokens.colors.borderLight,
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: tokens.spacing.sm }}>
+                    <Text style={{ fontSize: 24, marginRight: tokens.spacing.sm }}>🍔</Text>
+                    <View style={{ flex: 1 }}>
+                      <Heading level={4}>{order.id}</Heading>
+                      <BodyText size="sm" color={tokens.colors.textDisabled}>
+                        ${order.total?.toFixed(2) ?? '0.00'}
+                      </BodyText>
+                    </View>
+                  </View>
+                  <BodyText size="sm" color={tokens.colors.textDisabled} numberOfLines={1}>
+                    {order.items?.length ?? 0} items • {order.status}
+                  </BodyText>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </>
+        )}
+
+        {/* Menu list */}
+        <Heading level={3} marginBottom={tokens.spacing.md}>
+          Account
+        </Heading>
+        {menuItems.map((item) => (
+          <Pressable
+            key={item.key}
+            onPress={() => {
+              if (item.key === 'orders') navigation.navigate('OrderSuccess');
+              if (item.key === 'addresses') navigation.navigate('Rewards');
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingVertical: tokens.spacing.md,
+              paddingHorizontal: tokens.spacing.md,
+              backgroundColor: tokens.colors.surface,
+              borderRadius: tokens.borders.radiusMd,
+              borderWidth: 1,
+              borderColor: tokens.colors.borderLight,
+              marginBottom: tokens.spacing.sm,
+            }}
+          >
+            <Text style={{ fontSize: 22, marginRight: tokens.spacing.md }}>{item.icon}</Text>
+            <BodyText style={{ flex: 1 }}>{item.label}</BodyText>
+            <Text style={{ color: tokens.colors.textDisabled, fontSize: 20 }}>›</Text>
+          </Pressable>
+        ))}
+
+        <View style={{ height: 40 }} />
+      </ScreenLayout>
+    </>
   );
 };
 

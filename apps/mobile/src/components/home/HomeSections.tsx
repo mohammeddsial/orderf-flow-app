@@ -225,11 +225,72 @@ export const LoyaltyCard: React.FC<{
 export const OrderAgainRail: React.FC<{
   orders: ReorderCard[];
   onReorder: (id: string) => void;
-}> = ({ orders, onReorder }) => {
+  cardVariant?: string;
+}> = ({ orders, onReorder, cardVariant }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   if (orders.length === 0) return null;
 
+  // cardVariant override: plainGrid renders a 2-column grid instead of horizontal rail
+  if (cardVariant === 'plainGrid') {
+    return (
+      <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Order Again" />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.sm }}>
+          {orders.map((o) => (
+            <View key={o.id} style={{ width: '48%', padding: tokens.spacing.sm, ...cardChrome(tokens, engine) }}>
+              <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeSm, marginBottom: 2 }} numberOfLines={1}>{o.title}</Text>
+              <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeXs, marginBottom: tokens.spacing.xs }}>{o.itemCount} items • ${o.total.toFixed(2)}</Text>
+              <Pressable
+                onPress={() => onReorder(o.id)}
+                style={{ alignItems: 'center', paddingVertical: tokens.spacing.xs, backgroundColor: tokens.colors.primary, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}
+              >
+                <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeXs }}>Reorder</Text>
+              </Pressable>
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  }
+
+  // cardVariant override: overlayPrice renders image with price overlay
+  if (cardVariant === 'overlayPrice') {
+    return (
+      <View style={{ marginBottom: tokens.spacing.lg }}>
+        <View style={{ paddingHorizontal: tokens.spacing.md }}>
+          <SectionHeader title="Order Again" />
+        </View>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}
+        >
+          {orders.map((o) => (
+            <View key={o.id} style={{ width: SCREEN_W * 0.55, overflow: 'hidden', ...cardChrome(tokens, engine) }}>
+              <View style={{ height: 80, backgroundColor: tokens.colors.surfaceInverse, justifyContent: 'flex-end', padding: tokens.spacing.sm }}>
+                <View style={{ position: 'absolute', top: tokens.spacing.xs, right: tokens.spacing.xs, backgroundColor: tokens.colors.primary, paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}>
+                  <Text style={{ color: tokens.colors.textInverse, fontWeight: '900', fontSize: tokens.typography.fontSizeXs }}>${o.total.toFixed(2)}</Text>
+                </View>
+                <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: tokens.typography.fontSizeSm }} numberOfLines={1}>{o.title}</Text>
+              </View>
+              <View style={{ padding: tokens.spacing.sm }}>
+                <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeXs, marginBottom: tokens.spacing.xs }}>{o.itemCount} items</Text>
+                <Pressable
+                  onPress={() => onReorder(o.id)}
+                  style={{ alignItems: 'center', paddingVertical: tokens.spacing.xs, backgroundColor: tokens.colors.primary, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}
+                >
+                  <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeXs }}>Reorder</Text>
+                </Pressable>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
+    );
+  }
+
+  // Default: horizontal rail of order cards
   return (
     <View style={{ marginBottom: tokens.spacing.lg }}>
       <View style={{ paddingHorizontal: tokens.spacing.md }}>
@@ -473,7 +534,7 @@ export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({
 // 7. Featured / seasonal tier (large card)
 // ---------------------------------------------------------------------------
 
-export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void }> = ({ item, onSelect }) => {
+export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void; cardVariant?: string }> = ({ item, onSelect, cardVariant }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const layout = layoutConfig(engine);
@@ -481,6 +542,42 @@ export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) =>
 
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
   const imgRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd;
+
+  // cardVariant override: listRow renders a compact horizontal row
+  if (cardVariant === 'listRow') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Chef's Featured" />
+        <Pressable onPress={() => onSelect(item.id)} style={{ flexDirection: 'row', overflow: 'hidden', ...cardChrome(tokens, engine) }}>
+          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: 100, height: 100, backgroundColor: tokens.colors.surfaceInverse }} />
+          <View style={{ flex: 1, padding: tokens.spacing.md, justifyContent: 'center' }}>
+            <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeMd, marginBottom: 2 }}>{item.title}</Text>
+            <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.xs }} numberOfLines={1}>{item.description}</Text>
+            <Text style={{ color: tokens.colors.accent, fontWeight: '700' }}>${item.basePrice.toFixed(2)}</Text>
+          </View>
+        </Pressable>
+      </View>
+    );
+  }
+
+  // cardVariant override: overlayPrice renders price pill on the image
+  if (cardVariant === 'overlayPrice') {
+    return (
+      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+        <SectionHeader title="Chef's Featured" />
+        <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
+          <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 180, justifyContent: 'flex-end' }}>
+            <View style={{ position: 'absolute', top: tokens.spacing.sm, right: tokens.spacing.sm, backgroundColor: tokens.colors.primary, paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}>
+              <Text style={{ color: tokens.colors.textInverse, fontWeight: '900', fontSize: tokens.typography.fontSizeSm }}>${item.basePrice.toFixed(2)}</Text>
+            </View>
+            <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: tokens.spacing.md }}>
+              <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: tokens.typography.fontSizeLg }}>{item.title}</Text>
+            </View>
+          </ImageBackground>
+        </Pressable>
+      </View>
+    );
+  }
 
   // Overlay (Vibrant) — text overlaid on the image with a dark scrim
   if (layout.featuredCardStyle === 'overlay') {

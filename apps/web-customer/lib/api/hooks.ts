@@ -1,9 +1,32 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { apiFetch, type ApiMenuItem, type ApiOrder, type ApiPageLayouts, type ApiRestaurant } from "./client"
-import { adaptProduct, adaptRestaurant, deriveCategories, type RestaurantConfig } from "./adapter"
-import type { Category, Deal, Product, Reward } from "@/types"
+import {
+  apiFetch,
+  type ApiDeal,
+  type ApiLimitedTimeOffer,
+  type ApiMenuItem,
+  type ApiOrder,
+  type ApiPageLayouts,
+  type ApiRestaurant,
+  type ApiReward,
+  type ApiStore,
+  type ApiUser,
+} from "./client"
+import {
+  adaptDeal,
+  adaptLimitedTimeOffer,
+  adaptOrder,
+  adaptProduct,
+  adaptRestaurant,
+  adaptReward,
+  adaptStore,
+  adaptUser,
+  deriveCategories,
+  withFallback,
+  type RestaurantConfig,
+} from "./adapter"
+import type { Category, Deal, LimitedTimeOffer, Product, Reward, Store, User } from "@/types"
 import {
   activeDeals,
   limitedTimeOffer,
@@ -22,6 +45,11 @@ export const queryKeys = {
   menuItems: (restaurantId: string) => ["menu-items", restaurantId] as const,
   pageLayouts: (restaurantId: string) => ["page-layouts", restaurantId] as const,
   orders: (restaurantId: string) => ["orders", restaurantId] as const,
+  deals: ["deals"] as const,
+  limitedTimeOffer: ["limited-time-offer"] as const,
+  rewards: ["rewards"] as const,
+  stores: ["stores"] as const,
+  user: ["user"] as const,
 }
 
 // ---- Active restaurant ----------------------------------------------------
@@ -99,32 +127,67 @@ export function useCategories(restaurantId: string | undefined) {
   })
 }
 
-// ---- Deals (mock fallback — API has no deals endpoint yet) ----------------
+// ---- Deals -----------------------------------------------------------------
 
-export function useDeals(): Deal[] {
-  return activeDeals
+export function useDeals() {
+  return useQuery({
+    queryKey: queryKeys.deals,
+    queryFn: async () => {
+      const data = await apiFetch<ApiDeal[]>("/deals")
+      return withFallback(data, activeDeals).map(adaptDeal)
+    },
+    initialData: activeDeals,
+  })
 }
 
 export function useLimitedTimeOffer() {
-  return limitedTimeOffer
+  return useQuery({
+    queryKey: queryKeys.limitedTimeOffer,
+    queryFn: async () => {
+      const data = await apiFetch<ApiLimitedTimeOffer>("/limited_time_offer")
+      return adaptLimitedTimeOffer(withFallback(data, limitedTimeOffer))
+    },
+    initialData: limitedTimeOffer,
+  })
 }
 
-// ---- Rewards (mock fallback — API has no rewards endpoint yet) -------------
+// ---- Rewards ---------------------------------------------------------------
 
-export function useRewards(): Reward[] {
-  return rewards
+export function useRewards() {
+  return useQuery({
+    queryKey: queryKeys.rewards,
+    queryFn: async () => {
+      const data = await apiFetch<ApiReward[]>("/rewards")
+      return withFallback(data, rewards).map(adaptReward)
+    },
+    initialData: rewards,
+  })
 }
 
-// ---- Stores (mock fallback — API has no stores endpoint yet) ---------------
+// ---- Stores ----------------------------------------------------------------
 
 export function useStores() {
-  return stores
+  return useQuery({
+    queryKey: queryKeys.stores,
+    queryFn: async () => {
+      const data = await apiFetch<ApiStore[]>("/stores")
+      return withFallback(data, stores).map(adaptStore)
+    },
+    initialData: stores,
+  })
 }
 
-// ---- User (mock fallback — API has no user endpoint yet) ------------------
+// ---- User ------------------------------------------------------------------
 
 export function useUser() {
-  return mockUser
+  return useQuery({
+    queryKey: queryKeys.user,
+    queryFn: async () => {
+      const data = await apiFetch<ApiUser>("/user")
+      return adaptUser(withFallback(data, mockUser))
+    },
+    initialData: mockUser,
+  })
 }
 
 // ---- Orders ---------------------------------------------------------------
@@ -185,9 +248,30 @@ export function useNewProducts(): Product[] {
 }
 
 export function useActiveOrder() {
-  return activeOrder
+  return useQuery({
+    queryKey: ["active-order"],
+    queryFn: async () => {
+      const data = await apiFetch<ApiOrder[]>("/orders")
+      const active = data.find(
+        (o) => !["DELIVERED", "PICKED_UP"].includes(o.status),
+      )
+      return active ? adaptOrder(active) : activeOrder
+    },
+    initialData: activeOrder,
+  })
 }
 
 export function useRecentOrders() {
-  return recentOrders
+  return useQuery({
+    queryKey: ["recent-orders"],
+    queryFn: async () => {
+      const data = await apiFetch<ApiOrder[]>("/orders")
+      const delivered = data.filter((o) =>
+        ["DELIVERED", "PICKED_UP"].includes(o.status),
+      )
+      const adapted = delivered.map(adaptOrder)
+      return withFallback(adapted, recentOrders)
+    },
+    initialData: recentOrders,
+  })
 }
