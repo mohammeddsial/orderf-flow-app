@@ -32,22 +32,22 @@ if ($missing) {
 Write-Host "All folders found. Launching terminals..." -ForegroundColor Green
 
 # 1. Mobile (Expo) - QR code will show
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'MOBILE (Expo)'; Write-Host 'Starting MOBILE...' -ForegroundColor Cyan; cd 'apps/mobile'; npx expo start --web --port 8081"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'MOBILE (Expo)'; Write-Host 'Starting MOBILE...' -ForegroundColor Cyan; cd 'apps/mobile'; npx expo start --web --port 8081"
 
 # 2. Customer Web
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB CUSTOMER'; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor Cyan; cd 'apps/web-customer'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB CUSTOMER'; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor Cyan; cd 'apps/web-customer'; npm run dev"
 
 # 3. Admin Panel
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB ADMIN'; Write-Host 'Starting WEB ADMIN...' -ForegroundColor Cyan; cd 'apps/web-admin'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB ADMIN'; Write-Host 'Starting WEB ADMIN...' -ForegroundColor Cyan; cd 'apps/web-admin'; npm run dev"
 
 # 4. Restaurant Web
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB RESTAURANT'; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor Cyan; cd 'apps/web-restaurant'; npm run dev"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB RESTAURANT'; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor Cyan; cd 'apps/web-restaurant'; npm run dev"
 
-# 5. API - Running server.js directly with nodemon for auto-restart
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'API (server.js)'; Write-Host 'Starting API...' -ForegroundColor Cyan; cd 'apps/api'; npx nodemon server.js"
+# 5. API - Running server.js
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'API (server.js)'; Write-Host 'Starting API...' -ForegroundColor Cyan; cd 'apps/api'; node server.js"
 
 # 6. Database - watch mode
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'DATABASE'; Write-Host 'Starting DATABASE...' -ForegroundColor Cyan; cd 'packages/database'; npm run build -- --watch"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'DATABASE'; Write-Host 'Starting DATABASE...' -ForegroundColor Cyan; cd 'packages/database'; npm run build -- --watch"
 
 Write-Host ""
 Write-Host "All 6 services launched!" -ForegroundColor Green

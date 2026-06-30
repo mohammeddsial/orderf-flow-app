@@ -159,13 +159,13 @@ export const HomePage: React.FC<{ navigation: any }> = ({ navigation }) => {
         tenantLocation={tenant.name}
         onNavigate={(key) => {
           if (key === 'rewards') navigation.navigate('Rewards');
-          if (key === 'orders') navigation.navigate('OrderSuccess');
+          if (key === 'orders') navigation.navigate('OrderTracking', { orderId: DEMO_ACTIVE_ORDER.id });
         }}
       />
 
       {/* Floating active-order tracker */}
       {liveOn ? (
-        <ActiveTracker order={DEMO_ACTIVE_ORDER} onTrack={() => navigation.navigate('OrderSuccess')} />
+        <ActiveTracker order={DEMO_ACTIVE_ORDER} onTrack={() => navigation.navigate('OrderTracking', { orderId: DEMO_ACTIVE_ORDER.id })} />
       ) : null}
 
       {/* Demo controls — engine switcher + module toggles */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useOrderById, useUpdateOrderStatus } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
-import { ScreenLayout, Card, Heading, BodyText } from '../components/Layout';
+import { ScreenLayout, Card, Heading, BodyText, Button } from '../components/Layout';
 import { Icon } from '../components/shared/Icon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -146,6 +146,12 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
             Live tracking will appear here
           </BodyText>
         </View>
+
+        <Button
+          label="Track Order"
+          onPress={() => navigation.navigate('OrderTracking', { orderId })}
+          size="lg"
+        />
 
         <Card marginBottom={tokens.spacing.lg} shadow>
           <View style={{ alignItems: 'center', marginBottom: tokens.spacing.lg }}>

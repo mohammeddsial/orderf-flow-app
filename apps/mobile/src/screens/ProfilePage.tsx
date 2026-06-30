@@ -133,7 +133,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
               {recentOrders.map((order: any) => (
                 <Pressable
                   key={order.id}
-                  onPress={() => navigation.navigate('OrderSuccess', { orderId: order.id })}
+                  onPress={() => navigation.navigate('OrderTracking', { orderId: order.id })}
                   style={{
                     width: 220,
                     padding: tokens.spacing.md,
@@ -169,7 +169,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Pressable
             key={item.key}
             onPress={() => {
-              if (item.key === 'orders') navigation.navigate('OrderSuccess');
+              if (item.key === 'orders') navigation.navigate('HomeScreen');
               if (item.key === 'addresses') navigation.navigate('Rewards');
             }}
             style={{

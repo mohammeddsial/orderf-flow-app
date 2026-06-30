@@ -12,6 +12,7 @@ import UpsellPage from '../screens/UpsellPage';
 import CheckoutPage from '../screens/CheckoutPage';
 import DeliveryConfigPage from '../screens/DeliveryConfigPage';
 import OrderSuccessPage from '../screens/OrderSuccessPage';
+import OrderTrackingPage from '../screens/OrderTrackingPage';
 import RewardsPage from '../screens/RewardsPage';
 import ReviewPage from '../screens/ReviewPage';
 import ProfilePage from '../screens/ProfilePage';
@@ -38,6 +39,7 @@ const HomeStackNavigator = () => (
     <HomeStack.Screen name="ProductDetail" component={ProductDetailPage} />
     <HomeStack.Screen name="Rewards" component={RewardsPage} />
     <HomeStack.Screen name="Review" component={ReviewPage} />
+    <HomeStack.Screen name="OrderTracking" component={OrderTrackingPage} />
   </HomeStack.Navigator>
 );
 
@@ -77,6 +79,7 @@ const CheckoutStackNavigator = () => (
       component={OrderSuccessPage}
       options={{ gestureEnabled: false }}
     />
+    <CheckoutStack.Screen name="OrderTracking" component={OrderTrackingPage} />
   </CheckoutStack.Navigator>
 );
 

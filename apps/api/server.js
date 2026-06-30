@@ -205,6 +205,58 @@ api.get('/orders', (req, res) => {
   res.json(r ? orders.filter((o) => o.restaurantId === r) : orders);
 });
 
+api.post('/orders', (req, res) => {
+  const body = req.body || {};
+  const created = {
+    id: rid('ORD'),
+    userId: body.userId || 'guest',
+    restaurantId: body.restaurantId || restaurants[0]?.id || 'tenant-burgerbliss',
+    customer: body.customer || 'Guest',
+    status: 'CONFIRMED',
+    eta: body.estimatedDeliveryTime ? `${body.estimatedDeliveryTime} min` : '35 min',
+    driver: null,
+    rating: null,
+    items: Array.isArray(body.items) ? body.items.map((i) => ({
+      id: rid('oi'),
+      menuItemId: i.menuItemId,
+      title: i.title ?? 'Item',
+      quantity: i.quantity ?? 1,
+      itemTotal: i.itemTotal ?? 0,
+      modifierSelections: i.modifierSelections ?? [],
+      specialInstructions: i.specialInstructions ?? '',
+    })) : [],
+    subtotal: body.subtotal ?? 0,
+    taxes: body.taxes ?? 0,
+    deliveryFee: body.deliveryFee ?? 0,
+    discountAmount: body.discountAmount ?? 0,
+    tip: body.tip ?? 0,
+    total: body.total ?? (body.subtotal ?? 0) + (body.taxes ?? 0) + (body.deliveryFee ?? 0) + (body.tip ?? 0),
+    fulfillmentMode: body.fulfillmentMode || 'DELIVERY',
+    estimatedDeliveryTime: body.estimatedDeliveryTime ?? 35,
+    deliveryAddress: body.deliveryAddress || '',
+    paymentMethod: body.paymentMethod || 'card',
+    createdAt: now(),
+    updatedAt: now(),
+  };
+  orders.push(created);
+  persist();
+  res.status(201).json(created);
+});
+
+api.get('/orders/:id', (req, res) => {
+  const found = orders.find((o) => o.id === req.params.id);
+  if (!found) return res.status(404).json({ error: 'Not found' });
+  res.json(found);
+});
+
+api.patch('/orders/:id', (req, res) => {
+  const idx = orders.findIndex((o) => o.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Not found' });
+  orders[idx] = { ...orders[idx], ...req.body, id: orders[idx].id, updatedAt: now() };
+  persist();
+  res.json(orders[idx]);
+});
+
 // ---- Deals ----------------------------------------------------------------
 api.get('/deals', (_req, res) => res.json(deals));
 api.get('/limited_time_offer', (_req, res) => res.json(limitedTimeOffer));
