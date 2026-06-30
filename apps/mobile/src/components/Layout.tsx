@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Pressable, Image, Platform } from 'react-native
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { cardChrome, pillChrome, sectionTitleStyle, type EngineId } from './home/engineStyle';
+import { AnimatedPressable } from './shared/AnimatedPressable';
 
 interface LayoutProps {
   children: ReactNode;
@@ -261,7 +262,7 @@ export const Card: React.FC<CardProps> = ({
   const chrome = cardChrome(tokens, engine);
 
   return (
-    <Pressable
+    <AnimatedPressable
       onPress={onPress}
       disabled={!onPress}
       style={{
@@ -282,7 +283,7 @@ export const Card: React.FC<CardProps> = ({
       }}
     >
       {children}
-    </Pressable>
+    </AnimatedPressable>
   );
 };
 

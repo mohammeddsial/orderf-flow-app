@@ -29,6 +29,7 @@ import {
 } from '../components/home';
 import { ImageMosaic, MealDealCombo } from '../components/home';
 import { ItemCard } from '../components/home/cards';
+import { ScrollReveal } from '../components/shared/ScrollReveal';
 
 // The Home screen renders sections according to the layout configured in the
 // web-admin "Home Layout" page (fetched on launch, with an offline default).
@@ -129,8 +130,10 @@ export const HomePage: React.FC<{ navigation: any }> = ({ navigation }) => {
       <ScreenLayout scrollable paddingHorizontal={0}>
         {sections
           .filter((s) => s.enabled)
-          .map((s) => (
-            <React.Fragment key={s.key}>{renderSection(s.key, s.cardVariant)}</React.Fragment>
+          .map((s, i) => (
+            <ScrollReveal key={s.key} index={i}>
+              {renderSection(s.key, s.cardVariant)}
+            </ScrollReveal>
           ))}
         <View style={{ height: 140 }} />
       </ScreenLayout>
