@@ -37,6 +37,9 @@ const ICON_MAP: Record<string, IconName> = {
   mapPin: 'location-outline',
   store: 'storefront-outline',
 
+  // Security
+  lock: 'lock-closed-outline',
+
   // Misc
   bell: 'notifications-outline',
   chart: 'bar-chart-outline',

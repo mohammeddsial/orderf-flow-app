@@ -55,7 +55,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
       </Pressable>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ fontSize: 14, marginRight: tokens.spacing.sm }}>🔒</Text>
+        <Icon name="lock" size={14} color={tokens.colors.textInverse} />
         <Heading level={3} marginBottom={0}>
           Secure Checkout
         </Heading>
@@ -165,7 +165,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           padding={tokens.spacing.md}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, marginRight: tokens.spacing.sm }}>✓</Text>
+            <Icon name="checkmark" size={18} color={tokens.colors.textInverse} />
             <View>
               <BodyText size="sm" color={tokens.colors.textInverse} marginBottom={tokens.spacing.xs}>
                 SSL Encrypted Connection
@@ -364,7 +364,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         )}
 
         <Button
-          label={`🔒 Place Order • $${total.toFixed(2)}`}
+          label={`Place Order • $${total.toFixed(2)}`}
           onPress={handlePlaceOrder}
           disabled={loading}
           size="lg"
