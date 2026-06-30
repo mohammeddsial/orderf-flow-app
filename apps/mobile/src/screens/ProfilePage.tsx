@@ -169,8 +169,8 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
           <Pressable
             key={item.key}
             onPress={() => {
-              if (item.key === 'orders') navigation.navigate('HomeScreen');
-              if (item.key === 'addresses') navigation.navigate('Rewards');
+              if (item.key === 'orders') navigation.navigate('OrderHistory');
+              if (item.key === 'addresses') navigation.navigate('AddressPage');
             }}
             style={{
               flexDirection: 'row',

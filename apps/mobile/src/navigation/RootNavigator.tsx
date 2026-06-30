@@ -16,6 +16,9 @@ import OrderTrackingPage from '../screens/OrderTrackingPage';
 import RewardsPage from '../screens/RewardsPage';
 import ReviewPage from '../screens/ReviewPage';
 import ProfilePage from '../screens/ProfilePage';
+import SearchPage from '../screens/SearchPage';
+import OrderHistoryPage from '../screens/OrderHistoryPage';
+import AddressPage from '../screens/AddressPage';
 import PromotionsPage from '../screens/PromotionsPage';
 import { CustomTabBar } from './CustomTabBar';
 
@@ -47,6 +50,7 @@ const MenuStackNavigator = () => (
   <MenuStack.Navigator screenOptions={{ headerShown: false }}>
     <MenuStack.Screen name="MenuScreen" component={MenuPage} />
     <MenuStack.Screen name="ProductDetail" component={ProductDetailPage} />
+    <MenuStack.Screen name="Search" component={SearchPage} />
   </MenuStack.Navigator>
 );
 
@@ -59,6 +63,8 @@ const RewardsStackNavigator = () => (
 const ProfileStackNavigator = () => (
   <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
     <ProfileStack.Screen name="ProfileScreen" component={ProfilePage} />
+    <ProfileStack.Screen name="OrderHistory" component={OrderHistoryPage} />
+    <ProfileStack.Screen name="AddressPage" component={AddressPage} />
   </ProfileStack.Navigator>
 );
 
