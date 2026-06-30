@@ -5,7 +5,8 @@ import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, DismissalHeader } from '../components/Layout';
 
 export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const { orderId } = route.params;
   const order = useOrderById(orderId);
   const { submitReview, loading } = useSubmitReview();
@@ -82,7 +83,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -109,7 +110,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.thin,
+              borderWidth: tokens.borders.widthThin
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,
@@ -154,7 +155,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -181,7 +182,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.thin,
+              borderWidth: tokens.borders.widthThin
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,

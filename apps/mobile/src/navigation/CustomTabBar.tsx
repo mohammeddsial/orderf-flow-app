@@ -82,17 +82,25 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, navigation })
                     top: -26,
                     width: 58,
                     height: 58,
-                    borderRadius: 29,
+                    borderRadius: centerButtonRadius,
                     backgroundColor: tokens.colors.primary,
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderWidth: 5,
                     borderColor: tokens.colors.background,
-                    shadowColor: '#000000',
-                    shadowOpacity: 0.22,
-                    shadowRadius: 8,
-                    shadowOffset: { width: 0, height: 4 },
-                    elevation: 10,
+                    ...(engine === 'VIBRANT_STREET_TECH' ? {
+                      shadowColor: tokens.colors.accent,
+                      shadowOpacity: 0.8,
+                      shadowRadius: 10,
+                      shadowOffset: { width: 0, height: 0 },
+                      elevation: 10,
+                    } : {
+                      shadowColor: '#000000',
+                      shadowOpacity: 0.22,
+                      shadowRadius: 8,
+                      shadowOffset: { width: 0, height: 4 },
+                      elevation: 10,
+                    }),
                   }}
                 >
                   <Ionicons name="star" size={28} color={tokens.colors.textInverse} />

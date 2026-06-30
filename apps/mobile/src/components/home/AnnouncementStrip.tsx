@@ -46,7 +46,7 @@ export const AnnouncementStrip: React.FC = () => {
             : tokens.colors.accentLight,
         paddingVertical: tokens.spacing.sm,
         overflow: 'hidden',
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin,
         borderBottomColor: tokens.colors.border,
       }}
     >

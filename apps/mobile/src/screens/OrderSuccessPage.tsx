@@ -6,7 +6,8 @@ import { ScreenLayout, Card, Heading, BodyText } from '../components/Layout';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const insets = useSafeAreaInsets();
 
   return (
@@ -14,7 +15,7 @@ const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -63,7 +64,8 @@ const getPhaseLabel = (phase: OrderPhase): string => {
 };
 
 export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const { orderId } = route.params;
   const order = useOrderById(orderId);
   const [expandedSummary, setExpandedSummary] = useState(false);
@@ -212,7 +214,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               alignItems: 'center',
               paddingBottom: expandedSummary ? tokens.spacing.md : 0,
               borderBottomColor: expandedSummary ? tokens.colors.border : 'transparent',
-              borderBottomWidth: expandedSummary ? tokens.borders.thin : 0,
+              borderBottomWidth: expandedSummary ? tokens.borders.widthThin: 0,
             }}
           >
             <Heading level={4}>Order Summary</Heading>
@@ -242,7 +244,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               <View
                 style={{
                   borderTopColor: tokens.colors.border,
-                  borderTopWidth: tokens.borders.thin,
+                  borderTopWidth: tokens.borders.widthThin
                   paddingTop: tokens.spacing.md,
                   marginTop: tokens.spacing.md,
                 }}

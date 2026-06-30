@@ -13,7 +13,8 @@ import {
 } from '../components/Layout';
 
 export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const { itemId } = route.params;
   const item = useMenuItemById(itemId);
   const cart = useCart();
@@ -120,10 +121,10 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
 
             <View style={{ marginBottom: tokens.spacing.lg }}>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.sm }}>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.thin}>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin>
                   <BodyText size="sm">Contains Gluten</BodyText>
                 </Card>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.thin}>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin>
                   <BodyText size="sm">Contains Dairy</BodyText>
                 </Card>
               </View>
@@ -145,7 +146,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                       style={{
                         paddingVertical: tokens.spacing.md,
                         borderBottomColor: tokens.colors.borderLight,
-                        borderBottomWidth: tokens.borders.thin,
+                        borderBottomWidth: tokens.borders.widthThin
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'center',
@@ -156,9 +157,9 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                           style={{
                             width: 20,
                             height: 20,
-                            borderRadius: 4,
+                            borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
                             borderColor: tokens.colors.border,
-                            borderWidth: tokens.borders.thin,
+                            borderWidth: tokens.borders.widthThin
                             marginRight: tokens.spacing.md,
                             backgroundColor: selectedModifiers[modifier.id]?.includes(option.id)
                               ? tokens.colors.primary
@@ -195,7 +196,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                         ? tokens.colors.primary
                         : tokens.colors.surface,
                       borderColor: tokens.colors.border,
-                      borderWidth: tokens.borders.thin,
+                      borderWidth: tokens.borders.widthThin
                       borderRadius: tokens.borders.radiusMd,
                       alignItems: 'center',
                     }}
@@ -221,7 +222,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
               <Card
                 padding={tokens.spacing.md}
                 backgroundColor={isMealDeal ? tokens.colors.accentLight : tokens.colors.surface}
-                borderWidth={tokens.borders.thin}
+                borderWidth={tokens.borders.widthThin
                 borderColor={isMealDeal ? tokens.colors.accent : tokens.colors.border}
               >
                 <Pressable
@@ -242,9 +243,9 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                     style={{
                       width: 24,
                       height: 24,
-                      borderRadius: 4,
+                      borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
                       borderColor: tokens.colors.border,
-                      borderWidth: tokens.borders.thin,
+                      borderWidth: tokens.borders.widthThin
                       backgroundColor: isMealDeal ? tokens.colors.accent : 'transparent',
                     }}
                   />
@@ -258,7 +259,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
           style={{
             backgroundColor: tokens.colors.surface,
             borderTopColor: tokens.colors.border,
-            borderTopWidth: tokens.borders.thin,
+            borderTopWidth: tokens.borders.widthThin
             paddingHorizontal: tokens.spacing.lg,
             paddingVertical: tokens.spacing.md,
           }}

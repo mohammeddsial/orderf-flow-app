@@ -12,7 +12,8 @@ import {
 } from '../components/Layout';
 
 export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const allMenuItems = useMenuItems();
   const cart = useCart();
   const [addedItems, setAddedItems] = useState<string[]>([]);
@@ -76,7 +77,7 @@ export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     width: 80,
                     height: 80,
                     backgroundColor: tokens.colors.surfaceInverse,
-                    borderRadius: tokens.borders.radiusMd,
+                    borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd,
                     marginLeft: tokens.spacing.md,
                   }}
                 />

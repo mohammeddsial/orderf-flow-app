@@ -3,10 +3,11 @@ import { View, Text, Pressable, ScrollView } from 'react-native';
 import { useCurrentUser, useTenant, useOrders } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, SolidHeader } from '../components/Layout';
-import { getPlaceholderImage } from '@multi-restaurant/database';
+import { cardChrome, type EngineId } from '../components/home/engineStyle';
 
 export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   const user = useCurrentUser();
   const tenant = useTenant();
   const orders = useOrders();
@@ -54,7 +55,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
               style={{
                 width: 64,
                 height: 64,
-                borderRadius: 32,
+                borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 32,
                 backgroundColor: tokens.colors.primary,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -78,7 +79,7 @@ export const ProfilePage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     backgroundColor: tierColor,
                     paddingHorizontal: tokens.spacing.sm,
                     paddingVertical: 2,
-                    borderRadius: 4,
+                    borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
                     marginRight: tokens.spacing.sm,
                   }}
                 >

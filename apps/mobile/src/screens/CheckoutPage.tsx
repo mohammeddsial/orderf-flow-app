@@ -17,7 +17,8 @@ interface SecureCheckoutHeaderProps {
 }
 
 const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const insets = useSafeAreaInsets();
 
   return (
@@ -25,7 +26,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -65,7 +66,8 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
 };
 
 export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const tenant = useTenant();
   const { cart, clearPersistedCart } = useCartPersistence();
   const { createOrder, loading } = useCreateOrder();
@@ -189,7 +191,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     paymentMethod === method.id
                       ? tokens.colors.primary
                       : tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin
                   borderRadius: tokens.borders.radiusMd,
                   backgroundColor:
                     paymentMethod === method.id
@@ -229,7 +231,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               onChangeText={setCardholderName}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.thin,
+                borderWidth: tokens.borders.widthThin
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -264,7 +266,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                       ? tokens.colors.primary
                       : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin
                   borderRadius: tokens.borders.radiusMd,
                   alignItems: 'center',
                 }}
@@ -290,7 +292,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View
             style={{
               borderBottomColor: tokens.colors.border,
-              borderBottomWidth: tokens.borders.thin,
+              borderBottomWidth: tokens.borders.widthThin
               paddingBottom: tokens.spacing.md,
               marginBottom: tokens.spacing.md,
             }}

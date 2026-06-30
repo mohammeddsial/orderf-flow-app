@@ -159,7 +159,7 @@ export const ActiveTracker: React.FC<{ order: ActiveOrderInfo; onTrack: () => vo
           </Text>
           <Text style={{ color: tokens.colors.accent, fontWeight: '800' }}>{order.etaMin} min</Text>
         </View>
-        <View style={{ height: 5, borderRadius: 3, backgroundColor: tokens.colors.borderLight, overflow: 'hidden' }}>
+        <View style={{ height: 5, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 3, backgroundColor: tokens.colors.borderLight, overflow: 'hidden' }}>
           <View style={{ height: '100%', width: `${Math.round(order.progress * 100)}%`, backgroundColor: tokens.colors.success }} />
         </View>
       </Pressable>

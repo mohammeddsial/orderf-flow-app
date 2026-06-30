@@ -22,7 +22,8 @@ export const OfferBanner: React.FC<Props> = ({
   imageUrl,
   onPress,
 }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as any;
   const img = imageUrl || getPlaceholderImage('Food Package Offer');
 
   return (
@@ -33,7 +34,7 @@ export const OfferBanner: React.FC<Props> = ({
           flexDirection: 'row',
           alignItems: 'center',
           backgroundColor: tokens.colors.primary,
-          borderRadius: 22,
+          borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 22,
           overflow: 'hidden',
           minHeight: 150,
           shadowColor: '#000000',

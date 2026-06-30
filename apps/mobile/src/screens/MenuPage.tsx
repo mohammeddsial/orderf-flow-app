@@ -57,7 +57,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
           flexDirection: 'row',
           backgroundColor: tokens.colors.surface,
           borderColor: tokens.colors.border,
-          borderWidth: tokens.borders.thin,
+          borderWidth: tokens.borders.widthThin
           borderRadius: tokens.borders.radiusMd,
           paddingHorizontal: tokens.spacing.md,
           marginBottom: tokens.spacing.md,
@@ -103,7 +103,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
                 : tokens.colors.surfaceInverse,
               borderRadius: tokens.borders.radiusPill,
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.thin,
+              borderWidth: tokens.borders.widthThin
             }}
           >
             <Text
@@ -128,7 +128,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
       style={{
         backgroundColor: tokens.colors.background,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin
         paddingHorizontal: tokens.spacing.md,
         marginHorizontal: -tokens.spacing.md,
         paddingVertical: tokens.spacing.sm,
@@ -366,7 +366,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
                     style={{
                       paddingVertical: tokens.spacing.md,
                       borderBottomColor: tokens.colors.border,
-                      borderBottomWidth: tokens.borders.thin,
+                      borderBottomWidth: tokens.borders.widthThin
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}
@@ -434,7 +434,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
         right: 0,
         backgroundColor: tokens.colors.surface,
         borderTopColor: tokens.colors.border,
-        borderTopWidth: tokens.borders.thin,
+        borderTopWidth: tokens.borders.widthThin
         paddingHorizontal: tokens.spacing.md,
         paddingVertical: tokens.spacing.md,
       }}

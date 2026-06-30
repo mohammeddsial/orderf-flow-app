@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, SolidHeader } from '../components/Layout';
+import { cardChrome, type EngineId } from '../components/home/engineStyle';
 import { useTenant } from '@multi-restaurant/database';
 
 type Promotion = {
@@ -79,7 +80,8 @@ const PROMOTIONS: Promotion[] = [
 ];
 
 export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { tokens } = useTheme();
+  const { tokens, engineStyle } = useTheme();
+  const engine = engineStyle as EngineId;
   const tenant = useTenant();
 
   return (
@@ -111,7 +113,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
                 style={{
                   width: 52,
                   height: 52,
-                  borderRadius: 26,
+                  borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 26,
                   backgroundColor: promo.color,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -132,7 +134,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
                       backgroundColor: promo.color,
                       paddingHorizontal: tokens.spacing.sm,
                       paddingVertical: 2,
-                      borderRadius: 4,
+                    borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
                       marginLeft: tokens.spacing.sm,
                     }}
                   >
@@ -155,7 +157,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
                         borderStyle: 'dashed',
                         paddingHorizontal: tokens.spacing.sm,
                         paddingVertical: 4,
-                        borderRadius: 4,
+                      borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
                         marginRight: tokens.spacing.sm,
                       }}
                     >
@@ -205,7 +207,7 @@ export const PromotionsPage: React.FC<{ navigation: any }> = ({ navigation }) =>
                 borderColor: tokens.colors.primary,
                 paddingHorizontal: tokens.spacing.lg,
                 paddingVertical: tokens.spacing.sm,
-                borderRadius: 8,
+                borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 8,
                 marginBottom: tokens.spacing.md,
               }}
             >
