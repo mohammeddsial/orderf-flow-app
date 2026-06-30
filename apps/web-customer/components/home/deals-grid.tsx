@@ -49,7 +49,7 @@ function DealCard({ deal }: { deal: (typeof activeDeals)[0] }) {
   }
 
   return (
-    <Card className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group relative pt-0 pb-0 gap-0">
+    <Card className="engine-card overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group relative pt-0 pb-0 gap-0">
       {deal.isLimited && (
         <Badge className="absolute top-3 right-3 z-10 bg-red-500/90 text-white border-0 text-[10px]">
           {deal.remainingCount} left

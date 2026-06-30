@@ -13,7 +13,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     <div className="space-y-4">
       <div>
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight">{product.name}</h1>
+          <h1 className="engine-title text-2xl lg:text-3xl font-bold tracking-tight">{product.name}</h1>
           <div className="flex items-center gap-1 text-sm shrink-0">
             <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
             <span className="font-medium">{product.rating}</span>

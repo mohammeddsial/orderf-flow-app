@@ -20,7 +20,7 @@ export function HeroVideo() {
             <Truck className="h-3 w-3" />
             20-30 min delivery
           </Badge>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight max-w-3xl drop-shadow-lg leading-tight">
+          <h1 className="engine-title text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight max-w-3xl drop-shadow-lg leading-tight">
             Crave-Worthy,
             <br />
             <span className="text-amber-400">Delivered Fresh</span>

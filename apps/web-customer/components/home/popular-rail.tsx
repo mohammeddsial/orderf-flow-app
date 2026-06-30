@@ -12,7 +12,7 @@ export function PopularRail() {
       <div className="mb-5">
         <div className="flex items-center gap-2">
           <Flame className="h-5 w-5 text-orange-500" />
-          <h2 className="text-xl font-bold tracking-tight lg:text-2xl">Most Popular</h2>
+          <h2 className="engine-title text-xl font-bold tracking-tight lg:text-2xl">Most Popular</h2>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
           Top picks from the community

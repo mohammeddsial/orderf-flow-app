@@ -18,7 +18,7 @@ export function FeaturedItems() {
       <div className="mb-5">
         <div className="flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          <h2 className="text-xl font-bold tracking-tight lg:text-2xl">Featured Items</h2>
+          <h2 className="engine-title text-xl font-bold tracking-tight lg:text-2xl">Featured Items</h2>
         </div>
         <p className="text-sm text-muted-foreground mt-1">
           Chef-recommended plates &amp; new kitchen profiles
@@ -39,7 +39,7 @@ function FeaturedCard({ product }: { product: (typeof products)[0] }) {
 
   return (
     <Link href={`/menu/${product.id}`} className="block group">
-      <Card className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-xl h-full pt-0 pb-0 gap-0">
+      <Card className="engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all h-full pt-0 pb-0 gap-0">
         <div className="flex flex-col sm:flex-row h-full">
           <div className="sm:w-44 sm:shrink-0 relative">
             <ProductImage

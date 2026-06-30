@@ -34,7 +34,7 @@ export function StickyCTA({ unitPrice, quantity, onQuantityChange, onAddToCart }
             <Plus className="h-4 w-4" />
           </Button>
         </div>
-        <Button className="flex-1 gap-2" size="lg" onClick={onAddToCart}>
+        <Button className="engine-pill flex-1 gap-2" size="lg" onClick={onAddToCart}>
           <ShoppingBag className="h-4 w-4" />
           Add to Cart &middot; ${(unitPrice * quantity).toFixed(2)}
         </Button>

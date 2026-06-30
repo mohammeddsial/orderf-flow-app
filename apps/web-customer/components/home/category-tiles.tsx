@@ -55,7 +55,7 @@ export function CategoryTiles() {
               className="group"
             >
               <Card className={cn(
-                "flex flex-col items-center gap-3 p-5 border-2 transition-all cursor-pointer overflow-hidden relative",
+                "engine-card flex flex-col items-center gap-3 p-5 border-2 transition-all cursor-pointer overflow-hidden relative",
                 "hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5",
                 "bg-gradient-to-br",
                 gradient

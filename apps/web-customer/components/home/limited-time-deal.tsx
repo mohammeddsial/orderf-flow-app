@@ -32,7 +32,7 @@ export function LimitedTimeDeal() {
 
   return (
     <section className="py-10 px-4 lg:px-6 max-w-[1400px] mx-auto">
-      <Card className="overflow-hidden border-red-500/20">
+      <Card className="engine-card overflow-hidden border-red-500/20">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="aspect-video lg:aspect-auto bg-gradient-to-br from-red-900/60 to-orange-900/40 flex items-center justify-center relative">
             <Flame className="h-20 w-20 text-white/20" />

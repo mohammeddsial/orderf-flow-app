@@ -44,7 +44,7 @@ export function ProductCard({ product, variant = "default", className }: Product
   if (variant === "compact") {
     return (
       <Link href={`/menu/${product.id}`} className={cn("shrink-0 w-[160px]", className)}>
-        <Card ref={cardRef} className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group pt-0 pb-0 gap-0">
+        <Card ref={cardRef} className={cn("engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all group pt-0 pb-0 gap-0")}>
           <ProductImage
             src={imgs.main}
             alt={product.name}
@@ -76,7 +76,7 @@ export function ProductCard({ product, variant = "default", className }: Product
   if (variant === "listRow") {
     return (
       <Link href={`/menu/${product.id}`} className={cn("block", className)}>
-        <Card ref={cardRef} className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group flex flex-row items-center gap-0 h-[110px]">
+        <Card ref={cardRef} className={cn("engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all group flex flex-row items-center gap-0 h-[110px]")}>
           <div className="w-[110px] h-full shrink-0">
             <ProductImage src={imgs.main} alt={product.name} aspectRatio="h-full" className="h-full w-full object-cover" />
           </div>
@@ -107,7 +107,7 @@ export function ProductCard({ product, variant = "default", className }: Product
   if (variant === "overlayPrice") {
     return (
       <Link href={`/menu/${product.id}`} className={cn("block", className)}>
-        <Card ref={cardRef} className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group h-full pt-0 pb-0 gap-0 relative">
+        <Card ref={cardRef} className={cn("engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all group h-full pt-0 pb-0 gap-0 relative")}>
           <ProductImage src={imgs.main} alt={product.name} aspectRatio="aspect-square" />
           <div className="absolute bottom-2 right-2">
             <span className="rounded-full bg-primary text-primary-foreground text-sm font-bold px-3 py-1 shadow-md">
@@ -135,7 +135,7 @@ export function ProductCard({ product, variant = "default", className }: Product
   if (variant === "featured") {
     return (
       <Link href={`/menu/${product.id}`} className={cn("block", className)}>
-        <Card ref={cardRef} className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-xl group h-full pt-0 pb-0 gap-0">
+        <Card ref={cardRef} className={cn("engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all group h-full pt-0 pb-0 gap-0")}>
           <div className="relative">
             <ProductImage src={imgs.main} alt={product.name} aspectRatio="aspect-[4/3]" />
             <div className="absolute top-2 left-2 flex gap-1">
@@ -172,7 +172,7 @@ export function ProductCard({ product, variant = "default", className }: Product
 
   return (
     <Link href={`/menu/${product.id}`} className={cn("block", className)}>
-      <Card ref={cardRef} className="overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg group h-full pt-0 pb-0 gap-0">
+      <Card ref={cardRef} className={cn("engine-card engine-card-hover overflow-hidden hover:border-primary/50 transition-all group h-full pt-0 pb-0 gap-0")}>
         <div className="relative">
           <ProductImage src={imgs.main} alt={product.name} />
           <div className="absolute top-2 left-2 flex gap-1">

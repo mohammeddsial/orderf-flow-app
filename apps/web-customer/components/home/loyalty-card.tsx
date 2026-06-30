@@ -23,7 +23,7 @@ export function LoyaltyCard() {
 
   return (
     <section className="py-10 px-4 lg:px-6 max-w-[1400px] mx-auto">
-      <Card className={cn("overflow-hidden border-2", `border-${tier.color.split("-")[1]}-500/30`)}>
+      <Card className={cn("engine-card overflow-hidden border-2", `border-${tier.color.split("-")[1]}-500/30`)}>
         <div className="bg-gradient-to-r from-amber-500/10 via-amber-600/5 to-background p-6">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-3">

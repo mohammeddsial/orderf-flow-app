@@ -47,7 +47,7 @@ export function SearchFilterBar({
             placeholder="Search menu..."
             value={searchQuery}
             onChange={(e) => onSearch(e.target.value)}
-            className="pl-9 h-9 text-sm"
+            className="engine-input pl-9 h-9 text-sm"
           />
           {searchQuery && (
             <button
@@ -78,7 +78,7 @@ export function SearchFilterBar({
               key={opt.value}
               onClick={() => toggleFilter(opt.value)}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors shrink-0",
+                "engine-pill inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors shrink-0",
                 activeFilters.includes(opt.value)
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-border hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground"

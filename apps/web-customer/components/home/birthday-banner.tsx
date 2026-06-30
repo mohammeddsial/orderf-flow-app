@@ -15,7 +15,7 @@ export function BirthdayBanner() {
 
   return (
     <section className="py-10 px-4 lg:px-6 max-w-[1400px] mx-auto">
-      <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/5 to-background border-pink-500/20 overflow-hidden p-6">
+      <Card className="engine-card bg-gradient-to-r from-pink-500/10 via-purple-500/5 to-background border-pink-500/20 overflow-hidden p-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-pink-500/20">

@@ -9,7 +9,7 @@ export function RecommendedGrid() {
   return (
     <section className="py-10 px-4 lg:px-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <h2 className="text-xl font-bold tracking-tight lg:text-2xl">Recommended for You</h2>
+        <h2 className="engine-title text-xl font-bold tracking-tight lg:text-2xl">Recommended for You</h2>
         <p className="text-sm text-muted-foreground mt-1">
           Based on your taste and time of day
         </p>
