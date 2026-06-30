@@ -121,10 +121,10 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
 
             <View style={{ marginBottom: tokens.spacing.lg }}>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.sm }}>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin}>
                   <BodyText size="sm">Contains Gluten</BodyText>
                 </Card>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin}>
                   <BodyText size="sm">Contains Dairy</BodyText>
                 </Card>
               </View>
