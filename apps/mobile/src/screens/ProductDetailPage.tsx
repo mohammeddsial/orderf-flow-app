@@ -222,7 +222,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
               <Card
                 padding={tokens.spacing.md}
                 backgroundColor={isMealDeal ? tokens.colors.accentLight : tokens.colors.surface}
-                borderWidth={tokens.borders.widthThin,
+                borderWidth={tokens.borders.widthThin}
                 borderColor={isMealDeal ? tokens.colors.accent : tokens.colors.border}
               >
                 <Pressable
