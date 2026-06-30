@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, ScrollView, Text, Pressable, Image, Platform } from 'react-native';
+import { View, ScrollView, Text, Pressable, Image, Platform, useWindowDimensions } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
 import { cardChrome, pillChrome, sectionTitleStyle, type EngineId } from './home/engineStyle';
@@ -20,13 +20,14 @@ export const ScreenLayout: React.FC<LayoutProps> = ({
 }) => {
   const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
+  const { height: screenHeight } = useWindowDimensions();
 
   if (Platform.OS === 'web') {
     const bgColor = backgroundColor || tokens.colors.background;
     return (
       <div
         style={{
-          height: '100%',
+          height: `${screenHeight}px`,
           boxSizing: 'border-box',
           overflowY: scrollable ? 'auto' : 'visible',
           WebkitOverflowScrolling: 'touch',
