@@ -11,6 +11,10 @@ jest.mock('@multi-restaurant/database', () => ({
     addToCart: jest.fn(),
     clearCart: jest.fn(),
   })),
+  store: {
+    addToCart: jest.fn(),
+    getMenuItemById: jest.fn(() => ({ title: 'Item' })),
+  },
 }));
 
 describe('useCartPersistence', () => {
@@ -35,7 +39,7 @@ describe('useCartPersistence', () => {
 
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(mockCart));
 
-    const { result } = renderHook(() => useCartPersistence());
+    const { result } = await renderHook(() => useCartPersistence());
 
     await waitFor(() => {
       expect(AsyncStorage.getItem).toHaveBeenCalledWith('@order_flow_app:cart');
@@ -49,7 +53,7 @@ describe('useCartPersistence', () => {
 
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(invalidCart));
 
-    const { result } = renderHook(() => useCartPersistence());
+    await renderHook(() => useCartPersistence());
 
     await waitFor(() => {
       expect(AsyncStorage.getItem).toHaveBeenCalledWith('@order_flow_app:cart');
@@ -59,7 +63,7 @@ describe('useCartPersistence', () => {
   it('clears persisted cart on demand', async () => {
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
 
-    const { result } = renderHook(() => useCartPersistence());
+    const { result } = await renderHook(() => useCartPersistence());
 
     await waitFor(() => {
       result.current.clearPersistedCart();
@@ -87,7 +91,7 @@ describe('useCartPersistence', () => {
 
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(cartWithNegative));
 
-    renderHook(() => useCartPersistence());
+    await renderHook(() => useCartPersistence());
 
     await waitFor(() => {
       expect(AsyncStorage.getItem).toHaveBeenCalled();

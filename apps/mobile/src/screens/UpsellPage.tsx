@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Pressable, Text } from 'react-native';
-import { useMenuItems, useCart, store } from '@multi-restaurant/database';
+import { useMenuItems, useCart } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import {
   ScreenLayout,
@@ -12,8 +12,7 @@ import {
 } from '../components/Layout';
 
 export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const allMenuItems = useMenuItems();
   const cart = useCart();
   const [addedItems, setAddedItems] = useState<string[]>([]);
@@ -23,7 +22,7 @@ export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const handleAddUpsell = (itemId: string) => {
     if (cart) {
       try {
-        store.addToCart(itemId, 1);
+        cart.addToCart(itemId, 1);
         setAddedItems([...addedItems, itemId]);
       } catch (error) {
         console.error('Error adding item:', error);
@@ -77,7 +76,7 @@ export const UpsellPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     width: 80,
                     height: 80,
                     backgroundColor: tokens.colors.surfaceInverse,
-                    borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd,
+                    borderRadius: tokens.borders.radiusMd,
                     marginLeft: tokens.spacing.md,
                   }}
                 />

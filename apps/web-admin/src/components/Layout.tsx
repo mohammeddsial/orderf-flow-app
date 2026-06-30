@@ -1,7 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRestaurant } from '../context/RestaurantContext';
-import { useAuth, type AdminRole } from '../context/AuthContext';
 import { CreateRestaurantDialog } from './CreateRestaurantDialog';
 import {
   LayoutDashboard,
@@ -18,8 +17,6 @@ import {
   Bell,
   Flame,
   Star,
-  Shield,
-  FileText,
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -34,29 +31,23 @@ type NavItem = {
   icon: typeof LayoutDashboard;
   to?: string;
   badge?: string;
-  superAdminOnly?: boolean;
 };
 
 const NAV: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/' },
-  { label: 'Orders', icon: ShoppingBag, to: '/orders', badge: '12' },
+  { label: 'Orders', icon: ShoppingBag, badge: '12' },
   { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu' },
-  { label: 'Pages', icon: Smartphone, to: '/home-layout' },
-  { label: 'Analytics', icon: BarChart3, to: '/analytics' },
-  { label: 'Reports', icon: FileText, to: '/reports' },
-  { label: 'Customers', icon: Users, to: '/customers' },
-  { label: 'Promotions', icon: Tag, to: '/promotions' },
-  { label: 'Restaurant Settings', icon: SlidersHorizontal, to: '/settings', superAdminOnly: true },
-  { label: 'Super Admin', icon: Shield, to: '/super-admin', superAdminOnly: true },
+  { label: 'Mobile Pages', icon: Smartphone, to: '/home-layout' },
+  { label: 'Restaurant Settings', icon: SlidersHorizontal, to: '/settings' },
+  { label: 'Analytics', icon: BarChart3 },
+  { label: 'Customers', icon: Users },
+  { label: 'Promotions', icon: Tag },
 ];
 
 const RestaurantSwitcher: React.FC = () => {
   const { restaurants, currentId, setCurrentId, refresh } = useRestaurant();
-  const { isSuperAdmin } = useAuth();
   const navigate = useNavigate();
   const [createOpen, setCreateOpen] = useState(false);
-
-  if (!isSuperAdmin) return null;
 
   return (
     <div className="flex items-center gap-2">
@@ -96,9 +87,6 @@ const RestaurantSwitcher: React.FC = () => {
 export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, searchPlaceholder }) => {
   const location = useLocation();
   const { current } = useRestaurant();
-  const { user, isSuperAdmin, switchRole } = useAuth();
-
-  const visibleNav = NAV.filter((item) => !item.superAdminOnly || isSuperAdmin);
 
   const renderNav = (item: NavItem) => {
     const Icon = item.icon;
@@ -145,11 +133,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
           </span>
           <div>
             <h1 className="text-base font-bold leading-tight">{current?.name ?? 'Order Flow'}</h1>
-            <p className="text-xs text-slate-400">{isSuperAdmin ? 'Super Admin' : 'Restaurant Admin'}</p>
+            <p className="text-xs text-slate-400">Restaurant Admin</p>
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 py-2">{visibleNav.map(renderNav)}</nav>
+        <nav className="flex-1 space-y-1 px-3 py-2">{NAV.map(renderNav)}</nav>
 
         <div className="space-y-1 px-3 py-3">
           <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
@@ -162,28 +150,14 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
           </button>
         </div>
 
-        <div className="m-3 rounded-xl bg-white/5 p-3">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-              {user?.name?.charAt(0) ?? 'A'}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">{user?.name ?? 'Admin'}</p>
-              <p className="truncate text-xs text-slate-400">{user?.email ?? ''}</p>
-            </div>
+        <div className="m-3 flex items-center gap-3 rounded-xl bg-white/5 p-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
+            AD
+          </span>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">Alex Donovan</p>
+            <p className="truncate text-xs text-slate-400">alex@burgerbliss.co</p>
           </div>
-          <div className="mt-2 flex items-center gap-1.5">
-            <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${isSuperAdmin ? 'bg-primary text-white' : 'bg-white/10 text-slate-300'}`}>
-              {isSuperAdmin ? 'SUPER ADMIN' : 'RESTAURANT ADMIN'}
-            </span>
-          </div>
-          <button
-            type="button"
-            onClick={() => switchRole(isSuperAdmin ? 'restaurant_admin' : 'super_admin')}
-            className="mt-2 w-full rounded-lg border border-white/10 px-2 py-1 text-[11px] text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
-          >
-            Switch to {isSuperAdmin ? 'Restaurant Admin' : 'Super Admin'} (demo)
-          </button>
         </div>
       </aside>
 
@@ -215,19 +189,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
             </button>
             <div className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
-                {user?.name?.charAt(0) ?? 'A'}
+                AD
               </span>
               <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold text-[#1E2D4A]">{user?.name ?? 'Admin'}</p>
+                <p className="text-sm font-semibold text-[#1E2D4A]">Alex Donovan</p>
                 <p className="flex items-center justify-end gap-1 text-[11px] text-muted-foreground">
-                  {isSuperAdmin ? (
-                    <>
-                      <Star className="h-3 w-3 fill-primary text-primary" />
-                      Super Admin
-                    </>
-                  ) : (
-                    'Restaurant Admin'
-                  )}
+                  <Star className="h-3 w-3 fill-primary text-primary" />
+                  Super Admin
                 </p>
               </div>
             </div>

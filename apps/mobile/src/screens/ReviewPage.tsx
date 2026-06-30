@@ -3,11 +3,9 @@ import { View, TextInput, Pressable, Text } from 'react-native';
 import { useSubmitReview, useOrderById } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { ScreenLayout, Card, Heading, BodyText, Button, DismissalHeader } from '../components/Layout';
-import { Icon } from '../components/shared/Icon';
 
 export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const { orderId } = route.params;
   const order = useOrderById(orderId);
   const { submitReview, loading } = useSubmitReview();
@@ -61,7 +59,9 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                 onPress={() => setFoodRating(star)}
                 style={{ padding: tokens.spacing.sm }}
               >
-                <Icon name="rewards" size={32} color={star <= foodRating ? '#FFD700' : '#ccc'} />
+                <Text style={{ fontSize: 32, opacity: star <= foodRating ? 1 : 0.3 }}>
+                  ⭐
+                </Text>
               </Pressable>
             ))}
           </View>
@@ -82,7 +82,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin,
+                  borderWidth: tokens.borders.thin,
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -109,7 +109,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.widthThin,
+              borderWidth: tokens.borders.thin,
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,
@@ -131,7 +131,9 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                 onPress={() => setDeliveryRating(star)}
                 style={{ padding: tokens.spacing.sm }}
               >
-                <Icon name="rewards" size={32} color={star <= deliveryRating ? '#FFD700' : '#ccc'} />
+                <Text style={{ fontSize: 32, opacity: star <= deliveryRating ? 1 : 0.3 }}>
+                  ⭐
+                </Text>
               </Pressable>
             ))}
           </View>
@@ -152,7 +154,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
                     ? tokens.colors.accent
                     : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin,
+                  borderWidth: tokens.borders.thin,
                   borderRadius: tokens.borders.radiusPill,
                 }}
               >
@@ -179,7 +181,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
             numberOfLines={3}
             style={{
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.widthThin,
+              borderWidth: tokens.borders.thin,
               borderRadius: tokens.borders.radiusMd,
               paddingHorizontal: tokens.spacing.md,
               paddingVertical: tokens.spacing.md,
@@ -192,7 +194,7 @@ export const ReviewPage: React.FC<{ navigation: any; route: any }> = ({ navigati
 
         <Card marginBottom={tokens.spacing.lg} padding={tokens.spacing.lg}>
           <View style={{ alignItems: 'center' }}>
-            <Icon name="camera" size={32} color={tokens.colors.textDisabled} />
+            <Text style={{ fontSize: 32, marginBottom: tokens.spacing.sm }}>📸</Text>
             <Heading level={4} marginBottom={tokens.spacing.sm}>
               Add Photos (Optional)
             </Heading>

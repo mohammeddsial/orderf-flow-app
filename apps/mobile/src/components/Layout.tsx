@@ -1,9 +1,7 @@
 import React, { ReactNode } from 'react';
-import { View, ScrollView, Text, Pressable, Image, Platform } from 'react-native';
+import { View, ScrollView, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../theme';
-import { cardChrome, pillChrome, sectionTitleStyle, type EngineId } from './home/engineStyle';
-import { AnimatedPressable } from './shared/AnimatedPressable';
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,28 +20,21 @@ export const ScreenLayout: React.FC<LayoutProps> = ({
   const insets = useSafeAreaInsets();
 
   const Container = scrollable ? ScrollView : View;
-  const bgColor = backgroundColor || tokens.colors.background;
-
-  if (Platform.OS === 'web') {
-    return (
-      <View style={{ flex: 1, backgroundColor: bgColor }}>
-        <Container
-          style={{ flex: 1, paddingHorizontal }}
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={true}
-        >
-          <View style={{ minHeight: '100%' }}>
-            {children}
-          </View>
-        </Container>
-      </View>
-    );
-  }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: bgColor }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: backgroundColor || tokens.colors.background,
+      }}
+    >
       <Container
-        style={{ flex: 1, paddingHorizontal, paddingTop: insets.top, paddingBottom: insets.bottom }}
+        style={{
+          flex: 1,
+          paddingHorizontal,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+        }}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
       >
@@ -66,15 +57,14 @@ export const SolidHeader: React.FC<SolidHeaderProps> = ({
   rightAction,
   backgroundColor,
 }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as EngineId;
+  const { tokens } = useTheme();
 
   return (
     <View
       style={{
         backgroundColor: backgroundColor || tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: engine === 'BRUTALIST_MODERNIST' ? tokens.borders.widthMedium : tokens.borders.widthThin,
+        borderBottomWidth: tokens.borders.thin,
         paddingHorizontal: tokens.spacing.md,
         paddingVertical: tokens.spacing.md,
         flexDirection: 'row',
@@ -243,33 +233,28 @@ export const Card: React.FC<CardProps> = ({
   shadow = false,
   onPress,
 }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as EngineId;
-  const chrome = cardChrome(tokens, engine);
+  const { tokens } = useTheme();
 
   return (
-    <AnimatedPressable
+    <Pressable
       onPress={onPress}
       disabled={!onPress}
       style={{
-        ...chrome,
-        backgroundColor: backgroundColor || chrome.backgroundColor,
+        backgroundColor: backgroundColor || tokens.colors.surface,
         padding: padding || tokens.spacing.md,
         marginBottom: marginBottom || tokens.spacing.md,
-        ...(borderColor ? { borderColor } : {}),
-        ...(borderWidth !== undefined ? { borderWidth } : {}),
-        ...(borderRadius !== undefined ? { borderRadius } : {}),
-        ...(shadow ? {
-          shadowColor: engine === 'VIBRANT_STREET_TECH' ? tokens.colors.secondary : '#000000',
-          shadowOpacity: engine === 'VIBRANT_STREET_TECH' ? 0.5 : 0.08,
-          shadowOffset: { width: 0, height: 6 },
-          shadowRadius: 14,
-          elevation: 4,
-        } : {}),
+        borderColor: borderColor || tokens.colors.border,
+        borderWidth: borderWidth || 0,
+        borderRadius: borderRadius || tokens.borders.radiusMd,
+        shadowColor: shadow ? '#000000' : 'transparent',
+        shadowOpacity: shadow ? 0.1 : 0,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: shadow ? 4 : 0,
+        elevation: shadow ? 3 : 0,
       }}
     >
       {children}
-    </AnimatedPressable>
+    </Pressable>
   );
 };
 
@@ -288,8 +273,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   size = 'md',
 }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as EngineId;
+  const { tokens } = useTheme();
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -342,7 +326,6 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = getVariantStyles();
   const sizeStyles = getSizeStyles();
-  const buttonRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill;
 
   return (
     <Pressable
@@ -351,8 +334,8 @@ export const Button: React.FC<ButtonProps> = ({
       style={{
         backgroundColor: variantStyles.backgroundColor,
         borderColor: variantStyles.borderColor,
-        borderWidth: variant === 'outline' ? tokens.borders.widthThin : 0,
-        borderRadius: buttonRadius,
+        borderWidth: variant === 'outline' ? tokens.borders.thin : 0,
+        borderRadius: tokens.borders.radiusMd,
         justifyContent: 'center',
         alignItems: 'center',
         opacity: disabled ? 0.5 : 1,
@@ -362,9 +345,8 @@ export const Button: React.FC<ButtonProps> = ({
       <Text
         style={{
           color: variantStyles.textColor,
-          fontWeight: engine === 'BRUTALIST_MODERNIST' ? '900' : '700',
+          fontWeight: '600',
           fontSize: sizeStyles.fontSize,
-          textTransform: engine === 'BRUTALIST_MODERNIST' ? 'uppercase' : 'none',
         }}
       >
         {label}
@@ -375,10 +357,9 @@ export const Button: React.FC<ButtonProps> = ({
 
 interface HeadingProps {
   level: 1 | 2 | 3 | 4;
-  children: ReactNode;
+  children: string;
   color?: string;
   marginBottom?: number;
-  style?: any;
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -386,10 +367,8 @@ export const Heading: React.FC<HeadingProps> = ({
   children,
   color,
   marginBottom,
-  style,
 }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as EngineId;
+  const { tokens } = useTheme();
 
   const fontSizes = [
     tokens.typography.fontSizeXl,
@@ -398,20 +377,14 @@ export const Heading: React.FC<HeadingProps> = ({
     tokens.typography.fontSizeSm,
   ];
 
-  const titleStyle = sectionTitleStyle(tokens, engine);
-
   return (
     <Text
-      style={[{
+      style={{
         fontSize: fontSizes[level - 1],
-        fontWeight: level <= 2 ? titleStyle.fontWeight : '700',
+        fontWeight: '700',
         color: color || tokens.colors.text,
         marginBottom: marginBottom || tokens.spacing.sm,
-        ...(level <= 2 ? {
-          textTransform: titleStyle.textTransform as any,
-          letterSpacing: titleStyle.letterSpacing,
-        } : {}),
-      }, style]}
+      }}
     >
       {children}
     </Text>
@@ -419,12 +392,10 @@ export const Heading: React.FC<HeadingProps> = ({
 };
 
 interface BodyTextProps {
-  children: ReactNode;
+  children: string | ReactNode;
   color?: string;
   size?: 'sm' | 'md' | 'lg';
   marginBottom?: number;
-  numberOfLines?: number;
-  style?: any;
 }
 
 export const BodyText: React.FC<BodyTextProps> = ({
@@ -432,8 +403,6 @@ export const BodyText: React.FC<BodyTextProps> = ({
   color,
   size = 'md',
   marginBottom,
-  numberOfLines,
-  style,
 }) => {
   const { tokens } = useTheme();
 
@@ -445,13 +414,12 @@ export const BodyText: React.FC<BodyTextProps> = ({
 
   return (
     <Text
-      numberOfLines={numberOfLines}
-      style={[{
+      style={{
         fontSize: fontSizes[size],
         color: color || tokens.colors.text,
         marginBottom: marginBottom || 0,
         lineHeight: fontSizes[size] * 1.5,
-      }, style]}
+      }}
     >
       {children}
     </Text>

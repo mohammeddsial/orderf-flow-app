@@ -7,10 +7,8 @@ import {
   Animated,
   Dimensions,
   Image,
-  ImageBackground,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import type { MenuItem } from '@multi-restaurant/database';
 import { store } from '@multi-restaurant/database';
 import { useTheme } from '../../theme';
@@ -20,14 +18,9 @@ import {
   sectionTitleStyle,
   pillChrome,
   quickAddChrome,
-  layoutConfig,
-  sectionGap,
-  type CategoryLayout,
 } from './engineStyle';
 import { Story, ReorderCard } from './mockData';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { ItemCard } from './cards';
-import { Icon } from '../shared/Icon';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -78,8 +71,7 @@ export const HomeHeader: React.FC<{
   onToggleLocation: () => void;
   fulfillment: 'DELIVERY' | 'PICKUP';
   onFulfillment: (m: 'DELIVERY' | 'PICKUP') => void;
-  onMenu?: () => void;
-}> = ({ brandName, location, onToggleLocation, fulfillment, onFulfillment, onMenu }) => {
+}> = ({ brandName, location, onToggleLocation, fulfillment, onFulfillment }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const insets = useSafeAreaInsets();
@@ -89,14 +81,8 @@ export const HomeHeader: React.FC<{
       ? 'rgba(255,255,255,0.78)'
       : engine === 'VIBRANT_STREET_TECH'
       ? 'rgba(10,14,19,0.6)'
-      : 'rgba(250,250,250,0.95)';
-  const fg = engine === 'MINIMALIST_CLEAN' ? '#1A1A1A' : engine === 'VIBRANT_STREET_TECH' ? '#FFFFFF' : '#000000';
-
-  // BRUTALIST: solid pill-shaped bar, cream bg, thick shadow
-  // MINIMALIST: frosted blur, no border, transparent
-  // VIBRANT: dark pill, neon border glow
-  const headerRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : engine === 'MINIMALIST_CLEAN' ? 24 : 20;
-  const headerMargin = engine === 'MINIMALIST_CLEAN' ? 8 : engine === 'VIBRANT_STREET_TECH' ? 8 : 0;
+      : 'rgba(0,0,0,0.55)';
+  const fg = engine === 'MINIMALIST_CLEAN' ? '#1A1A1A' : '#FFFFFF';
 
   const Toggle = (mode: 'DELIVERY' | 'PICKUP', label: string) => {
     const active = fulfillment === mode;
@@ -112,9 +98,8 @@ export const HomeHeader: React.FC<{
         <Text
           style={{
             fontSize: tokens.typography.fontSizeXs,
-            fontWeight: engine === 'BRUTALIST_MODERNIST' ? '900' : '700',
+            fontWeight: '700',
             color: active ? tokens.colors.textInverse : fg,
-            ...(engine === 'BRUTALIST_MODERNIST' ? { textTransform: 'uppercase' } : {}),
           }}
         >
           {label}
@@ -128,8 +113,8 @@ export const HomeHeader: React.FC<{
       style={{
         position: 'absolute',
         top: 0,
-        left: headerMargin,
-        right: headerMargin,
+        left: 0,
+        right: 0,
         zIndex: 20,
         paddingTop: insets.top + 6,
         paddingBottom: tokens.spacing.sm,
@@ -138,39 +123,17 @@ export const HomeHeader: React.FC<{
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderBottomLeftRadius: headerRadius,
-        borderBottomRightRadius: headerRadius,
-        ...(engine === 'BRUTALIST_MODERNIST' ? { borderBottomWidth: tokens.borders.widthThick, borderBottomColor: tokens.colors.border } : {}),
-        ...(engine === 'VIBRANT_STREET_TECH' ? { borderBottomWidth: tokens.borders.widthThin, borderBottomColor: tokens.colors.secondary } : {}),
-        ...(engine === 'MINIMALIST_CLEAN' ? { shadowColor: '#000000', shadowOpacity: 0.06, shadowRadius: 10, shadowOffset: { width: 0, height: 2 }, elevation: 3 } : {}),
-        ...(engine === 'VIBRANT_STREET_TECH' ? { shadowColor: tokens.colors.secondary, shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 0 }, elevation: 6 } : {}),
       }}
     >
-      <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-        {onMenu ? (
-          <Pressable onPress={onMenu} hitSlop={12} style={{ marginRight: tokens.spacing.sm }}>
-            <Ionicons name="menu" size={26} color={fg} />
-          </Pressable>
-        ) : null}
-        <View>
-          <Text
-            style={{
-              color: fg,
-              fontSize: tokens.typography.fontSizeLg,
-              fontWeight: engine === 'BRUTALIST_MODERNIST' ? '900' : '800',
-              ...(engine === 'BRUTALIST_MODERNIST' || engine === 'VIBRANT_STREET_TECH' ? { textTransform: 'uppercase' } : {}),
-              ...(engine === 'VIBRANT_STREET_TECH' ? { textShadowColor: tokens.colors.secondary, textShadowRadius: 8 } : {}),
-              letterSpacing: engine === 'BRUTALIST_MODERNIST' ? 1 : engine === 'VIBRANT_STREET_TECH' ? 1.5 : 0,
-            }}
-          >
-            {brandName}
+      <View style={{ flex: 1 }}>
+        <Text style={{ color: fg, fontSize: tokens.typography.fontSizeLg, fontWeight: '800' }}>
+          {brandName}
+        </Text>
+        <Pressable onPress={onToggleLocation} hitSlop={8}>
+          <Text style={{ color: fg, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
+            {location} • 12 min ▾
           </Text>
-          <Pressable onPress={onToggleLocation} hitSlop={8}>
-            <Text style={{ color: fg, opacity: 0.85, fontSize: tokens.typography.fontSizeXs }}>
-              {location} • 12 min
-            </Text>
-          </Pressable>
-        </View>
+        </Pressable>
       </View>
       <View style={{ flexDirection: 'row', gap: 6 }}>
         {Toggle('DELIVERY', 'Delivery')}
@@ -249,72 +212,11 @@ export const LoyaltyCard: React.FC<{
 export const OrderAgainRail: React.FC<{
   orders: ReorderCard[];
   onReorder: (id: string) => void;
-  cardVariant?: string;
-}> = ({ orders, onReorder, cardVariant }) => {
+}> = ({ orders, onReorder }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   if (orders.length === 0) return null;
 
-  // cardVariant override: plainGrid renders a 2-column grid instead of horizontal rail
-  if (cardVariant === 'plainGrid') {
-    return (
-      <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Order Again" />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.sm }}>
-          {orders.map((o) => (
-            <View key={o.id} style={{ width: '48%', padding: tokens.spacing.sm, ...cardChrome(tokens, engine) }}>
-              <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeSm, marginBottom: 2 }} numberOfLines={1}>{o.title}</Text>
-              <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeXs, marginBottom: tokens.spacing.xs }}>{o.itemCount} items • ${o.total.toFixed(2)}</Text>
-              <Pressable
-                onPress={() => onReorder(o.id)}
-                style={{ alignItems: 'center', paddingVertical: tokens.spacing.xs, backgroundColor: tokens.colors.primary, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}
-              >
-                <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeXs }}>Reorder</Text>
-              </Pressable>
-            </View>
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  // cardVariant override: overlayPrice renders image with price overlay
-  if (cardVariant === 'overlayPrice') {
-    return (
-      <View style={{ marginBottom: tokens.spacing.lg }}>
-        <View style={{ paddingHorizontal: tokens.spacing.md }}>
-          <SectionHeader title="Order Again" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}
-        >
-          {orders.map((o) => (
-            <View key={o.id} style={{ width: SCREEN_W * 0.55, overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-              <View style={{ height: 80, backgroundColor: tokens.colors.surfaceInverse, justifyContent: 'flex-end', padding: tokens.spacing.sm }}>
-                <View style={{ position: 'absolute', top: tokens.spacing.xs, right: tokens.spacing.xs, backgroundColor: tokens.colors.primary, paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}>
-                  <Text style={{ color: tokens.colors.textInverse, fontWeight: '900', fontSize: tokens.typography.fontSizeXs }}>${o.total.toFixed(2)}</Text>
-                </View>
-                <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: tokens.typography.fontSizeSm }} numberOfLines={1}>{o.title}</Text>
-              </View>
-              <View style={{ padding: tokens.spacing.sm }}>
-                <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeXs, marginBottom: tokens.spacing.xs }}>{o.itemCount} items</Text>
-                <Pressable
-                  onPress={() => onReorder(o.id)}
-                  style={{ alignItems: 'center', paddingVertical: tokens.spacing.xs, backgroundColor: tokens.colors.primary, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}
-                >
-                  <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeXs }}>Reorder</Text>
-                </Pressable>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
-    );
-  }
-
-  // Default: horizontal rail of order cards
   return (
     <View style={{ marginBottom: tokens.spacing.lg }}>
       <View style={{ paddingHorizontal: tokens.spacing.md }}>
@@ -415,33 +317,20 @@ export const QuickAddButton: React.FC<{ onAdd: () => void }> = ({ onAdd }) => {
 export const Recommendations: React.FC<{
   items: MenuItem[];
   onSelect: (id: string) => void;
-  cardVariant?: string;
-}> = ({ items, onSelect, cardVariant }) => {
+}> = ({ items, onSelect }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   if (items.length === 0) return null;
 
   const hour = new Date().getHours();
-  const label = hour < 11 ? 'Morning picks for you' : hour < 17 ? 'For You' : "Tonight's cravings";
-
-  if (cardVariant) {
-    return (
-      <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title={label} actionLabel="See all" onAction={() => onSelect(items[0].id)} />
-        <View style={{ gap: tokens.spacing.md }}>
-          {items.map((item) => (
-            <ItemCard key={item.id} variant={cardVariant} item={item} onPress={onSelect} onAdd={() => safeAdd(item.id)} />
-          ))}
-        </View>
-      </View>
-    );
-  }
+  const label = hour < 11 ? 'Morning picks for you' : hour < 17 ? 'For You' : 'Tonight’s cravings';
 
   return (
     <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
       <SectionHeader title={label} actionLabel="See all" onAction={() => onSelect(items[0].id)} />
       {items.map((item) => {
         const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+        console.log('imageUrl:', imageUrl);
         return (
           <Pressable
             key={item.id}
@@ -449,7 +338,7 @@ export const Recommendations: React.FC<{
             style={{ flexDirection: 'row', alignItems: 'center', padding: tokens.spacing.md, marginBottom: tokens.spacing.md, ...cardChrome(tokens, engine) }}
           >
             <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: 64, height: 64, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd, backgroundColor: tokens.colors.surfaceInverse, marginRight: tokens.spacing.md }} />
-
+            
             <View style={{ flex: 1 }}>
               <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeMd }}>{item.title}</Text>
               <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm }}>{item.calories} cal</Text>
@@ -468,86 +357,37 @@ export const Recommendations: React.FC<{
 // ---------------------------------------------------------------------------
 
 const CATEGORIES = [
-  { id: 'Burgers', label: 'Burgers', icon: 'burger', tint: '#FF6B35' },
-  { id: 'Sides', label: 'Sides', icon: 'burger', tint: '#F5A623' },
-  { id: 'Drinks', label: 'Drinks', icon: 'gift', tint: '#00D9FF' },
-  { id: 'Desserts', label: 'Desserts', icon: 'gift', tint: '#FF006E' },
+  { id: 'Burgers', label: 'Burgers', emoji: '🍔', tint: '#FF6B35' },
+  { id: 'Sides', label: 'Sides', emoji: '🍟', tint: '#F5A623' },
+  { id: 'Drinks', label: 'Drinks', emoji: '🥤', tint: '#00D9FF' },
+  { id: 'Desserts', label: 'Desserts', emoji: '🍰', tint: '#FF006E' },
 ];
 
 export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({ onCategory }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
-  const layout = layoutConfig(engine);
-
-  const tileBg = (c: typeof CATEGORIES[number]) =>
-    engine === 'VIBRANT_STREET_TECH'
-      ? tokens.colors.surface
-      : c.tint + (engine === 'BRUTALIST_MODERNIST' ? '' : '22');
-
-  const Tile = (c: typeof CATEGORIES[number]) => (
-    <Pressable
-      key={c.id}
-      onPress={() => onCategory(c.id)}
-      style={{
-        justifyContent: 'flex-end',
-        padding: tokens.spacing.md,
-        overflow: 'hidden',
-        ...cardChrome(tokens, engine),
-        backgroundColor: tileBg(c),
-      }}
-    >
-      <Icon name={c.icon} size={40} color={c.tint} />
-      <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeLg }}>{c.label}</Text>
-    </Pressable>
-  );
-
-  // List layout (Brutalist) — full-width vertical rows
-  if (layout.categoryLayout === 'list') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Browse" />
-        <View style={{ gap: tokens.spacing.sm }}>
-          {CATEGORIES.map((c) => (
-            <View key={c.id} style={{ height: 64 }}>
-              {Tile(c)}
-            </View>
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  // Carousel layout (Vibrant) — horizontal scrolling pills
-  if (layout.categoryLayout === 'carousel') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing) }}>
-        <View style={{ paddingHorizontal: tokens.spacing.md }}>
-          <SectionHeader title="Browse" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}
-        >
-          {CATEGORIES.map((c) => (
-            <View key={c.id} style={{ width: 120, height: 120 }}>
-              {Tile(c)}
-            </View>
-          ))}
-        </ScrollView>
-      </View>
-    );
-  }
-
-  // Grid 2x2 (Minimalist) — default
   return (
-    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
+    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
       <SectionHeader title="Browse" />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
         {CATEGORIES.map((c) => (
-          <View key={c.id} style={{ width: '48%', height: 110, marginBottom: tokens.spacing.md }}>
-            {Tile(c)}
-          </View>
+          <Pressable
+            key={c.id}
+            onPress={() => onCategory(c.id)}
+            style={{
+              width: '48%',
+              height: 110,
+              marginBottom: tokens.spacing.md,
+              justifyContent: 'flex-end',
+              padding: tokens.spacing.md,
+              overflow: 'hidden',
+              ...cardChrome(tokens, engine),
+              backgroundColor: engine === 'VIBRANT_STREET_TECH' ? tokens.colors.surface : c.tint + (engine === 'BRUTALIST_MODERNIST' ? '' : '22'),
+            }}
+          >
+            <Text style={{ position: 'absolute', top: 8, right: 10, fontSize: 40 }}>{c.emoji}</Text>
+            <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeLg }}>{c.label}</Text>
+          </Pressable>
         ))}
       </View>
     </View>
@@ -558,102 +398,24 @@ export const CategoryTiles: React.FC<{ onCategory: (cat: string) => void }> = ({
 // 7. Featured / seasonal tier (large card)
 // ---------------------------------------------------------------------------
 
-export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void; cardVariant?: string }> = ({ item, onSelect, cardVariant }) => {
+export const FeaturedTier: React.FC<{ item?: MenuItem; onSelect: (id: string) => void }> = ({ item, onSelect }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
-  const layout = layoutConfig(engine);
   if (!item) return null;
 
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
-  const imgRadius = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd;
 
-  // cardVariant override: listRow renders a compact horizontal row
-  if (cardVariant === 'listRow') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Chef's Featured" />
-        <Pressable onPress={() => onSelect(item.id)} style={{ flexDirection: 'row', overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: 100, height: 100, backgroundColor: tokens.colors.surfaceInverse }} />
-          <View style={{ flex: 1, padding: tokens.spacing.md, justifyContent: 'center' }}>
-            <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeMd, marginBottom: 2 }}>{item.title}</Text>
-            <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.xs }} numberOfLines={1}>{item.description}</Text>
-            <Text style={{ color: tokens.colors.accent, fontWeight: '700' }}>${item.basePrice.toFixed(2)}</Text>
-          </View>
-        </Pressable>
-      </View>
-    );
-  }
-
-  // cardVariant override: overlayPrice renders price pill on the image
-  if (cardVariant === 'overlayPrice') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Chef's Featured" />
-        <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-          <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 180, justifyContent: 'flex-end' }}>
-            <View style={{ position: 'absolute', top: tokens.spacing.sm, right: tokens.spacing.sm, backgroundColor: tokens.colors.primary, paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusPill }}>
-              <Text style={{ color: tokens.colors.textInverse, fontWeight: '900', fontSize: tokens.typography.fontSizeSm }}>${item.basePrice.toFixed(2)}</Text>
-            </View>
-            <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: tokens.spacing.md }}>
-              <Text style={{ color: '#FFFFFF', fontWeight: '700', fontSize: tokens.typography.fontSizeLg }}>{item.title}</Text>
-            </View>
-          </ImageBackground>
-        </Pressable>
-      </View>
-    );
-  }
-
-  // Overlay (Vibrant) — text overlaid on the image with a dark scrim
-  if (layout.featuredCardStyle === 'overlay') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Chef's Featured" />
-        <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-          <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 220, justifyContent: 'flex-end' }}>
-            <View style={{ backgroundColor: 'rgba(0,0,0,0.55)', padding: tokens.spacing.lg }}>
-              <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
-              <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
-                {item.description}
-              </Text>
-              <Text style={{ color: tokens.colors.accent, fontWeight: '900' }}>${item.basePrice.toFixed(2)}</Text>
-            </View>
-          </ImageBackground>
-        </Pressable>
-      </View>
-    );
-  }
-
-  // Editorial (Minimalist) — side-by-side image + text
-  if (layout.featuredCardStyle === 'editorial') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Chef's Featured" />
-        <Pressable onPress={() => onSelect(item.id)} style={{ flexDirection: 'row', overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ width: '45%', backgroundColor: tokens.colors.surfaceInverse }} />
-          <View style={{ flex: 1, padding: tokens.spacing.lg, justifyContent: 'center' }}>
-            <Text style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeLg, marginBottom: 4 }}>{item.title}</Text>
-            <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
-              {item.description}
-            </Text>
-            <Text style={{ color: tokens.colors.accent, fontWeight: '700' }}>${item.basePrice.toFixed(2)}</Text>
-          </View>
-        </Pressable>
-      </View>
-    );
-  }
-
-  // Stacked (Brutalist) — image on top, text below, sharp edges
   return (
-    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-      <SectionHeader title="Chef's Featured" />
+    <View style={{ marginBottom: tokens.spacing.lg, paddingHorizontal: tokens.spacing.md }}>
+      <SectionHeader title="Chef’s Featured" />
       <Pressable onPress={() => onSelect(item.id)} style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
         <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 170, width: '100%', backgroundColor: tokens.colors.surfaceInverse }} />
         <View style={{ padding: tokens.spacing.lg }}>
-          <Text style={{ color: tokens.colors.text, fontWeight: '900', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
+          <Text style={{ color: tokens.colors.text, fontWeight: '800', fontSize: tokens.typography.fontSizeXl, marginBottom: 4 }}>{item.title}</Text>
           <Text style={{ color: tokens.colors.textDisabled, fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }} numberOfLines={2}>
             {item.description}
           </Text>
-          <Text style={{ color: tokens.colors.accent, fontWeight: '900' }}>${item.basePrice.toFixed(2)}</Text>
+          <Text style={{ color: tokens.colors.accent, fontWeight: '800' }}>${item.basePrice.toFixed(2)}</Text>
         </View>
       </Pressable>
     </View>
@@ -698,86 +460,31 @@ export const StoriesRail: React.FC<{ stories: Story[] }> = ({ stories }) => {
 // 8. Popular rail with quick-add
 // ---------------------------------------------------------------------------
 
-export const PopularRail: React.FC<{ items: MenuItem[]; onSelect: (id: string) => void; cardVariant?: string }> = ({ items, onSelect, cardVariant }) => {
+export const PopularRail: React.FC<{ items: MenuItem[]; onSelect: (id: string) => void }> = ({ items, onSelect }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
-  const layout = layoutConfig(engine);
   if (items.length === 0) return null;
-
-  if (cardVariant) {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Popular Right Now" />
-        <View style={{ gap: tokens.spacing.md }}>
-          {items.map((item) => (
-            <ItemCard key={item.id} variant={cardVariant} item={item} onPress={onSelect} onAdd={() => safeAdd(item.id)} />
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  const PopularCard = ({ item }: { item: MenuItem }) => {
-    const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
-    const imgR = engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd;
-    return (
-      <View style={{ padding: tokens.spacing.md, ...cardChrome(tokens, engine) }}>
-        <Pressable onPress={() => onSelect(item.id)}>
-          <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 80, borderRadius: imgR, backgroundColor: tokens.colors.surfaceInverse, marginBottom: tokens.spacing.sm }} />
-          <Text numberOfLines={1} style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>{item.title}</Text>
-        </Pressable>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.sm }}>
-          <Text style={{ color: tokens.colors.text, fontWeight: '800' }}>${item.basePrice.toFixed(2)}</Text>
-          <QuickAddButton onAdd={() => safeAdd(item.id)} />
-        </View>
-      </View>
-    );
-  };
-
-  // List layout (Brutalist) — full-width vertical rows
-  if (layout.popularLayout === 'list') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Popular Right Now" />
-        <View style={{ gap: tokens.spacing.md }}>
-          {items.map((item) => (
-            <View key={item.id}>
-              <PopularCard item={item} />
-            </View>
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  // Grid layout (Minimalist / default) — 2-column wrap
-  if (layout.popularLayout === 'grid') {
-    return (
-      <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing), paddingHorizontal: tokens.spacing.md }}>
-        <SectionHeader title="Popular Right Now" />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.md }}>
-          {items.map((item) => (
-            <View key={item.id} style={{ width: '48%' }}>
-              <PopularCard item={item} />
-            </View>
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  // Horizontal carousel (Vibrant) — default
   return (
-    <View style={{ marginBottom: sectionGap(tokens, layout.sectionSpacing) }}>
+    <View style={{ marginBottom: tokens.spacing.lg }}>
       <View style={{ paddingHorizontal: tokens.spacing.md }}>
         <SectionHeader title="Popular Right Now" />
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: tokens.spacing.md, gap: tokens.spacing.md }}>
-        {items.map((item) => (
-          <View key={item.id} style={{ width: SCREEN_W * 0.4 }}>
-            <PopularCard item={item} />
-          </View>
-        ))}
+        {items.map((item) => {
+          const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
+          return (
+            <View key={item.id} style={{ width: SCREEN_W * 0.4, padding: tokens.spacing.md, ...cardChrome(tokens, engine) }}>
+              <Pressable onPress={() => onSelect(item.id)}>
+                <Image source={{ uri: imageUrl }} resizeMode="cover" style={{ height: 80, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd, backgroundColor: tokens.colors.surfaceInverse, marginBottom: tokens.spacing.sm }} />
+                <Text numberOfLines={1} style={{ color: tokens.colors.text, fontWeight: '700', fontSize: tokens.typography.fontSizeSm }}>{item.title}</Text>
+              </Pressable>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.sm }}>
+                <Text style={{ color: tokens.colors.text, fontWeight: '800' }}>${item.basePrice.toFixed(2)}</Text>
+                <QuickAddButton onAdd={() => safeAdd(item.id)} />
+              </View>
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   );

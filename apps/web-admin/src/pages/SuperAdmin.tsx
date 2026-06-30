@@ -5,7 +5,6 @@ import { useRestaurant } from '../context/RestaurantContext';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
-import { Switch } from '../components/ui/switch';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import {
@@ -25,38 +24,28 @@ import {
 } from '../components/ui/dialog';
 import { CreateRestaurantDialog } from '../components/CreateRestaurantDialog';
 import { PublishDialog } from '../components/PublishDialog';
+import { Layout } from '../components/Layout';
 import {
   Shield,
   Building2,
   DollarSign,
   PackageCheck,
   Activity,
-  Server,
   Eye,
   Ban,
   Edit3,
   ExternalLink,
   Plus,
-  Search,
   ChevronDown,
-  Globe,
   Palette,
   Layers,
   Type,
   Sparkles,
   Save,
   TrendingUp,
-  Users,
-  Store,
   AlertTriangle,
   CheckCircle2,
-  XCircle,
   Wrench,
-  Flame,
-  Settings2,
-  LogOut,
-  HelpCircle,
-  Bell,
 } from 'lucide-react';
 
 type EngineConfig = {
@@ -429,116 +418,30 @@ export const SuperAdmin = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#F4F6F9]">
-      {/* Super Admin Sidebar */}
-      <aside className="flex w-64 flex-col bg-[#0F172A] text-white">
-        <div className="flex items-center gap-3 px-5 py-5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-yellow-400 to-orange-500">
-            <Shield className="h-5 w-5 text-white" />
-          </span>
-          <div>
-            <h1 className="text-base font-bold leading-tight">PlatformOS</h1>
-            <p className="text-xs text-slate-400">Super Admin</p>
-          </div>
-        </div>
-
-        <nav className="flex-1 space-y-1 px-3 py-2">
+    <Layout title="Tenant Admin Console" breadcrumb="Tenant Admin Console">
+      {/* Tab bar */}
+      <div className="mb-6 flex gap-1 rounded-xl bg-white p-1 shadow-sm border border-gray-100">
+        {(['command', 'tenants', 'engines'] as const).map((tab) => (
           <button
+            key={tab}
             type="button"
-            onClick={() => setActiveTab('command')}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-              activeTab === 'command' ? 'bg-yellow-500/90 text-[#0F172A] shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white'
+            onClick={() => setActiveTab(tab)}
+            className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === tab
+                ? 'bg-[#0F172A] text-white shadow-sm'
+                : 'text-muted-foreground hover:bg-gray-100 hover:text-[#1E2D4A]'
             }`}
           >
-            <Activity size={18} />
-            <span>Global Command</span>
+            {tab === 'command' && <Activity className="h-4 w-4" />}
+            {tab === 'tenants' && <Building2 className="h-4 w-4" />}
+            {tab === 'engines' && <Palette className="h-4 w-4" />}
+            {tab === 'command' ? 'Global Command' : tab === 'tenants' ? 'Tenant Management' : 'Style Engines'}
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('tenants')}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-              activeTab === 'tenants' ? 'bg-yellow-500/90 text-[#0F172A] shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white'
-            }`}
-          >
-            <Building2 size={18} />
-            <span>Tenant Management</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('engines')}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-              activeTab === 'engines' ? 'bg-yellow-500/90 text-[#0F172A] shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white'
-            }`}
-          >
-            <Palette size={18} />
-            <span>Style Engines</span>
-          </button>
+        ))}
+      </div>
 
-          <div className="my-2 border-t border-white/10" />
-
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
-          >
-            <Store size={18} />
-            <span>Tenant Admin</span>
-          </button>
-        </nav>
-
-        <div className="px-3 py-3 space-y-1">
-          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
-            <HelpCircle size={18} />
-            <span>Help & Support</span>
-          </button>
-          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
-            <LogOut size={18} />
-            <span>Log Out</span>
-          </button>
-        </div>
-
-        <div className="m-3 flex items-center gap-3 rounded-xl bg-white/5 p-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-500 text-sm font-bold text-[#0F172A]">
-            SA
-          </span>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">System Admin</p>
-            <p className="truncate text-xs text-slate-400">admin@platformos.io</p>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3">
-          <div>
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-muted-foreground">PlatformOS</span>
-              <span className="text-muted-foreground">/</span>
-              <span className="font-medium text-[#0F172A]">
-                {activeTab === 'command' ? 'Global Command Center' : activeTab === 'tenants' ? 'Tenant Management' : 'Style Engine Governance'}
-              </span>
-            </div>
-            <h2 className="text-sm font-semibold text-[#1E2D4A] flex items-center gap-2">
-              <Shield className="h-4 w-4 text-yellow-500" />
-              Super Admin Workspace
-            </h2>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="text" placeholder="Search tenants..." onChange={(e) => setSearchQuery(e.target.value)} className="w-64 rounded-full border border-gray-200 bg-gray-50 py-2 pl-9 pr-4 text-sm focus:border-yellow-500 focus:bg-white focus:outline-none" />
-            </div>
-            <button type="button" className="relative rounded-full border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-100">
-              <Bell size={18} />
-              <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-yellow-500" />
-            </button>
-          </div>
-        </header>
-
-        <main className="flex-1 overflow-y-auto p-6">
-          {/* Tab: Global Command Center */}
-          {activeTab === 'command' && (
+      {/* Tab: Global Command Center */}
+      {activeTab === 'command' && (
             <div className="space-y-6">
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -833,8 +736,6 @@ export const SuperAdmin = () => {
               />
             </div>
           )}
-        </main>
-      </div>
 
       <SuspendDialog />
 
@@ -861,6 +762,6 @@ export const SuperAdmin = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </Layout>
   );
 };

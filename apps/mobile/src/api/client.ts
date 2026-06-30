@@ -12,7 +12,7 @@ export const API_BASE = `http://${MACHINE_IP}:4000/api/v1`;
 // Fallback restaurant ID (used only if no active restaurant is found)
 export const RESTAURANT_ID = 'tenant-burgerbliss';
 
-export type SectionConfig = { key: string; label: string; enabled: boolean; cardVariant?: string };
+export type SectionConfig = { key: string; label: string; enabled: boolean };
 
 const DEFAULT_HOME: SectionConfig[] = [
   { key: 'hero', label: 'Hero Video', enabled: true },
@@ -26,7 +26,6 @@ const DEFAULT_HOME: SectionConfig[] = [
   { key: 'featured', label: 'Featured', enabled: true },
   { key: 'stories', label: 'Stories', enabled: true },
   { key: 'popular', label: 'Popular', enabled: true },
-  { key: 'videoSection', label: 'Video Section', enabled: true, cardVariant: 'video' },
   { key: 'announcement', label: 'Announcement Strip', enabled: true },
   { key: 'imageMosaic', label: 'Image Mosaic', enabled: true },
 ];

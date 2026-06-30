@@ -8,7 +8,6 @@ export interface HomeSection {
   key: string;
   label: string;
   enabled: boolean;
-  cardVariant?: string;
 }
 
 export interface AdminOrder {

@@ -2,13 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useOrderById, useUpdateOrderStatus } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
-import { ScreenLayout, Card, Heading, BodyText, Button } from '../components/Layout';
-import { Icon } from '../components/shared/Icon';
+import { ScreenLayout, Card, Heading, BodyText } from '../components/Layout';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -16,7 +14,7 @@ const RootLevelHeader: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.widthThin,
+        borderBottomWidth: tokens.borders.thin,
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -56,17 +54,16 @@ const getPhaseForTime = (etaMinutes: number, totalMinutes: number): OrderPhase =
 const getPhaseLabel = (phase: OrderPhase): string => {
   switch (phase) {
     case 'KITCHEN_ASSEMBLY':
-      return 'Kitchen Assembly';
+      return '🍳 Kitchen Assembly';
     case 'COURIER_OUT_FOR_DELIVERY':
-      return 'Courier Out for Delivery';
+      return '🚗 Courier Out for Delivery';
     case 'ARRIVED':
-      return 'Arrived';
+      return '✅ Arrived';
   }
 };
 
 export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const { orderId } = route.params;
   const order = useOrderById(orderId);
   const [expandedSummary, setExpandedSummary] = useState(false);
@@ -115,7 +112,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
             alignItems: 'center',
           }}
         >
-          <Icon name="celebration" size={60} color={tokens.colors.textInverse} />
+          <Text style={{ fontSize: 60, marginBottom: tokens.spacing.md }}>🎉</Text>
           <Heading level={1} color={tokens.colors.textInverse} marginBottom={tokens.spacing.sm}>
             Order Confirmed!
           </Heading>
@@ -146,12 +143,6 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
             Live tracking will appear here
           </BodyText>
         </View>
-
-        <Button
-          label="Track Order"
-          onPress={() => navigation.navigate('OrderTracking', { orderId })}
-          size="lg"
-        />
 
         <Card marginBottom={tokens.spacing.lg} shadow>
           <View style={{ alignItems: 'center', marginBottom: tokens.spacing.lg }}>
@@ -208,7 +199,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               </BodyText>
               <Heading level={4}>{order.driverName || 'En route'}</Heading>
             </View>
-            <Icon name="truck" size={32} color={tokens.colors.text} />
+            <Text style={{ fontSize: 32 }}>🚗</Text>
           </View>
         </Card>
 
@@ -221,7 +212,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               alignItems: 'center',
               paddingBottom: expandedSummary ? tokens.spacing.md : 0,
               borderBottomColor: expandedSummary ? tokens.colors.border : 'transparent',
-              borderBottomWidth: expandedSummary ? tokens.borders.widthThin: 0,
+              borderBottomWidth: expandedSummary ? tokens.borders.thin : 0,
             }}
           >
             <Heading level={4}>Order Summary</Heading>
@@ -251,7 +242,7 @@ export const OrderSuccessPage: React.FC<{ navigation: any; route: any }> = ({ na
               <View
                 style={{
                   borderTopColor: tokens.colors.border,
-                  borderTopWidth: tokens.borders.widthThin,
+                  borderTopWidth: tokens.borders.thin,
                   paddingTop: tokens.spacing.md,
                   marginTop: tokens.spacing.md,
                 }}

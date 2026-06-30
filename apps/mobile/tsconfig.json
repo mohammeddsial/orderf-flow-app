@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx"  // or "react-native" for the old transform
   },
-  "extends": "expo/tsconfig.base",
-  "exclude": ["**/*.test.*", "**/__tests__/**"]
+  "extends": "expo/tsconfig.base"
 }

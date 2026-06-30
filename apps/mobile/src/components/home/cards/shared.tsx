@@ -72,7 +72,7 @@ export const PricePill: React.FC<{ t: ThemeTokens; engine?: EngineId; children: 
 };
 
 // Action button: engine-aware shape + shadow.
-export const ActionButton: React.FC<{ t: ThemeTokens; engine?: EngineId; label: string; onPress: () => void; style?: ViewStyle }> = ({ t, engine = 'MINIMALIST_CLEAN', label, onPress, style }) => {
+export const ActionButton: React.FC<{ t: ThemeTokens; engine?: EngineId; label: string; onPress: (e: any) => void; style?: ViewStyle }> = ({ t, engine = 'MINIMALIST_CLEAN', label, onPress, style }) => {
   const radius =
     engine === 'BRUTALIST_MODERNIST' ? 0 : 12;
   const shadow =
@@ -94,7 +94,7 @@ export const ActionButton: React.FC<{ t: ThemeTokens; engine?: EngineId; label: 
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={(e) => { e.stopPropagation(); onPress(e); }}
       style={[
         {
           alignSelf: 'flex-start',

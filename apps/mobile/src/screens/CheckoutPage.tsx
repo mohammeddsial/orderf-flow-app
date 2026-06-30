@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, Pressable, TextInput } from 'react-native';
-import { useCart, useCreateOrder, useTenant, store } from '@multi-restaurant/database';
+import { useCart, useCreateOrder, useTenant } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import { useCartPersistence } from '../hooks/useCartPersistence';
-import { Icon } from '../components/shared/Icon';
 import {
   ScreenLayout,
   Card,
@@ -18,8 +17,7 @@ interface SecureCheckoutHeaderProps {
 }
 
 const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (
@@ -27,7 +25,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.widthThin,
+        borderBottomWidth: tokens.borders.thin,
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -55,7 +53,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
       </Pressable>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Icon name="lock" size={14} color={tokens.colors.textInverse} />
+        <Text style={{ fontSize: 14, marginRight: tokens.spacing.sm }}>🔒</Text>
         <Heading level={3} marginBottom={0}>
           Secure Checkout
         </Heading>
@@ -67,8 +65,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
 };
 
 export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const tenant = useTenant();
   const { cart, clearPersistedCart } = useCartPersistence();
   const { createOrder, loading } = useCreateOrder();
@@ -91,7 +88,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   }
 
   const calculateRegionalTax = (subtotal: number): number => {
-    const region = (tenant as any).region || 'US';
+    const region = tenant.region || 'US';
     const taxRate = region === 'CA' ? 0.13 : region === 'UK' ? 0.20 : 0.08;
     return Math.floor(subtotal * taxRate * 100) / 100;
   };
@@ -112,7 +109,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         items: cart.items.map(item => ({
           menuItemId: item.menuItemId,
           quantity: item.quantity,
-          title: store.getMenuItemById(item.menuItemId)?.title ?? 'Item',
+          title: item.title,
           itemTotal: item.itemTotal,
           modifierSelections: item.modifierSelections || [],
           specialInstructions: item.specialInstructions,
@@ -145,14 +142,14 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const taxes = calculateRegionalTax(cart.subtotal);
   const deliveryFee = 4.99;
   const total = cart.subtotal + taxes + deliveryFee + tipAmount;
-  const region = (tenant as any).region || 'US';
+  const region = tenant.region || 'US';
   const taxRate = region === 'CA' ? 13 : region === 'UK' ? 20 : 8;
 
   const paymentMethods = [
-    { id: 'apple-pay', label: 'Apple Pay', icon: 'payments' },
-    { id: 'google-pay', label: 'Google Pay', icon: 'payments' },
-    { id: 'card', label: 'Credit/Debit Card', icon: 'payments' },
-    { id: 'interac', label: 'Interac', icon: 'payments' },
+    { id: 'apple-pay', label: 'Apple Pay', icon: '🍎' },
+    { id: 'google-pay', label: 'Google Pay', icon: '🔵' },
+    { id: 'card', label: 'Credit/Debit Card', icon: '💳' },
+    { id: 'interac', label: 'Interac', icon: '🏦' },
   ];
 
   return (
@@ -165,7 +162,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           padding={tokens.spacing.md}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="checkmark" size={18} color={tokens.colors.textInverse} />
+            <Text style={{ fontSize: 18, marginRight: tokens.spacing.sm }}>✓</Text>
             <View>
               <BodyText size="sm" color={tokens.colors.textInverse} marginBottom={tokens.spacing.xs}>
                 SSL Encrypted Connection
@@ -186,13 +183,14 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               <Pressable
                 key={method.id}
                 onPress={() => setPaymentMethod(method.id)}
+                accessibilityLabel={method.label}
                 style={{
                   padding: tokens.spacing.md,
                   borderColor:
                     paymentMethod === method.id
                       ? tokens.colors.primary
                       : tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin,
+                  borderWidth: tokens.borders.thin,
                   borderRadius: tokens.borders.radiusMd,
                   backgroundColor:
                     paymentMethod === method.id
@@ -202,7 +200,9 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                   alignItems: 'center',
                 }}
               >
-                <Icon name={method.icon} size={20} color={paymentMethod === method.id ? tokens.colors.primary : tokens.colors.text} />
+                <Text style={{ fontSize: 20, marginRight: tokens.spacing.md }}>
+                  {method.icon}
+                </Text>
                 <BodyText
                   color={
                     paymentMethod === method.id
@@ -230,7 +230,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               onChangeText={setCardholderName}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.widthThin,
+                borderWidth: tokens.borders.thin,
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -265,7 +265,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                       ? tokens.colors.primary
                       : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.widthThin,
+                  borderWidth: tokens.borders.thin,
                   borderRadius: tokens.borders.radiusMd,
                   alignItems: 'center',
                 }}
@@ -291,7 +291,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View
             style={{
               borderBottomColor: tokens.colors.border,
-              borderBottomWidth: tokens.borders.widthThin,
+              borderBottomWidth: tokens.borders.thin,
               paddingBottom: tokens.spacing.md,
               marginBottom: tokens.spacing.md,
             }}
@@ -364,7 +364,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         )}
 
         <Button
-          label={`Place Order • $${total.toFixed(2)}`}
+          label={`🔒 Place Order • $${total.toFixed(2)}`}
           onPress={handlePlaceOrder}
           disabled={loading}
           size="lg"

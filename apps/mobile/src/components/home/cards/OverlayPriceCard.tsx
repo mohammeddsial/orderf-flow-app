@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { engineCard, Favorite, RatingRow, imageRadiusFor } from './shared';
+import { engineCard, Favorite, RatingRow, ActionButton, imageRadiusFor } from './shared';
 import { EngineId } from '../engineStyle';
 
 interface CardProps {
@@ -12,7 +12,7 @@ interface CardProps {
   onAdd?: (id: string) => void;
 }
 
-export const OverlayPriceCard: React.FC<CardProps> = ({ item, onPress }) => {
+export const OverlayPriceCard: React.FC<CardProps> = ({ item, onPress, onAdd }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
@@ -34,9 +34,12 @@ export const OverlayPriceCard: React.FC<CardProps> = ({ item, onPress }) => {
           </Text>
         </View>
       </View>
-      <Text numberOfLines={1} style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text, marginTop: tokens.spacing.sm }}>
-        {item.title}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.sm }}>
+        <Text numberOfLines={1} style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text, flex: 1 }}>
+          {item.title}
+        </Text>
+        {onAdd && <ActionButton t={tokens} engine={engine} label="+" onPress={() => onAdd(item.id)} />}
+      </View>
       <RatingRow t={tokens} />
     </Pressable>
   );

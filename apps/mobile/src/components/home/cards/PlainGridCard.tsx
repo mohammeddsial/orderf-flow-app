@@ -3,15 +3,16 @@ import React from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { engineCard, Favorite, RatingRow, imageRadiusFor } from './shared';
+import { engineCard, Favorite, RatingRow, ActionButton, imageRadiusFor } from './shared';
 import { EngineId } from '../engineStyle';
 
 interface CardProps {
   item: any;
   onPress: (id: string) => void;
+  onAdd?: (id: string) => void;
 }
 
-export const PlainGridCard: React.FC<CardProps> = ({ item, onPress }) => {
+export const PlainGridCard: React.FC<CardProps> = ({ item, onPress, onAdd }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
@@ -30,9 +31,12 @@ export const PlainGridCard: React.FC<CardProps> = ({ item, onPress }) => {
       <Text numberOfLines={1} style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.text, marginTop: tokens.spacing.sm }}>
         {item.title}
       </Text>
-      <Text style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.primary, marginTop: 2 }}>
-        ${item.basePrice.toFixed(2)}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+        <Text style={{ fontWeight: '800', fontSize: tokens.typography.fontSizeMd, color: tokens.colors.primary }}>
+          ${item.basePrice.toFixed(2)}
+        </Text>
+        {onAdd && <ActionButton t={tokens} engine={engine} label="+" onPress={() => onAdd(item.id)} />}
+      </View>
       <RatingRow t={tokens} />
     </Pressable>
   );

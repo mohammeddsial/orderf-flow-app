@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, TextInput, ScrollView, FlatList, Pressable, Text, Modal, Image, ImageBackground } from 'react-native';
+import { View, TextInput, ScrollView, FlatList, Pressable, Text, Modal, Image } from 'react-native';
 import { useMenuItems, useMenuItemsByCategory, useCart, MenuItem, store } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import {
@@ -10,8 +10,7 @@ import {
   Button,
   SolidHeader,
 } from '../components/Layout';
-import { SectionHeader, QuickAddButton, cardChrome, EngineId, layoutConfig, imageRadiusFor } from '../components/home';
-import { Icon } from '../components/shared/Icon';
+import { SectionHeader, QuickAddButton, cardChrome, EngineId } from '../components/home';
 import { getMenuSectionConfig } from '../api/client';
 
 export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
@@ -41,7 +40,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
   const handleAddToCart = useCallback(() => {
     if (selectedItem && cart) {
       try {
-        store.addToCart(selectedItem.id, quantity);
+        cart.addToCart(selectedItem.id, quantity);
         setCustomizerOpen(false);
         setQuantity(1);
         setSelectedItem(null);
@@ -58,14 +57,14 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
           flexDirection: 'row',
           backgroundColor: tokens.colors.surface,
           borderColor: tokens.colors.border,
-          borderWidth: tokens.borders.widthThin,
+          borderWidth: tokens.borders.thin,
           borderRadius: tokens.borders.radiusMd,
           paddingHorizontal: tokens.spacing.md,
           marginBottom: tokens.spacing.md,
           alignItems: 'center',
         }}
       >
-        <Icon name="search" size={16} color={tokens.colors.textDisabled} />
+        <Text style={{ fontSize: 16, marginRight: tokens.spacing.sm }}>🔍</Text>
         <TextInput
           placeholder="Search menu..."
           placeholderTextColor={tokens.colors.textDisabled}
@@ -104,7 +103,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
                 : tokens.colors.surfaceInverse,
               borderRadius: tokens.borders.radiusPill,
               borderColor: tokens.colors.border,
-              borderWidth: tokens.borders.widthThin,
+              borderWidth: tokens.borders.thin,
             }}
           >
             <Text
@@ -129,7 +128,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
       style={{
         backgroundColor: tokens.colors.background,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.widthThin,
+        borderBottomWidth: tokens.borders.thin,
         paddingHorizontal: tokens.spacing.md,
         marginHorizontal: -tokens.spacing.md,
         paddingVertical: tokens.spacing.sm,
@@ -172,149 +171,79 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
     </View>
   );
 
-  const ProductGrid = () => {
-    const layout = layoutConfig(engine);
-    const imgR = imageRadiusFor(engine, tokens);
-
-    // Background image layout (Vibrant) — image fills card, text overlaid
-    if (layout.cardImagePosition === 'background') {
-      return (
-        <View style={{ marginBottom: 100 }}>
-          {filteredItems.map(item => (
-            <Pressable
-              key={item.id}
-              onPress={() => {
-                setSelectedItem(item);
-                setCustomizerOpen(true);
-              }}
-            >
-              <ImageBackground
-                source={{ uri: item.imageUrl }}
-                resizeMode="cover"
-                style={{
-                  marginBottom: tokens.spacing.md,
-                  minHeight: 140,
-                  justifyContent: 'flex-end',
-                  ...cardChrome(tokens, engine),
-                }}
-              >
-                <View style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: tokens.spacing.md, borderBottomLeftRadius: imgR, borderBottomRightRadius: imgR }}>
-                  <Text style={{ color: '#FFFFFF', fontWeight: '800', fontSize: tokens.typography.fontSizeMd, marginBottom: 4 }}>{item.title}</Text>
-                  <Text numberOfLines={2} style={{ color: 'rgba(255,255,255,0.8)', fontSize: tokens.typography.fontSizeSm, marginBottom: tokens.spacing.sm }}>
-                    {item.description}
-                  </Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ color: tokens.colors.accent, fontWeight: '800', fontSize: tokens.typography.fontSizeMd }}>${item.basePrice.toFixed(2)}</Text>
-                    <QuickAddButton
-                      onAdd={() => {
-                        try { store.addToCart(item.id, 1); } catch { /* no-op */ }
-                      }}
-                    />
-                  </View>
-                </View>
-              </ImageBackground>
-            </Pressable>
-          ))}
-        </View>
-      );
-    }
-
-    // Top image layout (Minimalist) — vertical card, image on top
-    if (layout.cardImagePosition === 'top') {
-      return (
-        <View style={{ marginBottom: 100, flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.md }}>
-          {filteredItems.map(item => (
-            <Pressable
-              key={item.id}
-              style={{ width: '48%' }}
-              onPress={() => {
-                setSelectedItem(item);
-                setCustomizerOpen(true);
-              }}
-            >
-              <View style={{ overflow: 'hidden', ...cardChrome(tokens, engine) }}>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  resizeMode="cover"
-                  style={{ width: '100%', height: 120, backgroundColor: tokens.colors.surfaceInverse }}
-                />
-                <View style={{ padding: tokens.spacing.sm }}>
-                  <Heading level={4}>{item.title}</Heading>
-                  <Text numberOfLines={2} style={{ fontSize: tokens.typography.fontSizeSm, color: tokens.colors.textDisabled, marginBottom: tokens.spacing.sm }}>
-                    {item.description}
-                  </Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Heading level={4}>${item.basePrice.toFixed(2)}</Heading>
-                    <QuickAddButton
-                      onAdd={() => {
-                        try { store.addToCart(item.id, 1); } catch { /* no-op */ }
-                      }}
-                    />
-                  </View>
-                </View>
-              </View>
-            </Pressable>
-          ))}
-        </View>
-      );
-    }
-
-    // Left image layout (Brutalist) — default, image right, text left
-    return (
-      <View style={{ marginBottom: 100 }}>
-        {filteredItems.map(item => (
-          <Pressable
-            key={item.id}
-            onPress={() => {
-              setSelectedItem(item);
-              setCustomizerOpen(true);
+  const ProductGrid = () => (
+    <View style={{ marginBottom: 100 }}>
+      {filteredItems.map(item => (
+        <Pressable
+          key={item.id}
+          onPress={() => {
+            setSelectedItem(item);
+            setCustomizerOpen(true);
+          }}
+        >
+          <View
+            style={{
+              padding: tokens.spacing.md,
+              marginBottom: tokens.spacing.md,
+              ...cardChrome(tokens, engine),
             }}
           >
             <View
               style={{
-                padding: tokens.spacing.md,
-                marginBottom: tokens.spacing.md,
-                ...cardChrome(tokens, engine),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={{ flex: 1 }}>
-                  <Heading level={4}>{item.title}</Heading>
-                  <BodyText size="sm" color={tokens.colors.textDisabled} marginBottom={tokens.spacing.sm}>
-                    {item.description}
-                  </BodyText>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Heading level={4}>${item.basePrice.toFixed(2)}</Heading>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.sm }}>
-                      <BodyText size="sm" color={tokens.colors.textDisabled}>
-                        {item.calories} cal
-                      </BodyText>
-                      <QuickAddButton
-                        onAdd={() => {
-                          try { store.addToCart(item.id, 1); } catch { /* no-op */ }
-                        }}
-                      />
-                    </View>
+              <View style={{ flex: 1 }}>
+                <Heading level={4}>{item.title}</Heading>
+                <BodyText
+                  size="sm"
+                  color={tokens.colors.textDisabled}
+                  marginBottom={tokens.spacing.sm}
+                >
+                  {item.description}
+                </BodyText>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Heading level={4}>${item.basePrice.toFixed(2)}</Heading>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: tokens.spacing.sm }}>
+                    <BodyText size="sm" color={tokens.colors.textDisabled}>
+                      {item.calories} cal
+                    </BodyText>
+                    <QuickAddButton
+                      onAdd={() => {
+                        try {
+                          store.addToCart(item.id, 1);
+                        } catch {
+                          /* no-op */
+                        }
+                      }}
+                    />
                   </View>
                 </View>
-                <Image
-                  source={{ uri: item.imageUrl }}
-                  resizeMode="cover"
-                  style={{
-                    width: 80,
-                    height: 80,
-                    backgroundColor: tokens.colors.surfaceInverse,
-                    borderRadius: imgR,
-                    marginLeft: tokens.spacing.md,
-                  }}
-                />
               </View>
+              <Image
+                source={{ uri: item.imageUrl }}
+                resizeMode="cover"
+                style={{
+                  width: 80,
+                  height: 80,
+                  backgroundColor: tokens.colors.surfaceInverse,
+                  borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusMd,
+                  marginLeft: tokens.spacing.md,
+                }}
+              />
             </View>
-          </Pressable>
-        ))}
-      </View>
-    );
-  };
+          </View>
+        </Pressable>
+      ))}
+    </View>
+  );
 
   const CustomizerSheet = () => (
     <Modal
@@ -367,7 +296,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
                     style={{
                       paddingVertical: tokens.spacing.md,
                       borderBottomColor: tokens.colors.border,
-                      borderBottomWidth: tokens.borders.widthThin,
+                      borderBottomWidth: tokens.borders.thin,
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}
@@ -435,7 +364,7 @@ export const MenuPage: React.FC<{ navigation: any; route: any }> = ({ navigation
         right: 0,
         backgroundColor: tokens.colors.surface,
         borderTopColor: tokens.colors.border,
-        borderTopWidth: tokens.borders.widthThin,
+        borderTopWidth: tokens.borders.thin,
         paddingHorizontal: tokens.spacing.md,
         paddingVertical: tokens.spacing.md,
       }}

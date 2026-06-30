@@ -3,7 +3,6 @@ import { View, Text, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme';
 import { EngineId, cardChrome, pillChrome } from './engineStyle';
-import { Icon } from '../shared/Icon';
 import { FlashDeal, ActiveOrderInfo, AbandonedCart } from './mockData';
 
 const fmt = (s: number): string => {
@@ -16,7 +15,7 @@ const fmt = (s: number): string => {
 // Adaptive: Urgency / Flash deal with ticking countdown
 // ---------------------------------------------------------------------------
 
-export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; cardVariant?: string }> = ({ deal, onClaim, cardVariant }) => {
+export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void }> = ({ deal, onClaim }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const [remaining, setRemaining] = useState(deal.durationSec);
@@ -28,33 +27,6 @@ export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; ca
     return () => clearInterval(id);
   }, []);
 
-  // cardVariant: listRow — compact inline row
-  if (cardVariant === 'listRow') {
-    return (
-      <Pressable
-        onPress={onClaim}
-        style={{
-          marginBottom: tokens.spacing.lg,
-          padding: tokens.spacing.sm,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          ...cardChrome(tokens, engine),
-          backgroundColor: tokens.colors.accent,
-          borderColor: tokens.colors.accent,
-        }}
-      >
-        <Text style={{ color: tokens.colors.textInverse, fontWeight: '700', fontSize: tokens.typography.fontSizeSm, flex: 1 }} numberOfLines={1}>
-          {deal.title}
-        </Text>
-        <View style={{ paddingHorizontal: tokens.spacing.sm, paddingVertical: 2, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : tokens.borders.radiusSm, backgroundColor: 'rgba(0,0,0,0.35)' }}>
-          <Text style={{ color: '#FFFFFF', fontWeight: '900', fontSize: tokens.typography.fontSizeXs, fontVariant: ['tabular-nums'] }}> {fmt(remaining)}</Text>
-        </View>
-      </Pressable>
-    );
-  }
-
-  // Default: feature — full-width banner
   return (
     <Pressable
       onPress={onClaim}
@@ -85,7 +57,7 @@ export const FlashCountdown: React.FC<{ deal: FlashDeal; onClaim: () => void; ca
           backgroundColor: 'rgba(0,0,0,0.35)',
         }}
       >
-        <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}> {fmt(remaining)}</Text>
+        <Text style={{ color: '#FFFFFF', fontWeight: '900', fontVariant: ['tabular-nums'] }}>⏱ {fmt(remaining)}</Text>
       </View>
     </Pressable>
   );
@@ -160,7 +132,7 @@ export const ActiveTracker: React.FC<{ order: ActiveOrderInfo; onTrack: () => vo
           </Text>
           <Text style={{ color: tokens.colors.accent, fontWeight: '800' }}>{order.etaMin} min</Text>
         </View>
-        <View style={{ height: 5, borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 3, backgroundColor: tokens.colors.borderLight, overflow: 'hidden' }}>
+        <View style={{ height: 5, borderRadius: 3, backgroundColor: tokens.colors.borderLight, overflow: 'hidden' }}>
           <View style={{ height: '100%', width: `${Math.round(order.progress * 100)}%`, backgroundColor: tokens.colors.success }} />
         </View>
       </Pressable>

@@ -12,11 +12,6 @@ import {
   menuItems as seedItems,
   orders as seedOrders,
   defaultPages as seedPages,
-  deals as seedDeals,
-  limitedTimeOffer as seedLto,
-  rewards as seedRewards,
-  stores as seedStores,
-  user as seedUser,
 } from './data.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,11 +29,6 @@ function seedState() {
     orders: seedOrders.map((o) => ({ ...o })),
     pageLayouts,
     activeRestaurantId: restaurants[0]?.id ?? null,
-    deals: seedDeals.map((d) => ({ ...d })),
-    limitedTimeOffer: { ...seedLto },
-    rewards: seedRewards.map((r) => ({ ...r })),
-    stores: seedStores.map((s) => ({ ...s })),
-    user: { ...seedUser },
   };
 }
 
@@ -52,24 +42,19 @@ function loadState() {
       orders: Array.isArray(db.orders) ? db.orders : seed.orders,
       pageLayouts: db.pageLayouts && typeof db.pageLayouts === 'object' ? db.pageLayouts : seed.pageLayouts,
       activeRestaurantId: typeof db.activeRestaurantId === 'string' ? db.activeRestaurantId : seed.activeRestaurantId,
-      deals: Array.isArray(db.deals) ? db.deals : seed.deals,
-      limitedTimeOffer: db.limitedTimeOffer && typeof db.limitedTimeOffer === 'object' ? db.limitedTimeOffer : seed.limitedTimeOffer,
-      rewards: Array.isArray(db.rewards) ? db.rewards : seed.rewards,
-      stores: Array.isArray(db.stores) ? db.stores : seed.stores,
-      user: db.user && typeof db.user === 'object' ? db.user : seed.user,
     };
   } catch {
     return seedState();
   }
 }
 
-let { restaurants, menuItems, orders, pageLayouts, activeRestaurantId, deals, limitedTimeOffer, rewards, stores, user } = loadState();
+let { restaurants, menuItems, orders, pageLayouts, activeRestaurantId } = loadState();
 
 function persist() {
   try {
     fs.writeFileSync(
       DB_FILE,
-      JSON.stringify({ restaurants, menuItems, orders, pageLayouts, activeRestaurantId, deals, limitedTimeOffer, rewards, stores, user }, null, 2)
+      JSON.stringify({ restaurants, menuItems, orders, pageLayouts, activeRestaurantId }, null, 2)
     );
   } catch (e) {
     console.error('Failed to persist db.json:', e.message);
@@ -87,7 +72,6 @@ const cleanSections = (arr) =>
     key: String(s.key),
     label: String(s.label ?? s.key),
     enabled: Boolean(s.enabled),
-    ...(s.cardVariant ? { cardVariant: String(s.cardVariant) } : {}),
   }));
 
 const api = express.Router();
@@ -205,71 +189,6 @@ api.get('/orders', (req, res) => {
   res.json(r ? orders.filter((o) => o.restaurantId === r) : orders);
 });
 
-api.post('/orders', (req, res) => {
-  const body = req.body || {};
-  const created = {
-    id: rid('ORD'),
-    userId: body.userId || 'guest',
-    restaurantId: body.restaurantId || restaurants[0]?.id || 'tenant-burgerbliss',
-    customer: body.customer || 'Guest',
-    status: 'CONFIRMED',
-    eta: body.estimatedDeliveryTime ? `${body.estimatedDeliveryTime} min` : '35 min',
-    driver: null,
-    rating: null,
-    items: Array.isArray(body.items) ? body.items.map((i) => ({
-      id: rid('oi'),
-      menuItemId: i.menuItemId,
-      title: i.title ?? 'Item',
-      quantity: i.quantity ?? 1,
-      itemTotal: i.itemTotal ?? 0,
-      modifierSelections: i.modifierSelections ?? [],
-      specialInstructions: i.specialInstructions ?? '',
-    })) : [],
-    subtotal: body.subtotal ?? 0,
-    taxes: body.taxes ?? 0,
-    deliveryFee: body.deliveryFee ?? 0,
-    discountAmount: body.discountAmount ?? 0,
-    tip: body.tip ?? 0,
-    total: body.total ?? (body.subtotal ?? 0) + (body.taxes ?? 0) + (body.deliveryFee ?? 0) + (body.tip ?? 0),
-    fulfillmentMode: body.fulfillmentMode || 'DELIVERY',
-    estimatedDeliveryTime: body.estimatedDeliveryTime ?? 35,
-    deliveryAddress: body.deliveryAddress || '',
-    paymentMethod: body.paymentMethod || 'card',
-    createdAt: now(),
-    updatedAt: now(),
-  };
-  orders.push(created);
-  persist();
-  res.status(201).json(created);
-});
-
-api.get('/orders/:id', (req, res) => {
-  const found = orders.find((o) => o.id === req.params.id);
-  if (!found) return res.status(404).json({ error: 'Not found' });
-  res.json(found);
-});
-
-api.patch('/orders/:id', (req, res) => {
-  const idx = orders.findIndex((o) => o.id === req.params.id);
-  if (idx === -1) return res.status(404).json({ error: 'Not found' });
-  orders[idx] = { ...orders[idx], ...req.body, id: orders[idx].id, updatedAt: now() };
-  persist();
-  res.json(orders[idx]);
-});
-
-// ---- Deals ----------------------------------------------------------------
-api.get('/deals', (_req, res) => res.json(deals));
-api.get('/limited_time_offer', (_req, res) => res.json(limitedTimeOffer));
-
-// ---- Rewards --------------------------------------------------------------
-api.get('/rewards', (_req, res) => res.json(rewards));
-
-// ---- Stores ---------------------------------------------------------------
-api.get('/stores', (_req, res) => res.json(stores));
-
-// ---- User -----------------------------------------------------------------
-api.get('/user', (_req, res) => res.json(user));
-
 // ---- Mobile page layouts (per restaurant, per page) ----------------------
 api.get('/restaurants/:id/pages', (req, res) => {
   if (!pageLayouts[req.params.id]) pageLayouts[req.params.id] = clonePages();
@@ -283,30 +202,6 @@ api.put('/restaurants/:id/pages/:page', (req, res) => {
   persist();
   res.json(pageLayouts[req.params.id][req.params.page]);
 });
-
-// ---- Engine configs (token values for each UI engine) -------------------
-const engineConfigs = {
-  BRUTALIST_MODERNIST: {
-    borders: { radiusSharp: 0, radiusSm: 0, radiusMd: 0, radiusLg: 0, radiusXl: 0, radiusPill: 0, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
-    shadows: { sm: '0 1px 3px rgba(0,0,0,0.3)', md: '0 4px 6px rgba(0,0,0,0.3)', lg: '0 10px 15px rgba(0,0,0,0.3)', xl: '0 20px 25px rgba(0,0,0,0.3)', '2xl': '0 25px 50px rgba(0,0,0,0.3)' },
-    layout: { heroStyle: 'full-bleed', heroHeightRatio: 0.85, categoryLayout: 'list', cardImagePosition: 'left', sectionSpacing: 'tight', gridColumns: 1, popularLayout: 'list' },
-    animation: { pressScale: 0.98, enterDuration: 150, scrollRevealOffset: 0 },
-  },
-  MINIMALIST_CLEAN: {
-    borders: { radiusSharp: 0, radiusSm: 4, radiusMd: 8, radiusLg: 12, radiusXl: 16, radiusPill: 24, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
-    shadows: { sm: '0 2px 4px rgba(0,0,0,0.08)', md: '0 4px 8px rgba(0,0,0,0.1)', lg: '0 8px 16px rgba(0,0,0,0.12)', xl: '0 12px 24px rgba(0,0,0,0.15)', '2xl': '0 20px 40px rgba(0,0,0,0.16)' },
-    layout: { heroStyle: 'compact', heroHeightRatio: 0.5, categoryLayout: 'grid-2x2', cardImagePosition: 'top', sectionSpacing: 'normal', gridColumns: 2, popularLayout: 'horizontal' },
-    animation: { pressScale: 0.98, enterDuration: 300, scrollRevealOffset: 20 },
-  },
-  VIBRANT_STREET_TECH: {
-    borders: { radiusSharp: 0, radiusSm: 6, radiusMd: 12, radiusLg: 16, radiusXl: 20, radiusPill: 32, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
-    shadows: { sm: '0 0 8px rgba(0,217,255,0.3)', md: '0 0 16px rgba(0,217,255,0.5)', lg: '0 0 24px rgba(255,0,110,0.4)', xl: '0 0 32px rgba(0,217,255,0.6)', '2xl': '0 0 48px rgba(255,0,110,0.5)' },
-    layout: { heroStyle: 'split', heroHeightRatio: 0.6, categoryLayout: 'carousel', cardImagePosition: 'background', sectionSpacing: 'airy', gridColumns: 2, popularLayout: 'horizontal' },
-    animation: { pressScale: 0.95, enterDuration: 400, scrollRevealOffset: 30 },
-  },
-};
-
-api.get('/engine-configs', (_req, res) => res.json(engineConfigs));
 
 // ---- Active restaurant (admin -> mobile preview link) --------------------
 api.get('/active_restaurant', (_req, res) => res.json({ restaurantId: activeRestaurantId }));

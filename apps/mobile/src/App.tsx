@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, ActivityIndicator, AppState, Platform } from 'react-native';
+import { View, ActivityIndicator, AppState } from 'react-native';
 import {
   useFonts,
   Poppins_400Regular,
@@ -31,19 +31,6 @@ export default function App() {
       setReady(true);
     }
   };
-
-  // Fix web scrolling: inject CSS to prevent body overflow:hidden and force overflow:visible on card containers
-  useEffect(() => {
-    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
-    const style = document.createElement('style');
-    style.textContent = `
-      html { overflow-y: auto; }
-      body { overflow-y: auto !important; min-height: 100vh; }
-      #root { display: flex; min-height: 100vh; flex: 1; }
-    `;
-    document.head.appendChild(style);
-    return () => { style.remove(); };
-  }, []);
 
   // Initial bootstrap
   useEffect(() => {

@@ -12,21 +12,12 @@ import UpsellPage from '../screens/UpsellPage';
 import CheckoutPage from '../screens/CheckoutPage';
 import DeliveryConfigPage from '../screens/DeliveryConfigPage';
 import OrderSuccessPage from '../screens/OrderSuccessPage';
-import OrderTrackingPage from '../screens/OrderTrackingPage';
 import RewardsPage from '../screens/RewardsPage';
 import ReviewPage from '../screens/ReviewPage';
-import ProfilePage from '../screens/ProfilePage';
-import SearchPage from '../screens/SearchPage';
-import OrderHistoryPage from '../screens/OrderHistoryPage';
-import AddressPage from '../screens/AddressPage';
-import PromotionsPage from '../screens/PromotionsPage';
-import { CustomTabBar } from './CustomTabBar';
 
 const HomeStack = createStackNavigator();
 const MenuStack = createStackNavigator();
 const RewardsStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
-const PromotionsStack = createStackNavigator();
 const CheckoutStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,7 +33,6 @@ const HomeStackNavigator = () => (
     <HomeStack.Screen name="ProductDetail" component={ProductDetailPage} />
     <HomeStack.Screen name="Rewards" component={RewardsPage} />
     <HomeStack.Screen name="Review" component={ReviewPage} />
-    <HomeStack.Screen name="OrderTracking" component={OrderTrackingPage} />
   </HomeStack.Navigator>
 );
 
@@ -50,7 +40,6 @@ const MenuStackNavigator = () => (
   <MenuStack.Navigator screenOptions={{ headerShown: false }}>
     <MenuStack.Screen name="MenuScreen" component={MenuPage} />
     <MenuStack.Screen name="ProductDetail" component={ProductDetailPage} />
-    <MenuStack.Screen name="Search" component={SearchPage} />
   </MenuStack.Navigator>
 );
 
@@ -58,20 +47,6 @@ const RewardsStackNavigator = () => (
   <RewardsStack.Navigator screenOptions={{ headerShown: false }}>
     <RewardsStack.Screen name="RewardsScreen" component={RewardsPage} />
   </RewardsStack.Navigator>
-);
-
-const ProfileStackNavigator = () => (
-  <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
-    <ProfileStack.Screen name="ProfileScreen" component={ProfilePage} />
-    <ProfileStack.Screen name="OrderHistory" component={OrderHistoryPage} />
-    <ProfileStack.Screen name="AddressPage" component={AddressPage} />
-  </ProfileStack.Navigator>
-);
-
-const PromotionsStackNavigator = () => (
-  <PromotionsStack.Navigator screenOptions={{ headerShown: false }}>
-    <PromotionsStack.Screen name="PromotionsScreen" component={PromotionsPage} />
-  </PromotionsStack.Navigator>
 );
 
 const CheckoutStackNavigator = () => (
@@ -85,7 +60,6 @@ const CheckoutStackNavigator = () => (
       component={OrderSuccessPage}
       options={{ gestureEnabled: false }}
     />
-    <CheckoutStack.Screen name="OrderTracking" component={OrderTrackingPage} />
   </CheckoutStack.Navigator>
 );
 
@@ -94,19 +68,40 @@ const BottomTabNavigator = () => {
 
   return (
     <Tab.Navigator
-      tabBar={(props) => <CustomTabBar {...props} />}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: tokens.colors.primary,
         tabBarInactiveTintColor: tokens.colors.textDisabled,
-        tabBarStyle: { display: 'none' },
+        tabBarStyle: {
+          backgroundColor: tokens.colors.surface,
+          borderTopColor: tokens.colors.border,
+          borderTopWidth: 1,
+        },
       }}
     >
-      <Tab.Screen name="Home" component={HomeStackNavigator} />
-      <Tab.Screen name="Menu" component={MenuStackNavigator} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStackNavigator}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🏠</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={MenuStackNavigator}
+        options={{
+          tabBarLabel: 'Menu',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🍔</Text>,
+        }}
+      />
       <Tab.Screen
         name="CartTab"
         component={EmptyScreen}
+        options={{
+          tabBarLabel: 'Cart',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>🛒</Text>,
+        }}
         listeners={({ navigation }) => ({
           tabPress: e => {
             e.preventDefault();
@@ -114,9 +109,14 @@ const BottomTabNavigator = () => {
           },
         })}
       />
-      <Tab.Screen name="Rewards" component={RewardsStackNavigator} />
-      <Tab.Screen name="Promotions" component={PromotionsStackNavigator} />
-      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
+      <Tab.Screen
+        name="Rewards"
+        component={RewardsStackNavigator}
+        options={{
+          tabBarLabel: 'Rewards',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 24, color }}>⭐</Text>,
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -129,7 +129,7 @@ export const RootNavigator = () => {
       <RootStack.Navigator
         screenOptions={{
           headerShown: false,
-          cardStyle: { backgroundColor: tokens.colors.background, overflow: 'visible' },
+          cardStyle: { backgroundColor: tokens.colors.background },
         }}
       >
         <RootStack.Screen name="MainApp" component={BottomTabNavigator} />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, Pressable } from 'react-native';
-import { useMenuItemById, useCart, store } from '@multi-restaurant/database';
+import { useMenuItemById, useCart } from '@multi-restaurant/database';
 import { useTheme } from '../theme';
 import {
   ScreenLayout,
@@ -13,8 +13,7 @@ import {
 } from '../components/Layout';
 
 export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ navigation, route }) => {
-  const { tokens, engineStyle } = useTheme();
-  const engine = engineStyle as any;
+  const { tokens } = useTheme();
   const { itemId } = route.params;
   const item = useMenuItemById(itemId);
   const cart = useCart();
@@ -66,7 +65,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
       });
 
       try {
-        store.addToCart(item.id, quantity, modifierSelections, isMealDeal ? 'Made it a meal' : '');
+        cart.addToCart(item.id, quantity, modifierSelections, isMealDeal ? 'Made it a meal' : '');
         navigation.navigate('Upsell');
       } catch (error) {
         console.error('Error adding to cart:', error);
@@ -121,10 +120,10 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
 
             <View style={{ marginBottom: tokens.spacing.lg }}>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: tokens.spacing.sm }}>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin}>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.thin}>
                   <BodyText size="sm">Contains Gluten</BodyText>
                 </Card>
-                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.widthThin}>
+                <Card padding={tokens.spacing.sm} marginBottom={0} borderWidth={tokens.borders.thin}>
                   <BodyText size="sm">Contains Dairy</BodyText>
                 </Card>
               </View>
@@ -146,7 +145,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                       style={{
                         paddingVertical: tokens.spacing.md,
                         borderBottomColor: tokens.colors.borderLight,
-                        borderBottomWidth: tokens.borders.widthThin,
+                        borderBottomWidth: tokens.borders.thin,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'center',
@@ -157,9 +156,9 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                           style={{
                             width: 20,
                             height: 20,
-                            borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
+                            borderRadius: 4,
                             borderColor: tokens.colors.border,
-                            borderWidth: tokens.borders.widthThin,
+                            borderWidth: tokens.borders.thin,
                             marginRight: tokens.spacing.md,
                             backgroundColor: selectedModifiers[modifier.id]?.includes(option.id)
                               ? tokens.colors.primary
@@ -196,7 +195,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                         ? tokens.colors.primary
                         : tokens.colors.surface,
                       borderColor: tokens.colors.border,
-                      borderWidth: tokens.borders.widthThin,
+                      borderWidth: tokens.borders.thin,
                       borderRadius: tokens.borders.radiusMd,
                       alignItems: 'center',
                     }}
@@ -222,7 +221,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
               <Card
                 padding={tokens.spacing.md}
                 backgroundColor={isMealDeal ? tokens.colors.accentLight : tokens.colors.surface}
-                borderWidth={tokens.borders.widthThin}
+                borderWidth={tokens.borders.thin}
                 borderColor={isMealDeal ? tokens.colors.accent : tokens.colors.border}
               >
                 <Pressable
@@ -243,9 +242,9 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
                     style={{
                       width: 24,
                       height: 24,
-                      borderRadius: engine === 'BRUTALIST_MODERNIST' ? 0 : 4,
+                      borderRadius: 4,
                       borderColor: tokens.colors.border,
-                      borderWidth: tokens.borders.widthThin,
+                      borderWidth: tokens.borders.thin,
                       backgroundColor: isMealDeal ? tokens.colors.accent : 'transparent',
                     }}
                   />
@@ -259,7 +258,7 @@ export const ProductDetailPage: React.FC<{ navigation: any; route: any }> = ({ n
           style={{
             backgroundColor: tokens.colors.surface,
             borderTopColor: tokens.colors.border,
-            borderTopWidth: tokens.borders.widthThin,
+            borderTopWidth: tokens.borders.thin,
             paddingHorizontal: tokens.spacing.lg,
             paddingVertical: tokens.spacing.md,
           }}

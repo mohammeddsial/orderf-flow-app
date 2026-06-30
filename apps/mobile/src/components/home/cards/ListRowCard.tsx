@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { useTheme } from '../../../theme';
 import { getPlaceholderImage } from '@multi-restaurant/database';
-import { engineCard, Favorite, RatingRow, PricePill, imageRadiusFor } from './shared';
+import { engineCard, Favorite, RatingRow, PricePill, ActionButton, imageRadiusFor } from './shared';
 import { EngineId } from '../engineStyle';
 
 interface CardProps {
@@ -12,7 +12,7 @@ interface CardProps {
   onAdd?: (id: string) => void;
 }
 
-export const ListRowCard: React.FC<CardProps> = ({ item, onPress }) => {
+export const ListRowCard: React.FC<CardProps> = ({ item, onPress, onAdd }) => {
   const { tokens, engineStyle } = useTheme();
   const engine = engineStyle as EngineId;
   const imageUrl = item.imageUrl || getPlaceholderImage(item.title);
@@ -36,7 +36,10 @@ export const ListRowCard: React.FC<CardProps> = ({ item, onPress }) => {
           {item.description}
         </Text>
         <RatingRow t={tokens} />
-        <PricePill t={tokens} engine={engine} style={{ marginTop: tokens.spacing.sm }}>${item.basePrice.toFixed(2)}</PricePill>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: tokens.spacing.sm }}>
+          <PricePill t={tokens} engine={engine}>${item.basePrice.toFixed(2)}</PricePill>
+          {onAdd && <ActionButton t={tokens} engine={engine} label="+" onPress={() => onAdd(item.id)} />}
+        </View>
       </View>
     </Pressable>
   );
