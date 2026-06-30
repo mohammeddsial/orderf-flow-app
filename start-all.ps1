@@ -10,8 +10,9 @@ $folders = @(
     "apps/mobile",
     "apps/web-customer",
     "apps/web-admin",
+    "apps/web-restaurant",
     "apps/api",
-    "packages"   # Just check if packages folder exists
+    "packages/database"
 )
 
 $missing = $false
@@ -30,19 +31,31 @@ if ($missing) {
 
 Write-Host "All folders found. Launching terminals..." -ForegroundColor Green
 
-# Launch each service
+# 1. Mobile (Expo) - QR code will show
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'MOBILE (Expo)'; Write-Host 'Starting MOBILE...' -ForegroundColor Cyan; cd 'apps/mobile'; npx expo start --web --port 8081"
 
+# 2. Customer Web
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB CUSTOMER'; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor Cyan; cd 'apps/web-customer'; npm run dev"
 
+# 3. Admin Panel
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB ADMIN'; Write-Host 'Starting WEB ADMIN...' -ForegroundColor Cyan; cd 'apps/web-admin'; npm run dev"
 
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'API'; Write-Host 'Starting API...' -ForegroundColor Cyan; cd 'apps/api'; npm run dev"
+# 4. Restaurant Web
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'WEB RESTAURANT'; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor Cyan; cd 'apps/web-restaurant'; npm run dev"
 
-# Check what's inside the packages folder
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'PACKAGES'; Write-Host 'Checking packages...' -ForegroundColor Cyan; cd 'packages'; Get-ChildItem -Directory"
+# 5. API - Running server.js directly with nodemon for auto-restart
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'API (server.js)'; Write-Host 'Starting API...' -ForegroundColor Cyan; cd 'apps/api'; npx nodemon server.js"
+
+# 6. Database - watch mode
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "title 'DATABASE'; Write-Host 'Starting DATABASE...' -ForegroundColor Cyan; cd 'packages/database'; npm run build -- --watch"
 
 Write-Host ""
-Write-Host "All services launched!" -ForegroundColor Green
-Write-Host "Note: 'packages' window will show what's inside - you may need to run 'npm run build -- --watch' there." -ForegroundColor Yellow
+Write-Host "All 6 services launched!" -ForegroundColor Green
+Write-Host "Services running:" -ForegroundColor Yellow
+Write-Host "  Mobile (Expo)      → http://localhost:8081" -ForegroundColor Gray
+Write-Host "  Customer Web       → (check console for port)" -ForegroundColor Gray
+Write-Host "  Admin Panel        → (check console for port)" -ForegroundColor Gray
+Write-Host "  Restaurant Web     → (check console for port)" -ForegroundColor Gray
+Write-Host "  API (server.js)    → (check console for port)" -ForegroundColor Gray
+Write-Host "  Database           → watching for changes" -ForegroundColor Gray
 Read-Host "Press Enter to close this launcher"

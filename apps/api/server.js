@@ -232,6 +232,30 @@ api.put('/restaurants/:id/pages/:page', (req, res) => {
   res.json(pageLayouts[req.params.id][req.params.page]);
 });
 
+// ---- Engine configs (token values for each UI engine) -------------------
+const engineConfigs = {
+  BRUTALIST_MODERNIST: {
+    borders: { radiusSharp: 0, radiusSm: 0, radiusMd: 0, radiusLg: 0, radiusXl: 0, radiusPill: 0, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
+    shadows: { sm: '0 1px 3px rgba(0,0,0,0.3)', md: '0 4px 6px rgba(0,0,0,0.3)', lg: '0 10px 15px rgba(0,0,0,0.3)', xl: '0 20px 25px rgba(0,0,0,0.3)', '2xl': '0 25px 50px rgba(0,0,0,0.3)' },
+    layout: { heroStyle: 'full-bleed', heroHeightRatio: 0.85, categoryLayout: 'list', cardImagePosition: 'left', sectionSpacing: 'tight', gridColumns: 1, popularLayout: 'list' },
+    animation: { pressScale: 0.98, enterDuration: 150, scrollRevealOffset: 0 },
+  },
+  MINIMALIST_CLEAN: {
+    borders: { radiusSharp: 0, radiusSm: 4, radiusMd: 8, radiusLg: 12, radiusXl: 16, radiusPill: 24, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
+    shadows: { sm: '0 2px 4px rgba(0,0,0,0.08)', md: '0 4px 8px rgba(0,0,0,0.1)', lg: '0 8px 16px rgba(0,0,0,0.12)', xl: '0 12px 24px rgba(0,0,0,0.15)', '2xl': '0 20px 40px rgba(0,0,0,0.16)' },
+    layout: { heroStyle: 'compact', heroHeightRatio: 0.5, categoryLayout: 'grid-2x2', cardImagePosition: 'top', sectionSpacing: 'normal', gridColumns: 2, popularLayout: 'horizontal' },
+    animation: { pressScale: 0.98, enterDuration: 300, scrollRevealOffset: 20 },
+  },
+  VIBRANT_STREET_TECH: {
+    borders: { radiusSharp: 0, radiusSm: 6, radiusMd: 12, radiusLg: 16, radiusXl: 20, radiusPill: 32, widthHairline: 0.5, widthThin: 1, widthMedium: 2, widthThick: 3 },
+    shadows: { sm: '0 0 8px rgba(0,217,255,0.3)', md: '0 0 16px rgba(0,217,255,0.5)', lg: '0 0 24px rgba(255,0,110,0.4)', xl: '0 0 32px rgba(0,217,255,0.6)', '2xl': '0 0 48px rgba(255,0,110,0.5)' },
+    layout: { heroStyle: 'split', heroHeightRatio: 0.6, categoryLayout: 'carousel', cardImagePosition: 'background', sectionSpacing: 'airy', gridColumns: 2, popularLayout: 'horizontal' },
+    animation: { pressScale: 0.95, enterDuration: 400, scrollRevealOffset: 30 },
+  },
+};
+
+api.get('/engine-configs', (_req, res) => res.json(engineConfigs));
+
 // ---- Active restaurant (admin -> mobile preview link) --------------------
 api.get('/active_restaurant', (_req, res) => res.json({ restaurantId: activeRestaurantId }));
 
