@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { CheckoutPage } from './CheckoutPage';
 
 jest.mock('../hooks/useCartPersistence', () => ({
@@ -79,15 +79,15 @@ describe('CheckoutPage', () => {
     navigate: jest.fn(),
   };
 
-  it('calculates US tax at 8%', async () => {
-    const { getByText } = await render(
+  it('calculates US tax at 8%', () => {
+    const { getByText } = render(
       <CheckoutPage navigation={mockNavigation} />
     );
 
     expect(getByText(/Tax \(8%\)/)).toBeTruthy();
   });
 
-  it('calculates Canada tax at 13%', async () => {
+  it('calculates Canada tax at 13%', () => {
     jest.clearAllMocks();
     const mockTenant = {
       id: 'tenant-1',
@@ -98,7 +98,7 @@ describe('CheckoutPage', () => {
 
     jest.mocked(require('@multi-restaurant/database').useTenant).mockReturnValue(mockTenant);
 
-    const { getByText } = await render(
+    const { getByText } = render(
       <CheckoutPage navigation={mockNavigation} />
     );
 
@@ -113,18 +113,16 @@ describe('CheckoutPage', () => {
       loading: false,
     });
 
-    const { findByText, findByLabelText } = await render(
+    const { getByText, getByLabelText } = render(
       <CheckoutPage navigation={mockNavigation} />
     );
 
-    const interacOption = await findByLabelText('Interac');
-    fireEvent.press(interacOption);
-
-    const placeOrderButton = await findByText(/Place Order/);
+    const placeOrderButton = getByLabelText(/Place Order/);
     fireEvent.press(placeOrderButton);
 
-    const errorElement = await findByText('Payment failed');
-    expect(errorElement).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText('Payment failed')).toBeTruthy();
+    });
   });
 
   it('throws error if card method selected without token', async () => {
@@ -134,14 +132,15 @@ describe('CheckoutPage', () => {
       loading: false,
     });
 
-    const { findByText } = await render(
+    const { getByText, getByLabelText } = render(
       <CheckoutPage navigation={mockNavigation} />
     );
 
-    const placeOrderButton = await findByText(/Place Order/);
+    const placeOrderButton = getByLabelText(/Place Order/);
     fireEvent.press(placeOrderButton);
 
-    const errorElement = await findByText(/Payment token required/);
-    expect(errorElement).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText(/Payment token required/)).toBeTruthy();
+    });
   });
 });

@@ -11,7 +11,7 @@ app/
 ├── apps/
 │   ├── mobile/          # React Native (Expo SDK 54) customer app
 │   ├── web-customer/    # Next.js 16 customer-facing web app
-│   ├── web-admin/       # Vite + React + Tailwind admin panel (all roles)
+│   ├── admin/           # Vite + React + Tailwind admin panel (all roles)
 │   └── api/             # Express mock backend (persists to db.json)
 ├── packages/
 │   └── database/        # shared client-side store (ActiveRecord-style)
@@ -31,7 +31,7 @@ Three theme engines drive structure (radius, shadows, typography, spacing); the 
 | **MINIMALIST_CLEAN** | Soft rounded corners (4–24px), subtle gray shadows, dark gray primary |
 | **VIBRANT_STREET_TECH** | Neon glow, pill radii, cyan/magenta accents on dark backgrounds |
 
-Each engine defines 5 token groups: **colors** (24 tokens), **spacing** (8 tokens), **typography** (5 sizes + weights + families), **borders** (7 radii + 4 widths), and **shadows** (6 levels). Tokens live in `apps/mobile/src/theme/engines.ts` and `apps/web-admin/src/lib/engineTokens.ts`.
+Each engine defines 5 token groups: **colors** (24 tokens), **spacing** (8 tokens), **typography** (5 sizes + weights + families), **borders** (7 radii + 4 widths), and **shadows** (6 levels). Tokens live in `apps/mobile/src/theme/engines.ts` and `apps/admin/src/lib/engineTokens.ts`.
 
 ---
 
@@ -128,7 +128,7 @@ Layout: `GlobalHeader`, `ActiveOrderTracker`, `Footer`, `MiniCart`
 
 ---
 
-## App 3 — Admin Panel (`@multi-restaurant/web-admin`)
+## App 3 — Admin Panel (`@multi-restaurant/admin`)
 
 Vite + React + Tailwind CSS v4 + shadcn/ui (New York v4).
 

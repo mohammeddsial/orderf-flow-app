@@ -15,7 +15,7 @@
     "lint": "npx turbo run lint",
     "type-check": "npx turbo run type-check",
     "mock-api": "json-server --watch db.json --routes routes.json --port 4000 --host 0.0.0.0",
-    "dev:admin": "npm run dev --workspace=@multi-restaurant/web-admin",
+    "dev:admin": "npm run dev --workspace=@multi-restaurant/admin",
     "dev:mobile": "npm run dev --workspace=@multi-restaurant/mobile",
     "start:all": "concurrently --kill-others-on-fail \"npm run mock-api\" \"npm run dev:admin\" \"npm run dev:mobile\""
   },

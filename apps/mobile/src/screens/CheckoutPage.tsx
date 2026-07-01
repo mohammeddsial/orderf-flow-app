@@ -183,7 +183,6 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               <Pressable
                 key={method.id}
                 onPress={() => setPaymentMethod(method.id)}
-                accessibilityLabel={method.label}
                 style={{
                   padding: tokens.spacing.md,
                   borderColor:

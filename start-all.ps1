@@ -9,8 +9,7 @@ Write-Host ""
 $folders = @(
     "apps/mobile",
     "apps/web-customer",
-    "apps/web-admin",
-    "apps/web-restaurant",
+    "apps/admin",
     "apps/api",
     "packages/database"
 )
@@ -37,25 +36,21 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.W
 # 2. WEB CUSTOMER
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB CUSTOMER'; Clear-Host; Write-Host 'Starting WEB CUSTOMER...' -ForegroundColor White; cd 'apps/web-customer'; npm run dev"
 
-# 3. WEB ADMIN
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB ADMIN'; Clear-Host; Write-Host 'Starting WEB ADMIN...' -ForegroundColor White; cd 'apps/web-admin'; npm run dev"
+# 3. ADMIN
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'ADMIN'; Clear-Host; Write-Host 'Starting ADMIN...' -ForegroundColor White; cd 'apps/admin'; npm run dev"
 
-# 4. WEB RESTAURANT
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'WEB RESTAURANT'; Clear-Host; Write-Host 'Starting WEB RESTAURANT...' -ForegroundColor White; cd 'apps/web-restaurant'; npm run dev"
-
-# 5. API (server.js)
+# 4. API (server.js)
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'API (server.js)'; Clear-Host; Write-Host 'Starting API...' -ForegroundColor White; cd 'apps/api'; node server.js"
 
-# 6. DATABASE
+# 5. DATABASE
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$Host.UI.RawUI.WindowTitle = 'DATABASE'; Clear-Host; Write-Host 'Starting DATABASE...' -ForegroundColor White; cd 'packages/database'; npm run build -- --watch"
 
 Write-Host ""
-Write-Host "All 6 services launched!" -ForegroundColor Green
+Write-Host "All 5 services launched!" -ForegroundColor Green
 Write-Host "Services running in separate windows:" -ForegroundColor Yellow
 Write-Host "  Mobile (Expo)      -> http://localhost:8081" -ForegroundColor Gray
 Write-Host "  Customer Web       -> (check console)" -ForegroundColor Gray
-Write-Host "  Admin Panel        -> (check console)" -ForegroundColor Gray
-Write-Host "  Restaurant Web     -> (check console)" -ForegroundColor Gray
+Write-Host "  Admin Panel        -> http://localhost:5173" -ForegroundColor Gray
 Write-Host "  API (server.js)    -> (check console)" -ForegroundColor Gray
 Write-Host "  Database           -> watching for changes" -ForegroundColor Gray
 Read-Host "Press Enter to close this launcher"

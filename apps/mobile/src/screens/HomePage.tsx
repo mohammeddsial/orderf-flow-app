@@ -28,7 +28,7 @@ import {
 import { ImageMosaic } from '../components/home';
 
 // The Home screen renders sections according to the layout configured in the
-// web-admin "Home Layout" page (fetched on launch, with an offline default).
+// admin "Home Layout" page (fetched on launch, with an offline default).
 export const HomePage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { tokens } = useTheme();
   const tenant = useTenant();

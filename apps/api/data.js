@@ -1,5 +1,5 @@
 // Seed data for the dummy backend. Mirrors the shape of @multi-restaurant/database
-// so the web-admin and mobile app can consume it without transformation.
+// so the admin and mobile app can consume it without transformation.
 
 const ts = '2024-01-01T00:00:00Z';
 
@@ -121,7 +121,7 @@ export const orders = [
 ];
 
 // Default per-page mobile section layouts. Each restaurant gets its own copy,
-// edited from the web-admin "Mobile Pages" screen and read by the mobile app.
+// edited from the admin "Mobile Pages" screen and read by the mobile app.
 export const defaultPages = {
   home: [
     { key: 'hero', label: 'Hero Video', enabled: true },
