@@ -298,8 +298,8 @@ function WebPreview({ currentId }: { currentId: string | null }) {
   const [iframeKey, setIframeKey] = useState(0);
 
   const webUrl = currentId
-    ? `http://localhost:8081?tenant=${currentId}`
-    : 'http://localhost:8081';
+    ? `http://localhost:3000?tenant=${currentId}`
+    : 'http://localhost:3000';
 
   return (
     <div>
