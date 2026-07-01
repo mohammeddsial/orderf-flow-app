@@ -246,43 +246,49 @@ function DropZone({
 }
 
 function MobilePreview({
-  sections,
   restaurantName,
   pageLabel,
+  currentId,
 }: {
-  sections: HomeSection[];
   restaurantName: string;
   pageLabel: string;
+  currentId: string | null;
 }) {
-  const enabled = sections.filter((s) => s.enabled);
+  const [iframeKey, setIframeKey] = useState(0);
+  const mobileUrl = currentId
+    ? `http://localhost:8081?tenant=${currentId}`
+    : 'http://localhost:8081';
 
   return (
     <div className="lg:sticky lg:top-4 self-start">
-      <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        Mobile preview
-      </p>
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Mobile preview
+        </p>
+        <button
+          type="button"
+          onClick={() => setIframeKey((k) => k + 1)}
+          className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary"
+          title="Refresh preview"
+        >
+          <RefreshCw className="h-3 w-3" />
+        </button>
+      </div>
       <div
-        className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#4a0929] bg-gray-50 shadow-lg"
-        style={{ height: 480 }}
+        className="mx-auto w-[280px] overflow-hidden rounded-[2.5rem] border-[8px] border-[#4a0929] bg-white shadow-xl"
+        style={{ height: 560 }}
       >
-        <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
-          <span className="text-sm font-bold">{restaurantName}</span>
+        <div className="flex items-center justify-between bg-primary px-4 py-2 text-white">
+          <span className="text-xs font-bold truncate">{restaurantName}</span>
           <span className="text-[10px] opacity-80">{pageLabel}</span>
         </div>
-        <div className="space-y-2 overflow-y-auto p-3" style={{ height: 'calc(100% - 44px)' }}>
-          {enabled.map((s) => (
-            <div
-              key={s.key}
-              className="flex items-end rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-medium text-[#0f0f0f]"
-              style={{ height: s.key === 'hero' ? 70 : undefined }}
-            >
-              {s.label}
-            </div>
-          ))}
-          {enabled.length === 0 && (
-            <p className="pt-8 text-center text-[11px] text-muted-foreground">All sections hidden</p>
-          )}
-        </div>
+        <iframe
+          key={iframeKey}
+          src={mobileUrl}
+          className="w-full border-0"
+          style={{ height: 'calc(100% - 36px)' }}
+          title="Mobile preview"
+        />
       </div>
     </div>
   );
@@ -534,9 +540,9 @@ export const LayoutBuilder = () => {
 
             <div className="space-y-6">
               <MobilePreview
-                sections={sections}
                 restaurantName={current?.name ?? 'Restaurant'}
                 pageLabel={pageLabel}
+                currentId={currentId}
               />
             </div>
           </div>
