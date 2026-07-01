@@ -62,7 +62,7 @@ const RestaurantSwitcher: React.FC = () => {
       <select
         value={currentId ?? ''}
         onChange={(e) => setCurrentId(e.target.value)}
-        className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-[#1E2D4A] focus:border-orange-400 focus:outline-none"
+        className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-[#0f0f0f] focus:border-primary focus:outline-none"
       >
         {restaurants.map((r) => (
           <option key={r.id} value={r.id}>
@@ -74,7 +74,7 @@ const RestaurantSwitcher: React.FC = () => {
         type="button"
         onClick={() => setCreateOpen(true)}
         title="Add restaurant"
-        className="rounded-lg border border-gray-200 px-2.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-orange-50"
+        className="rounded-lg border border-gray-200 px-2.5 py-2 text-sm font-medium text-primary transition-colors hover:bg-pink-50"
       >
         + Add
       </button>
@@ -102,7 +102,7 @@ const RoleSwitcher: React.FC = () => {
     <button
       type="button"
       onClick={() => switchRole(nextRole)}
-      className="flex w-full items-center gap-3 rounded-xl bg-white/5 px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+      className="flex w-full items-center gap-3 rounded-xl bg-white/5 px-3 py-2.5 text-sm font-medium text-pink-light transition-colors hover:bg-white/10 hover:text-white"
       title={`Switch to ${nextRole === 'super_admin' ? 'Super Admin' : 'Tenant Admin'} view`}
     >
       <Repeat size={18} />
@@ -127,7 +127,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
       'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors w-full';
     const cls = isActive
       ? `${base} bg-primary text-white shadow-sm`
-      : `${base} text-slate-300 hover:bg-white/5 hover:text-white`;
+      : `${base} text-pink-light hover:bg-white/5 hover:text-white`;
 
     const inner = (
       <>
@@ -165,15 +165,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
     : 'AD';
 
   return (
-    <div className="flex h-screen bg-[#F4F6F9]">
-      <aside className="flex w-64 flex-col bg-[#16233C] text-white">
+    <div className="flex h-screen bg-[#f5f5f5]">
+      <aside className="flex w-64 flex-col bg-[#4a0929] text-white">
         <div className="flex items-center gap-3 px-5 py-5">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
             <Flame className="h-5 w-5 text-white" />
           </span>
           <div>
             <h1 className="text-base font-bold leading-tight">{current?.name ?? 'Order Flow'}</h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-pink-light">
               {isSuperAdmin ? 'Super Admin' : 'Restaurant Admin'}
             </p>
           </div>
@@ -185,11 +185,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
 
         <div className="space-y-1 px-3 py-3">
           <RoleSwitcher />
-          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
+          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-pink-light transition-colors hover:bg-white/5 hover:text-white">
             <HelpCircle size={18} />
             <span>Help &amp; Support</span>
           </button>
-          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
+          <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-pink-light transition-colors hover:bg-white/5 hover:text-white">
             <LogOut size={18} />
             <span>Log Out</span>
           </button>
@@ -201,7 +201,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
           </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">{user?.name ?? 'Unknown'}</p>
-            <p className="truncate text-xs text-slate-400">{user?.email ?? ''}</p>
+            <p className="truncate text-xs text-pink-light">{user?.email ?? ''}</p>
           </div>
         </div>
       </aside>
@@ -214,7 +214,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
               <span className="text-muted-foreground">/</span>
               <span className="font-medium text-primary">{breadcrumb ?? title}</span>
             </div>
-            <h2 className="text-sm font-semibold text-[#1E2D4A]">{title}</h2>
+            <h2 className="text-sm font-semibold text-[#0f0f0f]">{title}</h2>
           </div>
 
           <div className="flex items-center gap-4">
@@ -224,7 +224,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
               <input
                 type="text"
                 placeholder={searchPlaceholder ?? 'Search...'}
-                className="w-64 rounded-full border border-gray-200 bg-gray-50 py-2 pl-9 pr-4 text-sm focus:border-orange-400 focus:bg-white focus:outline-none"
+                className="w-64 rounded-full border border-gray-200 bg-gray-50 py-2 pl-9 pr-4 text-sm focus:border-primary focus:bg-white focus:outline-none"
               />
             </div>
             <button type="button" className="relative rounded-full border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-100">
@@ -236,7 +236,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
                 {initials}
               </span>
               <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold text-[#1E2D4A]">{user?.name ?? 'Unknown'}</p>
+                <p className="text-sm font-semibold text-[#0f0f0f]">{user?.name ?? 'Unknown'}</p>
                 <p className="flex items-center justify-end gap-1 text-[11px] text-muted-foreground">
                   {isSuperAdmin ? (
                     <>

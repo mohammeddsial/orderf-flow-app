@@ -26,11 +26,11 @@ export const Reports = () => {
             {reports.map((report) => (
               <div key={report.id} className="flex items-center justify-between rounded-xl border border-gray-100 p-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50 text-primary">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink-50 text-primary">
                     <FileText className="h-4 w-4" />
                   </span>
                   <div>
-                    <p className="font-medium text-[#1E2D4A]">{report.name}</p>
+                    <p className="font-medium text-[#0f0f0f]">{report.name}</p>
                     <p className="text-xs text-muted-foreground">{report.period} · {report.size}</p>
                   </div>
                 </div>

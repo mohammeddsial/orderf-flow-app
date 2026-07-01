@@ -151,7 +151,7 @@ function ColorInput({ label, value, onChange }: ColorInputProps) {
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-24 rounded border border-gray-200 bg-white px-2 py-1 text-xs font-mono text-[#1E2D4A] outline-none focus:border-primary"
+        className="w-24 rounded border border-gray-200 bg-white px-2 py-1 text-xs font-mono text-[#0f0f0f] outline-none focus:border-primary"
       />
       <span className="text-[10px] text-muted-foreground">{label}</span>
     </label>
@@ -265,7 +265,7 @@ export const SuperAdmin = () => {
               {engineId === 'BRUTALIST_MODERNIST' ? 'BM' : engineId === 'MINIMALIST_CLEAN' ? 'MC' : 'VS'}
             </div>
             <div>
-              <p className="font-semibold text-[#1E2D4A]">{engine.label}</p>
+              <p className="font-semibold text-[#0f0f0f]">{engine.label}</p>
               <p className="text-xs text-muted-foreground">{engineId}</p>
             </div>
           </div>
@@ -370,7 +370,7 @@ export const SuperAdmin = () => {
             </div>
 
             <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
-              <p className="text-[11px] font-semibold text-[#1E2D4A] mb-2">Live Preview</p>
+              <p className="text-[11px] font-semibold text-[#0f0f0f] mb-2">Live Preview</p>
               <div
                 className="rounded-lg p-4 space-y-2"
                 style={{ background: engine.colors.background }}
@@ -428,8 +428,8 @@ export const SuperAdmin = () => {
             onClick={() => setActiveTab(tab)}
             className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === tab
-                ? 'bg-[#0F172A] text-white shadow-sm'
-                : 'text-muted-foreground hover:bg-gray-100 hover:text-[#1E2D4A]'
+                ? 'bg-[#4a0929] text-white shadow-sm'
+                : 'text-muted-foreground hover:bg-gray-100 hover:text-[#0f0f0f]'
             }`}
           >
             {tab === 'command' && <Activity className="h-4 w-4" />}
@@ -449,7 +449,7 @@ export const SuperAdmin = () => {
                     <span className="text-sm font-medium text-muted-foreground">Total Tenants</span>
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600"><Building2 className="h-4 w-4" /></span>
                   </div>
-                  <div className="mt-3 text-3xl font-bold text-[#1E2D4A]">{totalTenants}</div>
+                  <div className="mt-3 text-3xl font-bold text-[#0f0f0f]">{totalTenants}</div>
                   <p className="mt-1 text-xs text-muted-foreground">{activeTenants} active · {totalTenants - activeTenants} suspended</p>
                 </div>
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -457,7 +457,7 @@ export const SuperAdmin = () => {
                     <span className="text-sm font-medium text-muted-foreground">Platform GMV</span>
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 text-green-600"><DollarSign className="h-4 w-4" /></span>
                   </div>
-                  <div className="mt-3 text-3xl font-bold text-[#1E2D4A]">${(estimatedGMV / 1000).toFixed(0)}K</div>
+                  <div className="mt-3 text-3xl font-bold text-[#0f0f0f]">${(estimatedGMV / 1000).toFixed(0)}K</div>
                   <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1"><TrendingUp className="h-3 w-3 text-green-500" /> +12.4% from last month</p>
                 </div>
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -465,7 +465,7 @@ export const SuperAdmin = () => {
                     <span className="text-sm font-medium text-muted-foreground">Total Orders</span>
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-purple-600"><PackageCheck className="h-4 w-4" /></span>
                   </div>
-                  <div className="mt-3 text-3xl font-bold text-[#1E2D4A]">{totalOrders.toLocaleString()}</div>
+                  <div className="mt-3 text-3xl font-bold text-[#0f0f0f]">{totalOrders.toLocaleString()}</div>
                   <p className="mt-1 text-xs text-muted-foreground">Across all tenants · 24h rolling</p>
                 </div>
                 <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
@@ -473,14 +473,14 @@ export const SuperAdmin = () => {
                     <span className="text-sm font-medium text-muted-foreground">Avg. Rating</span>
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600"><Sparkles className="h-4 w-4" /></span>
                   </div>
-                  <div className="mt-3 text-3xl font-bold text-[#1E2D4A]">{avgRating}</div>
+                  <div className="mt-3 text-3xl font-bold text-[#0f0f0f]">{avgRating}</div>
                   <p className="mt-1 text-xs text-muted-foreground">Platform-wide weighted average</p>
                 </div>
               </div>
 
               <div className="grid gap-6 lg:grid-cols-2">
                 <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                  <h3 className="mb-4 text-sm font-semibold text-[#1E2D4A] flex items-center gap-2">
+                  <h3 className="mb-4 text-sm font-semibold text-[#0f0f0f] flex items-center gap-2">
                     <Activity className="h-4 w-4 text-primary" /> System Health Telemetry
                   </h3>
                   <div className="space-y-4">
@@ -492,7 +492,7 @@ export const SuperAdmin = () => {
                       <div key={m.label}>
                         <div className="mb-1 flex justify-between text-xs">
                           <span className="text-muted-foreground">{m.label}</span>
-                          <span className="font-semibold text-[#1E2D4A]">{m.value}{m.unit}</span>
+                          <span className="font-semibold text-[#0f0f0f]">{m.value}{m.unit}</span>
                         </div>
                         <div className="h-2 overflow-hidden rounded-full bg-gray-100">
                           <div className={`h-full rounded-full ${m.color} transition-all`} style={{ width: `${typeof m.value === 'number' && m.value <= 100 ? m.value : 42}%` }} />
@@ -510,17 +510,17 @@ export const SuperAdmin = () => {
                 </div>
 
                 <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-                  <h3 className="mb-4 text-sm font-semibold text-[#1E2D4A] flex items-center gap-2">
+                  <h3 className="mb-4 text-sm font-semibold text-[#0f0f0f] flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-primary" /> Tenant Activity Stream
                   </h3>
                   <div className="space-y-3">
                     {restaurants.slice(0, 5).map((r, i) => (
                       <div key={r.id} className="flex items-center gap-3 rounded-xl border border-gray-100 p-3">
-                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-red-500 text-xs font-bold text-white">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-red-500 text-xs font-bold text-white">
                           {r.name.charAt(0)}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="truncate text-sm font-medium text-[#1E2D4A]">{r.name}</p>
+                          <p className="truncate text-sm font-medium text-[#0f0f0f]">{r.name}</p>
                           <p className="text-xs text-muted-foreground">
                             {i === 0 ? 'Menu updated 5 min ago' : i === 1 ? 'New order received' : i === 2 ? 'Settings changed' : i === 3 ? 'Review posted' : 'Theme customized'}
                           </p>
@@ -607,7 +607,7 @@ export const SuperAdmin = () => {
                                   )}
                                 </div>
                                 <div>
-                                  <p className="font-semibold text-[#1E2D4A]">{tenant.name}</p>
+                                  <p className="font-semibold text-[#0f0f0f]">{tenant.name}</p>
                                   <p className="text-xs text-muted-foreground">ID: {tenant.id.slice(0, 8)}</p>
                                 </div>
                               </div>
@@ -618,7 +618,7 @@ export const SuperAdmin = () => {
                                 className={`text-[10px] font-mono ${
                                   tenant.activeUiStyle === 'VIBRANT_STREET_TECH' ? 'border-cyan-300 bg-cyan-50 text-cyan-700' :
                                   tenant.activeUiStyle === 'MINIMALIST_CLEAN' ? 'border-gray-300 bg-gray-50 text-gray-700' :
-                                  'border-orange-300 bg-orange-50 text-orange-700'
+                                  'border-pink-300 bg-pink-50 text-primary'
                                 }`}
                               >
                                 {tenant.activeUiStyle === 'VIBRANT_STREET_TECH' ? 'Vibrant Tech' :
@@ -634,8 +634,8 @@ export const SuperAdmin = () => {
                                 {isActive ? 'Active' : 'Suspended'}
                               </span>
                             </td>
-                            <td className="px-5 py-3 text-sm font-medium text-[#1E2D4A]">{mockOrders}</td>
-                            <td className="px-5 py-3 text-sm font-semibold text-[#1E2D4A]">${mockGMV.toLocaleString()}</td>
+                            <td className="px-5 py-3 text-sm font-medium text-[#0f0f0f]">{mockOrders}</td>
+                            <td className="px-5 py-3 text-sm font-semibold text-[#0f0f0f]">${mockGMV.toLocaleString()}</td>
                             <td className="px-5 py-3 text-right">
                               <div className="flex items-center justify-end gap-1">
                                 <Button
@@ -714,12 +714,12 @@ export const SuperAdmin = () => {
                 {Object.keys(DEFAULT_ENGINES).map(renderEngineEditor)}
               </div>
 
-              <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#0F172A] px-6 py-4 text-white shadow-lg">
+              <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#4a0929] px-6 py-4 text-white shadow-lg">
                 <div>
                   <p className="font-semibold">Publish Global Style Changes?</p>
                   <p className="text-sm text-slate-300">All tenants using affected engines will update on next launch</p>
                 </div>
-                <Button onClick={() => { setPublishOpen(true); }} className="gap-2 bg-yellow-500 text-[#0F172A] hover:bg-yellow-400">
+                <Button onClick={() => { setPublishOpen(true); }} className="gap-2 bg-yellow-500 text-[#4a0929] hover:bg-yellow-400">
                   <Save className="h-4 w-4" />
                   Deploy Changes
                 </Button>

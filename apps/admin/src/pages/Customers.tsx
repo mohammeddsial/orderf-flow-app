@@ -17,7 +17,7 @@ const TIER_COLORS: Record<string, string> = {
   Gold: 'bg-amber-100 text-amber-700',
   Silver: 'bg-slate-100 text-slate-700',
   Platinum: 'bg-indigo-100 text-indigo-700',
-  Bronze: 'bg-orange-100 text-orange-700',
+  Bronze: 'bg-orange-100 text-primary',
 };
 
 export const Customers = () => {
@@ -41,18 +41,18 @@ export const Customers = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-[#1E2D4A]">{customer.name}</p>
+                    <p className="font-medium text-[#0f0f0f]">{customer.name}</p>
                     <p className="text-xs text-muted-foreground">{customer.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-[#1E2D4A]">{customer.orders} orders</p>
+                    <p className="text-sm font-semibold text-[#0f0f0f]">{customer.orders} orders</p>
                     <p className="text-xs text-muted-foreground">${customer.spent.toFixed(2)} total</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">Last order</p>
-                    <p className="text-xs text-[#1E2D4A]">{customer.lastOrder}</p>
+                    <p className="text-xs text-[#0f0f0f]">{customer.lastOrder}</p>
                   </div>
                   <Badge className={TIER_COLORS[customer.tier]}>
                     <Star className="mr-1 h-3 w-3 fill-current" />

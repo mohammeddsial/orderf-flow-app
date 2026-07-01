@@ -75,11 +75,11 @@ export const Promotions = () => {
             {deals.map((deal) => (
               <div key={deal.id} className="flex items-center justify-between rounded-xl border border-gray-100 p-4">
                 <div className="flex items-center gap-3">
-                  <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${deal.isFlash ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-primary'}`}>
+                  <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${deal.isFlash ? 'bg-red-50 text-red-600' : 'bg-pink-50 text-primary'}`}>
                     {deal.isFlash ? <Flame className="h-4 w-4" /> : <Tag className="h-4 w-4" />}
                   </span>
                   <div>
-                    <p className="font-medium text-[#1E2D4A]">{deal.title}</p>
+                    <p className="font-medium text-[#0f0f0f]">{deal.title}</p>
                     <p className="text-xs text-muted-foreground">
                       Code: <span className="font-mono font-semibold">{deal.code}</span> · {deal.discount}
                     </p>

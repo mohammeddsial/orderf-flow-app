@@ -3,25 +3,29 @@
 
 @layer base {
   :root {
-    --background: hsl(45, 30%, 96%);
-    --foreground: hsl(45, 10%, 20%);
-    --card: hsl(45, 30%, 98%);
-    --card-foreground: hsl(45, 10%, 20%);
-    --popover: hsl(45, 30%, 98%);
-    --popover-foreground: hsl(45, 10%, 20%);
-    --primary: hsl(45, 20%, 40%);
-    --primary-foreground: hsl(45, 30%, 96%);
-    --secondary: hsl(45, 15%, 90%);
-    --secondary-foreground: hsl(45, 10%, 20%);
-    --muted: hsl(45, 10%, 90%);
-    --muted-foreground: hsl(45, 10%, 40%);
-    --accent: hsl(45, 15%, 90%);
-    --accent-foreground: hsl(45, 10%, 20%);
-    --destructive: hsl(0, 72%, 51%);
-    --destructive-foreground: hsl(45, 30%, 96%);
-    --border: hsl(45, 10%, 85%);
-    --input: hsl(45, 10%, 85%);
-    --ring: hsl(45, 20%, 40%);
+    --background: #f5f5f5;
+    --foreground: #0f0f0f;
+    --card: #ffffff;
+    --card-foreground: #0f0f0f;
+    --popover: #ffffff;
+    --popover-foreground: #0f0f0f;
+    --primary: #b81969;
+    --primary-foreground: #ffffff;
+    --secondary: #f6c0db;
+    --secondary-foreground: #4a0929;
+    --muted: #f9fafb;
+    --muted-foreground: #475467;
+    --accent: #f6c0db;
+    --accent-foreground: #4a0929;
+    --destructive: #E84545;
+    --destructive-foreground: #ffffff;
+    --border: #E2E8F0;
+    --input: transparent;
+    --ring: #b81969;
     --radius: 0.5rem;
   }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
 }

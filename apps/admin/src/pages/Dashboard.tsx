@@ -78,7 +78,7 @@ export const Dashboard = () => {
                       <img src={imageUrl} alt={item.title} className="h-full w-full object-cover" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-[#1E2D4A]">{item.title}</p>
+                      <p className="truncate font-medium text-[#0f0f0f]">{item.title}</p>
                       <p className="text-sm font-semibold text-primary">${item.basePrice}</p>
                       <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
@@ -102,7 +102,7 @@ export const Dashboard = () => {
               {orders.map((order) => (
                 <div key={order.id} className="space-y-3 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
                   <div className="flex justify-between">
-                    <span className="font-medium text-[#1E2D4A]">{order.id}</span>
+                    <span className="font-medium text-[#0f0f0f]">{order.id}</span>
                     <span className="text-sm text-muted-foreground">Est. {order.eta}</span>
                   </div>
                   <div className="relative flex h-28 items-center justify-center rounded-xl bg-gray-100">
@@ -111,7 +111,7 @@ export const Dashboard = () => {
                     </div>
                     <div className="absolute left-3 top-3 flex items-center gap-2">
                       <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-                      <span className="text-xs font-medium text-[#1E2D4A]">{order.status}</span>
+                      <span className="text-xs font-medium text-[#0f0f0f]">{order.status}</span>
                     </div>
                     <div className="absolute bottom-3 left-3 flex items-center gap-2 text-xs text-muted-foreground">
                       <Truck className="h-4 w-4" />
@@ -123,7 +123,7 @@ export const Dashboard = () => {
                       <User className="h-4 w-4 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-[#1E2D4A]">{order.driver}</p>
+                      <p className="text-sm font-medium text-[#0f0f0f]">{order.driver}</p>
                       <div className="flex items-center gap-1">
                         <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />
                         <span className="text-xs text-muted-foreground">{order.rating}</span>

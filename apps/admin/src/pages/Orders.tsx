@@ -8,7 +8,7 @@ import { ShoppingBag, Clock, Truck, CheckCircle } from 'lucide-react';
 
 const STATUS_COLORS: Record<string, string> = {
   PREPARING: 'bg-amber-100 text-amber-700',
-  COOKING: 'bg-orange-100 text-orange-700',
+  COOKING: 'bg-orange-100 text-primary',
   READY: 'bg-blue-100 text-blue-700',
   OUT_FOR_DELIVERY: 'bg-purple-100 text-purple-700',
   DELIVERED: 'bg-green-100 text-green-700',
@@ -42,19 +42,19 @@ export const Orders = () => {
             {orders.map((order) => (
               <div key={order.id} className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-primary">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-50 text-primary">
                     {order.status === 'DELIVERED' ? <CheckCircle className="h-5 w-5" /> :
                      order.status === 'OUT_FOR_DELIVERY' ? <Truck className="h-5 w-5" /> :
                      <Clock className="h-5 w-5" />}
                   </div>
                   <div>
-                    <p className="font-semibold text-[#1E2D4A]">#{order.id}</p>
+                    <p className="font-semibold text-[#0f0f0f]">#{order.id}</p>
                     <p className="text-xs text-muted-foreground">{order.customer} · {order.items.join(', ')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <p className="font-bold text-[#1E2D4A]">${order.total.toFixed(2)}</p>
+                    <p className="font-bold text-[#0f0f0f]">${order.total.toFixed(2)}</p>
                     <p className="text-xs text-muted-foreground">ETA: {order.eta}</p>
                   </div>
                   <Badge className={STATUS_COLORS[order.status] ?? 'bg-gray-100 text-gray-700'}>

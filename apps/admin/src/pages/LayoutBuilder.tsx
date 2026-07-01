@@ -107,7 +107,7 @@ function SortableSection({
       <div className="flex-1">
         <p
           className={`text-sm font-medium ${
-            section.enabled ? 'text-[#1E2D4A]' : 'text-muted-foreground'
+            section.enabled ? 'text-[#0f0f0f]' : 'text-muted-foreground'
           }`}
         >
           {section.label}
@@ -150,7 +150,7 @@ function SidebarSectionCard({ section }: { section: { key: string; label: string
     <button
       ref={setNodeRef}
       type="button"
-      className={`w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left text-sm font-medium text-[#1E2D4A] shadow-sm transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.98] ${
+      className={`w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left text-sm font-medium text-[#0f0f0f] shadow-sm transition-all hover:border-primary/40 hover:shadow-md active:scale-[0.98] ${
         isDragging ? 'opacity-30' : ''
       }`}
       {...listeners}
@@ -211,7 +211,7 @@ function MobilePreview({
         Live preview
       </p>
       <div
-        className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#1E2D4A] bg-gray-50 shadow-lg"
+        className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#0f0f0f] bg-gray-50 shadow-lg"
         style={{ height: 520 }}
       >
         <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
@@ -222,7 +222,7 @@ function MobilePreview({
           {enabled.map((s) => (
             <div
               key={s.key}
-              className="flex items-end rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-medium text-[#1E2D4A]"
+              className="flex items-end rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-medium text-[#0f0f0f]"
               style={{ height: s.key === 'hero' ? 80 : undefined }}
             >
               {s.label}
@@ -370,7 +370,7 @@ export const LayoutBuilder = () => {
                 className={`rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
                   active
                     ? 'bg-primary text-white shadow-sm'
-                    : 'border border-gray-200 bg-white text-[#1E2D4A] hover:bg-gray-50'
+                    : 'border border-gray-200 bg-white text-[#0f0f0f] hover:bg-gray-50'
                 }`}
               >
                 {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -441,7 +441,7 @@ export const LayoutBuilder = () => {
 
           <DragOverlay dropAnimation={{ duration: 200 }}>
             {activeDrag ? (
-              <div className="rounded-xl border border-primary bg-white px-3 py-2.5 text-sm font-medium text-[#1E2D4A] shadow-xl">
+              <div className="rounded-xl border border-primary bg-white px-3 py-2.5 text-sm font-medium text-[#0f0f0f] shadow-xl">
                 {activeDrag.source === 'sidebar' && <Plus className="mr-2 inline h-3.5 w-3.5 text-primary" />}
                 {activeDrag.label}
               </div>
@@ -449,7 +449,7 @@ export const LayoutBuilder = () => {
           </DragOverlay>
         </DndContext>
 
-        <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#1E2D4A] px-6 py-4 text-white shadow-lg">
+        <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#0f0f0f] px-6 py-4 text-white shadow-lg">
           <div className="flex items-center gap-3">
             <Smartphone className="h-5 w-5 text-slate-300" />
             <div>
