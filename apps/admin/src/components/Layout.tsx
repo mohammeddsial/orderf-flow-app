@@ -39,17 +39,17 @@ type NavItem = {
 
 const TENANT_NAV: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/', roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Orders', icon: ShoppingBag, badge: '12', roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu', roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Layout Builder', icon: Smartphone, to: '/layout-builder', roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Analytics', icon: BarChart3, roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Customers', icon: Users, roles: ['restaurant_admin', 'super_admin'] },
-  { label: 'Promotions', icon: Tag, roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Orders', icon: ShoppingBag, badge: '12', roles: ['restaurant_admin'] },
+  { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu', roles: ['restaurant_admin'] },
+  { label: 'Layout Builder', icon: Smartphone, to: '/layout-builder', roles: ['restaurant_admin'] },
+  { label: 'Analytics', icon: BarChart3, roles: ['restaurant_admin'] },
+  { label: 'Customers', icon: Users, roles: ['restaurant_admin'] },
+  { label: 'Promotions', icon: Tag, roles: ['restaurant_admin'] },
 ];
 
 const SUPER_NAV: NavItem[] = [
   { label: 'Super Admin', icon: Shield, to: '/super-admin', roles: ['super_admin'] },
-  { label: 'All Tenants', icon: Building2, to: '/super-admin', roles: ['super_admin'] },
+  { label: 'All Tenants', icon: Building2, to: '/super-admin#tenants', roles: ['super_admin'] },
 ];
 
 const RestaurantSwitcher: React.FC = () => {
@@ -122,7 +122,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
 
   const renderNav = (item: NavItem) => {
     const Icon = item.icon;
-    const isActive = item.to ? location.pathname === item.to : false;
+    const isActive = item.to
+      ? location.pathname === item.to.split('#')[0] &&
+        (!item.to.includes('#') || location.hash === item.to.substring(item.to.indexOf('#')))
+      : false;
     const base =
       'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors w-full';
     const cls = isActive

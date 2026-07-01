@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -27,6 +27,7 @@ import { PageHero, SectionCard } from '../components/admin-ui';
 import { PublishDialog } from '../components/PublishDialog';
 import { Button } from '../components/ui/button';
 import { Switch } from '../components/ui/switch';
+import { Input } from '../components/ui/input';
 import {
   Smartphone,
   Save,
@@ -36,6 +37,9 @@ import {
   Eye,
   EyeOff,
   LayoutGrid,
+  Pencil,
+  Monitor,
+  RefreshCw,
 } from 'lucide-react';
 import { SECTION_CATALOG } from '../lib/sectionCatalog';
 
@@ -64,21 +68,37 @@ function SortableSection({
   index,
   onToggle,
   onDelete,
+  onRename,
 }: {
   section: HomeSection;
   index: number;
   onToggle: () => void;
   onDelete: () => void;
+  onRename: (label: string) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: `canvas-${section.key}`,
     data: { source: 'canvas', index } as DragData,
   });
 
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(section.label);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.4 : 1,
+  };
+
+  const saveEdit = () => {
+    const trimmed = draft.trim();
+    if (trimmed && trimmed !== section.label) {
+      onRename(trimmed);
+    } else {
+      setDraft(section.label);
+    }
+    setEditing(false);
   };
 
   return (
@@ -105,13 +125,44 @@ function SortableSection({
       </span>
 
       <div className="flex-1">
-        <p
-          className={`text-sm font-medium ${
-            section.enabled ? 'text-[#0f0f0f]' : 'text-muted-foreground'
-          }`}
-        >
-          {section.label}
-        </p>
+        {editing ? (
+          <Input
+            ref={inputRef}
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={saveEdit}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') saveEdit();
+              if (e.key === 'Escape') {
+                setDraft(section.label);
+                setEditing(false);
+              }
+            }}
+            className="h-7 py-0 text-sm"
+            autoFocus
+          />
+        ) : (
+          <div className="flex items-center gap-1.5">
+            <p
+              className={`text-sm font-medium ${
+                section.enabled ? 'text-[#0f0f0f]' : 'text-muted-foreground'
+              }`}
+            >
+              {section.label}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setDraft(section.label);
+                setEditing(true);
+              }}
+              className="opacity-0 transition-opacity group-hover:opacity-100 text-gray-400 hover:text-primary"
+              title="Edit label"
+            >
+              <Pencil className="h-3 w-3" />
+            </button>
+          </div>
+        )}
         <p className="text-[11px] text-muted-foreground">{section.key}</p>
       </div>
 
@@ -208,11 +259,11 @@ function MobilePreview({
   return (
     <div className="lg:sticky lg:top-4 self-start">
       <p className="mb-2 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        Live preview
+        Mobile preview
       </p>
       <div
-        className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#0f0f0f] bg-gray-50 shadow-lg"
-        style={{ height: 520 }}
+        className="mx-auto w-[260px] overflow-hidden rounded-[2rem] border-[6px] border-[#4a0929] bg-gray-50 shadow-lg"
+        style={{ height: 480 }}
       >
         <div className="flex items-center justify-between bg-primary px-4 py-3 text-white">
           <span className="text-sm font-bold">{restaurantName}</span>
@@ -223,7 +274,7 @@ function MobilePreview({
             <div
               key={s.key}
               className="flex items-end rounded-lg border border-gray-200 bg-white px-3 py-2 text-[11px] font-medium text-[#0f0f0f]"
-              style={{ height: s.key === 'hero' ? 80 : undefined }}
+              style={{ height: s.key === 'hero' ? 70 : undefined }}
             >
               {s.label}
             </div>
@@ -232,6 +283,49 @@ function MobilePreview({
             <p className="pt-8 text-center text-[11px] text-muted-foreground">All sections hidden</p>
           )}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function WebPreview({ currentId }: { currentId: string | null }) {
+  const [iframeKey, setIframeKey] = useState(0);
+
+  const webUrl = currentId
+    ? `http://localhost:3000?tenant=${currentId}`
+    : 'http://localhost:3000';
+
+  return (
+    <div className="lg:sticky lg:top-4 self-start">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Web preview
+        </p>
+        <button
+          type="button"
+          onClick={() => setIframeKey((k) => k + 1)}
+          className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary"
+          title="Refresh preview"
+        >
+          <RefreshCw className="h-3 w-3" />
+          Refresh
+        </button>
+      </div>
+      <div
+        className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+        style={{ height: 480 }}
+      >
+        <div className="flex items-center gap-2 border-b border-gray-100 bg-gray-50 px-3 py-2">
+          <Monitor className="h-3.5 w-3.5 text-gray-400" />
+          <span className="truncate text-[11px] text-muted-foreground">{webUrl}</span>
+        </div>
+        <iframe
+          key={iframeKey}
+          src={webUrl}
+          className="w-full border-0"
+          style={{ height: 'calc(100% - 37px)' }}
+          title="Web preview"
+        />
       </div>
     </div>
   );
@@ -332,6 +426,11 @@ export const LayoutBuilder = () => {
   const deleteSection = (i: number) =>
     setSections((list) => list.filter((_, idx) => idx !== i));
 
+  const renameSection = (i: number, label: string) =>
+    setSections((list) =>
+      list.map((s, idx) => (idx === i ? { ...s, label } : s))
+    );
+
   const addSectionByClick = (key: string, label: string) => {
     setSections((list) => [...list, { key, label, enabled: true }]);
   };
@@ -385,11 +484,11 @@ export const LayoutBuilder = () => {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr_280px]">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr_260px]">
             <SectionCard
               icon={LayoutGrid}
               title="Available"
-              description="Drag onto the canvas or click to add"
+              description="Drag onto canvas or click +add"
             >
               <div className="space-y-2">
                 {availableSections.map((s) => (
@@ -415,7 +514,7 @@ export const LayoutBuilder = () => {
             <SectionCard
               icon={Smartphone}
               title={`${pageLabel} sections`}
-              description="Drag to reorder. Toggle eye to show/hide. Trash to remove."
+              description="Drag to reorder · Click pencil to edit label · Eye to toggle · Trash to remove"
             >
               <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
                 <DropZone isEmpty={sections.length === 0}>
@@ -426,17 +525,21 @@ export const LayoutBuilder = () => {
                       index={i}
                       onToggle={() => toggleSection(i)}
                       onDelete={() => deleteSection(i)}
+                      onRename={(label) => renameSection(i, label)}
                     />
                   ))}
                 </DropZone>
               </SortableContext>
             </SectionCard>
 
-            <MobilePreview
-              sections={sections}
-              restaurantName={current?.name ?? 'Restaurant'}
-              pageLabel={pageLabel}
-            />
+            <div className="space-y-6">
+              <MobilePreview
+                sections={sections}
+                restaurantName={current?.name ?? 'Restaurant'}
+                pageLabel={pageLabel}
+              />
+              <WebPreview currentId={currentId} />
+            </div>
           </div>
 
           <DragOverlay dropAnimation={{ duration: 200 }}>
@@ -449,15 +552,15 @@ export const LayoutBuilder = () => {
           </DragOverlay>
         </DndContext>
 
-        <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#0f0f0f] px-6 py-4 text-white shadow-lg">
+        <div className="sticky bottom-0 flex items-center justify-between rounded-2xl bg-[#4a0929] px-6 py-4 text-white shadow-lg">
           <div className="flex items-center gap-3">
-            <Smartphone className="h-5 w-5 text-slate-300" />
+            <Smartphone className="h-5 w-5 text-pink-light" />
             <div>
               <p className="font-semibold">
                 Publish {pageLabel} layout
-                {dirty && <span className="ml-2 text-amber-400">● unsaved</span>}
+                {dirty && <span className="ml-2 text-yellow">● unsaved</span>}
               </p>
-              <p className="text-sm text-slate-300">The app reads this the next time it launches</p>
+              <p className="text-sm text-pink-light">The app reads this the next time it launches</p>
             </div>
           </div>
           <Button onClick={() => setConfirmOpen(true)} className="gap-2">

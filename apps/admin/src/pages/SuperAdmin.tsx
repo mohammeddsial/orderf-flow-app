@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { RestaurantTenant } from '@multi-restaurant/database';
 import { api } from '../lib/api';
 import { useRestaurant } from '../context/RestaurantContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -160,9 +160,12 @@ function ColorInput({ label, value, onChange }: ColorInputProps) {
 
 export const SuperAdmin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { restaurants, currentId, setCurrentId, refresh } = useRestaurant();
   const [engines, setEngines] = useState(DEFAULT_ENGINES);
-  const [activeTab, setActiveTab] = useState<'command' | 'tenants' | 'engines'>('command');
+  const [activeTab, setActiveTab] = useState<'command' | 'tenants' | 'engines'>(
+    location.hash === '#tenants' ? 'tenants' : location.hash === '#engines' ? 'engines' : 'command'
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [suspendTarget, setSuspendTarget] = useState<RestaurantTenant | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
