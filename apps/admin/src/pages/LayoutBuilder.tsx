@@ -296,7 +296,7 @@ function WebPreview({ currentId }: { currentId: string | null }) {
     : 'http://localhost:3000';
 
   return (
-    <div className="lg:sticky lg:top-4 self-start">
+    <div>
       <div className="mb-2 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           Web preview
@@ -313,7 +313,7 @@ function WebPreview({ currentId }: { currentId: string | null }) {
       </div>
       <div
         className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
-        style={{ height: 480 }}
+        style={{ height: 600 }}
       >
         <div className="flex items-center gap-2 border-b border-gray-100 bg-gray-50 px-3 py-2">
           <Monitor className="h-3.5 w-3.5 text-gray-400" />
@@ -448,7 +448,7 @@ export const LayoutBuilder = () => {
 
   return (
     <Layout title="Layout Builder" breadcrumb="Layout Builder" searchPlaceholder="Search sections...">
-      <div className="mx-auto max-w-7xl space-y-6 pb-4">
+      <div className="mx-auto max-w-[1440px] space-y-6 pb-4">
         <PageHero
           title="Layout Builder"
           subtitle={`Drag and drop sections to build the ${pageLabel} page${current ? ` for ${current.name}` : ''}`}
@@ -538,9 +538,10 @@ export const LayoutBuilder = () => {
                 restaurantName={current?.name ?? 'Restaurant'}
                 pageLabel={pageLabel}
               />
-              <WebPreview currentId={currentId} />
             </div>
           </div>
+
+          <WebPreview currentId={currentId} />
 
           <DragOverlay dropAnimation={{ duration: 200 }}>
             {activeDrag ? (
