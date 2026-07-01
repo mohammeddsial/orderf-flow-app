@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRestaurant } from '../context/RestaurantContext';
+import { useAuth, AdminRole } from '../context/AuthContext';
 import { CreateRestaurantDialog } from './CreateRestaurantDialog';
 import {
   LayoutDashboard,
@@ -16,6 +17,9 @@ import {
   Bell,
   Flame,
   Star,
+  Shield,
+  Building2,
+  Repeat,
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -30,16 +34,22 @@ type NavItem = {
   icon: typeof LayoutDashboard;
   to?: string;
   badge?: string;
+  roles: AdminRole[];
 };
 
-const NAV: NavItem[] = [
-  { label: 'Dashboard', icon: LayoutDashboard, to: '/' },
-  { label: 'Orders', icon: ShoppingBag, badge: '12' },
-  { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu' },
-  { label: 'Layout Builder', icon: Smartphone, to: '/layout-builder' },
-  { label: 'Analytics', icon: BarChart3 },
-  { label: 'Customers', icon: Users },
-  { label: 'Promotions', icon: Tag },
+const TENANT_NAV: NavItem[] = [
+  { label: 'Dashboard', icon: LayoutDashboard, to: '/', roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Orders', icon: ShoppingBag, badge: '12', roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Menu Manager', icon: UtensilsCrossed, to: '/menu', roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Layout Builder', icon: Smartphone, to: '/layout-builder', roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Analytics', icon: BarChart3, roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Customers', icon: Users, roles: ['restaurant_admin', 'super_admin'] },
+  { label: 'Promotions', icon: Tag, roles: ['restaurant_admin', 'super_admin'] },
+];
+
+const SUPER_NAV: NavItem[] = [
+  { label: 'Super Admin', icon: Shield, to: '/super-admin', roles: ['super_admin'] },
+  { label: 'All Tenants', icon: Building2, to: '/super-admin', roles: ['super_admin'] },
 ];
 
 const RestaurantSwitcher: React.FC = () => {
@@ -75,16 +85,40 @@ const RestaurantSwitcher: React.FC = () => {
         onCreated={async (r) => {
           await refresh();
           setCurrentId(r.id);
-          navigate('/menu'); // go straight to Menu setup for the new restaurant
+          navigate('/menu');
         }}
       />
     </div>
   );
 };
 
+const RoleSwitcher: React.FC = () => {
+  const { user, switchRole } = useAuth();
+  if (!user) return null;
+
+  const nextRole: AdminRole = user.role === 'super_admin' ? 'restaurant_admin' : 'super_admin';
+
+  return (
+    <button
+      type="button"
+      onClick={() => switchRole(nextRole)}
+      className="flex w-full items-center gap-3 rounded-xl bg-white/5 px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+      title={`Switch to ${nextRole === 'super_admin' ? 'Super Admin' : 'Tenant Admin'} view`}
+    >
+      <Repeat size={18} />
+      <span>Switch to {nextRole === 'super_admin' ? 'Super Admin' : 'Tenant'}</span>
+    </button>
+  );
+};
+
 export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, searchPlaceholder }) => {
   const location = useLocation();
   const { current } = useRestaurant();
+  const { user, isSuperAdmin } = useAuth();
+
+  const visibleNav = [...TENANT_NAV, ...(isSuperAdmin ? SUPER_NAV : [])].filter((item) =>
+    item.roles.includes(user?.role ?? 'restaurant_admin')
+  );
 
   const renderNav = (item: NavItem) => {
     const Icon = item.icon;
@@ -121,9 +155,17 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
     );
   };
 
+  const initials = user
+    ? user.name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase()
+    : 'AD';
+
   return (
     <div className="flex h-screen bg-[#F4F6F9]">
-      {/* Sidebar */}
       <aside className="flex w-64 flex-col bg-[#16233C] text-white">
         <div className="flex items-center gap-3 px-5 py-5">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
@@ -131,13 +173,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
           </span>
           <div>
             <h1 className="text-base font-bold leading-tight">{current?.name ?? 'Order Flow'}</h1>
-            <p className="text-xs text-slate-400">Restaurant Admin</p>
+            <p className="text-xs text-slate-400">
+              {isSuperAdmin ? 'Super Admin' : 'Restaurant Admin'}
+            </p>
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 px-3 py-2">{NAV.map(renderNav)}</nav>
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
+          {visibleNav.map(renderNav)}
+        </nav>
 
         <div className="space-y-1 px-3 py-3">
+          <RoleSwitcher />
           <button type="button" className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white">
             <HelpCircle size={18} />
             <span>Help &amp; Support</span>
@@ -150,16 +197,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
 
         <div className="m-3 flex items-center gap-3 rounded-xl bg-white/5 p-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-            AD
+            {initials}
           </span>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">Alex Donovan</p>
-            <p className="truncate text-xs text-slate-400">alex@burgerbliss.co</p>
+            <p className="truncate text-sm font-semibold">{user?.name ?? 'Unknown'}</p>
+            <p className="truncate text-xs text-slate-400">{user?.email ?? ''}</p>
           </div>
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3">
           <div>
@@ -172,7 +218,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
           </div>
 
           <div className="flex items-center gap-4">
-            <RestaurantSwitcher />
+            {current && <RestaurantSwitcher />}
             <div className="relative hidden md:block">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
@@ -187,13 +233,22 @@ export const Layout: React.FC<LayoutProps> = ({ children, title, breadcrumb, sea
             </button>
             <div className="flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
-                AD
+                {initials}
               </span>
               <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold text-[#1E2D4A]">Alex Donovan</p>
+                <p className="text-sm font-semibold text-[#1E2D4A]">{user?.name ?? 'Unknown'}</p>
                 <p className="flex items-center justify-end gap-1 text-[11px] text-muted-foreground">
-                  <Star className="h-3 w-3 fill-primary text-primary" />
-                  Super Admin
+                  {isSuperAdmin ? (
+                    <>
+                      <Shield className="h-3 w-3 fill-primary text-primary" />
+                      Super Admin
+                    </>
+                  ) : (
+                    <>
+                      <Star className="h-3 w-3 fill-primary text-primary" />
+                      Tenant Admin
+                    </>
+                  )}
                 </p>
               </div>
             </div>
