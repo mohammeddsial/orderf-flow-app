@@ -1,17 +1,18 @@
-import React, { createContext, useContext, useMemo, ReactNode, useState, useCallback } from 'react';
+import React, { createContext, useContext, useMemo, ReactNode, useState, useCallback, useEffect, useRef } from 'react';
 import { useTenant, UIStyleEngine } from '@multi-restaurant/database';
 import { getEngineTokens, ThemeTokens } from './engines';
+import { API_BASE } from '../api/client';
 
 interface ThemeContextValue {
   tokens: ThemeTokens;
   engineStyle: string;
   forceRefresh: () => void;
   setEngine: (style: UIStyleEngine) => void;
+  lastSyncedAt: number | null;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-// Pick readable text color (black/white) for content sitting on top of `hex`.
 function contrastOn(hex?: string): string {
   if (!hex || !/^#?[0-9a-fA-F]{3,6}$/.test(hex)) return '#FFFFFF';
   const h = hex.replace('#', '');
@@ -23,31 +24,102 @@ function contrastOn(hex?: string): string {
   return lum > 0.6 ? '#111111' : '#FFFFFF';
 }
 
+const POLL_INTERVAL = 5000;
+
+type LiveTenantColors = {
+  primaryColor: string;
+  secondaryColor: string;
+  backgroundColor: string;
+  accentColor: string;
+  accentLightColor: string;
+  surfaceColor: string;
+  activeUiStyle: UIStyleEngine;
+};
+
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const tenant = useTenant();
 
-  // Optional in-app override so a UI switcher can preview all three engines live.
   const [engineOverride, setEngineOverride] = useState<UIStyleEngine | null>(null);
-  const activeStyle = engineOverride ?? tenant.activeUiStyle;
+  const [liveColors, setLiveColors] = useState<LiveTenantColors | null>(null);
+  const [lastSyncedAt, setLastSyncedAt] = useState<number | null>(null);
+  const tenantIdRef = useRef(tenant.id);
 
-  // Engine controls structure (radius, shadows, spacing, typography, borders);
-  // the restaurant's brand colors drive the palette.
+  tenantIdRef.current = tenant.id;
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const poll = async () => {
+      const id = tenantIdRef.current;
+      if (!id) return;
+      try {
+        const res = await fetch(`${API_BASE}/restaurants/${id}?_t=${Date.now()}`, {
+          cache: 'no-cache',
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled || !data) return;
+
+        const incoming: LiveTenantColors = {
+          primaryColor: data.primaryColor,
+          secondaryColor: data.secondaryColor,
+          backgroundColor: data.backgroundColor,
+          accentColor: data.accentColor,
+          accentLightColor: data.accentLightColor,
+          surfaceColor: data.surfaceColor,
+          activeUiStyle: data.activeUiStyle,
+        };
+
+        setLiveColors((prev) => {
+          if (
+            prev &&
+            prev.primaryColor === incoming.primaryColor &&
+            prev.secondaryColor === incoming.secondaryColor &&
+            prev.backgroundColor === incoming.backgroundColor &&
+            prev.accentColor === incoming.accentColor &&
+            prev.accentLightColor === incoming.accentLightColor &&
+            prev.surfaceColor === incoming.surfaceColor &&
+            prev.activeUiStyle === incoming.activeUiStyle
+          ) {
+            return prev;
+          }
+          return incoming;
+        });
+        setLastSyncedAt(Date.now());
+      } catch {
+        // network error — keep current theme
+      }
+    };
+
+    poll();
+    const interval = setInterval(poll, POLL_INTERVAL);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
+  const activeStyle = engineOverride ?? liveColors?.activeUiStyle ?? tenant.activeUiStyle;
+
+  const effective = liveColors ?? tenant;
+
   const tokens = useMemo<ThemeTokens>(() => {
     const base = getEngineTokens(activeStyle);
-    const primary = tenant.primaryColor || base.colors.primary;
-    const accent = tenant.accentColor || base.colors.accent;
-    const background = tenant.backgroundColor || base.colors.background;
-    const foreground = tenant.secondaryColor || base.colors.text; // "Foreground — text & icons"
+    const primary = effective.primaryColor || base.colors.primary;
+    const accent = effective.accentColor || base.colors.accent;
+    const background = effective.backgroundColor || base.colors.background;
+    const foreground = effective.secondaryColor || base.colors.text;
     return {
       ...base,
       colors: {
         ...base.colors,
         primary,
-        secondary: tenant.secondaryColor || base.colors.secondary,
+        secondary: effective.secondaryColor || base.colors.secondary,
         accent,
-        accentLight: tenant.accentLightColor || base.colors.accentLight,
+        accentLight: effective.accentLightColor || base.colors.accentLight,
         background,
-        surface: tenant.surfaceColor || base.colors.surface,
+        surface: effective.surfaceColor || base.colors.surface,
         surfaceInverse: primary,
         text: foreground,
         textInverse: contrastOn(primary),
@@ -55,16 +127,16 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     };
   }, [
     activeStyle,
-    tenant.primaryColor,
-    tenant.secondaryColor,
-    tenant.accentColor,
-    tenant.accentLightColor,
-    tenant.backgroundColor,
-    tenant.surfaceColor,
+    effective.primaryColor,
+    effective.secondaryColor,
+    effective.accentColor,
+    effective.accentLightColor,
+    effective.backgroundColor,
+    effective.surfaceColor,
   ]);
 
   const forceRefresh = useCallback(() => {
-    // no-op kept for API compatibility
+    setLiveColors(null);
   }, []);
 
   const contextValue: ThemeContextValue = useMemo(
@@ -73,8 +145,9 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       engineStyle: activeStyle,
       forceRefresh,
       setEngine: setEngineOverride,
+      lastSyncedAt,
     }),
-    [tokens, activeStyle, forceRefresh]
+    [tokens, activeStyle, forceRefresh, lastSyncedAt]
   );
 
   return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
