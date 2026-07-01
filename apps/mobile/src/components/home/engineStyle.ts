@@ -105,6 +105,13 @@ export const pillChrome = (
   };
 };
 
+// Per-engine border radius for images.
+export const imageRadiusFor = (engine: EngineId, t: ThemeTokens): number => {
+  if (engine === 'BRUTALIST_MODERNIST') return t.borders.radiusSharp;
+  if (engine === 'MINIMALIST_CLEAN') return t.borders.radiusMd;
+  return t.borders.radiusLg;
+};
+
 // Per-engine round quick-add ("+") button chrome.
 export const quickAddChrome = (t: ThemeTokens, engine: EngineId): ViewStyle => {
   if (engine === 'BRUTALIST_MODERNIST') {

@@ -88,7 +88,7 @@ export const DeliveryConfigPage: React.FC<{ navigation: any }> = ({ navigation }
               onChangeText={setAddress}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.thin,
+                borderWidth: tokens.borders.widthThin,
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -122,7 +122,7 @@ export const DeliveryConfigPage: React.FC<{ navigation: any }> = ({ navigation }
               numberOfLines={3}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.thin,
+                borderWidth: tokens.borders.widthThin,
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -143,7 +143,7 @@ export const DeliveryConfigPage: React.FC<{ navigation: any }> = ({ navigation }
               onChangeText={setBuzzerCode}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.thin,
+                borderWidth: tokens.borders.widthThin,
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -188,7 +188,7 @@ export const DeliveryConfigPage: React.FC<{ navigation: any }> = ({ navigation }
                     selectedTimeWindow === window.id
                       ? tokens.colors.primary
                       : tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin,
                   borderRadius: tokens.borders.radiusMd,
                   backgroundColor:
                     selectedTimeWindow === window.id
@@ -219,7 +219,7 @@ export const DeliveryConfigPage: React.FC<{ navigation: any }> = ({ navigation }
                     height: 24,
                     borderRadius: 12,
                     borderColor: tokens.colors.border,
-                    borderWidth: tokens.borders.thin,
+                    borderWidth: tokens.borders.widthThin,
                     backgroundColor:
                       selectedTimeWindow === window.id
                         ? tokens.colors.primary

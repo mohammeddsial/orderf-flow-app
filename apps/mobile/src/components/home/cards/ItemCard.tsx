@@ -11,10 +11,10 @@ interface ItemCardProps {
   variant: string;
   item: any;
   onPress: (id: string) => void;
-  onAdd?: (id: string) => void;
+  onAdd?: (id: string, qty?: number) => void;
 }
 
-const CARD_MAP: Record<string, React.FC<{ item: any; onPress: (id: string) => void; onAdd?: (id: string) => void }>> = {
+const CARD_MAP: Record<string, React.FC<{ item: any; onPress: (id: string) => void; onAdd?: (id: string, qty?: number) => void }>> = {
   listRow: ListRowCard,
   overlayPrice: OverlayPriceCard,
   qtyRow: QtyRowCard,

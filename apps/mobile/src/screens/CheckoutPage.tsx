@@ -25,7 +25,7 @@ const SecureCheckoutHeader: React.FC<SecureCheckoutHeaderProps> = ({ onBackPress
       style={{
         backgroundColor: tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin,
         paddingTop: insets.top + tokens.spacing.md,
         paddingBottom: tokens.spacing.md,
         paddingHorizontal: tokens.spacing.md,
@@ -88,7 +88,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   }
 
   const calculateRegionalTax = (subtotal: number): number => {
-    const region = tenant.region || 'US';
+    const region: string = (tenant as any).region || 'US';
     const taxRate = region === 'CA' ? 0.13 : region === 'UK' ? 0.20 : 0.08;
     return Math.floor(subtotal * taxRate * 100) / 100;
   };
@@ -109,7 +109,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
         items: cart.items.map(item => ({
           menuItemId: item.menuItemId,
           quantity: item.quantity,
-          title: item.title,
+          title: item.menuItemId,
           itemTotal: item.itemTotal,
           modifierSelections: item.modifierSelections || [],
           specialInstructions: item.specialInstructions,
@@ -142,7 +142,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
   const taxes = calculateRegionalTax(cart.subtotal);
   const deliveryFee = 4.99;
   const total = cart.subtotal + taxes + deliveryFee + tipAmount;
-  const region = tenant.region || 'US';
+  const region: string = (tenant as any).region || 'US';
   const taxRate = region === 'CA' ? 13 : region === 'UK' ? 20 : 8;
 
   const paymentMethods = [
@@ -189,7 +189,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                     paymentMethod === method.id
                       ? tokens.colors.primary
                       : tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin,
                   borderRadius: tokens.borders.radiusMd,
                   backgroundColor:
                     paymentMethod === method.id
@@ -229,7 +229,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
               onChangeText={setCardholderName}
               style={{
                 borderColor: tokens.colors.border,
-                borderWidth: tokens.borders.thin,
+                borderWidth: tokens.borders.widthThin,
                 borderRadius: tokens.borders.radiusMd,
                 paddingHorizontal: tokens.spacing.md,
                 paddingVertical: tokens.spacing.md,
@@ -264,7 +264,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
                       ? tokens.colors.primary
                       : tokens.colors.surface,
                   borderColor: tokens.colors.border,
-                  borderWidth: tokens.borders.thin,
+                  borderWidth: tokens.borders.widthThin,
                   borderRadius: tokens.borders.radiusMd,
                   alignItems: 'center',
                 }}
@@ -290,7 +290,7 @@ export const CheckoutPage: React.FC<{ navigation: any }> = ({ navigation }) => {
           <View
             style={{
               borderBottomColor: tokens.colors.border,
-              borderBottomWidth: tokens.borders.thin,
+              borderBottomWidth: tokens.borders.widthThin,
               paddingBottom: tokens.spacing.md,
               marginBottom: tokens.spacing.md,
             }}

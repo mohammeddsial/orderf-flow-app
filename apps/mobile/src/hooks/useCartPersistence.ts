@@ -15,8 +15,8 @@ function validateCartItem(item: unknown): boolean {
     typeof obj.title === 'string' &&
     typeof obj.itemTotal === 'number';
 
-  const quantityValid = obj.quantity > 0 && obj.quantity <= 999;
-  const totalValid = obj.itemTotal >= 0;
+  const quantityValid = (obj.quantity as number) > 0 && (obj.quantity as number) <= 999;
+  const totalValid = (obj.itemTotal as number) >= 0;
 
   return hasRequiredFields && quantityValid && totalValid;
 }
@@ -30,8 +30,8 @@ function validateCart(cart: unknown): boolean {
     typeof obj.itemCount === 'number' &&
     Array.isArray(obj.items);
 
-  const subtotalValid = obj.subtotal >= 0;
-  const itemCountValid = obj.itemCount >= 0;
+  const subtotalValid = (obj.subtotal as number) >= 0;
+  const itemCountValid = (obj.itemCount as number) >= 0;
   const itemsValid = Array.isArray(obj.items) &&
     obj.items.length <= 500 &&
     obj.items.every(validateCartItem);
@@ -41,7 +41,7 @@ function validateCart(cart: unknown): boolean {
 
 export function useCartPersistence() {
   const cart = useCartState();
-  const cartActions = useCartState();
+  const cartActions = useCartState() as any;
   const { addToCart } = cartActions;
   const isInitializedRef = useRef(false);
 

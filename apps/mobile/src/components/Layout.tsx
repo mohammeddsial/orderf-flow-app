@@ -64,7 +64,7 @@ export const SolidHeader: React.FC<SolidHeaderProps> = ({
       style={{
         backgroundColor: backgroundColor || tokens.colors.surface,
         borderBottomColor: tokens.colors.border,
-        borderBottomWidth: tokens.borders.thin,
+        borderBottomWidth: tokens.borders.widthThin,
         paddingHorizontal: tokens.spacing.md,
         paddingVertical: tokens.spacing.md,
         flexDirection: 'row',
@@ -334,7 +334,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={{
         backgroundColor: variantStyles.backgroundColor,
         borderColor: variantStyles.borderColor,
-        borderWidth: variant === 'outline' ? tokens.borders.thin : 0,
+        borderWidth: variant === 'outline' ? tokens.borders.widthThin : 0,
         borderRadius: tokens.borders.radiusMd,
         justifyContent: 'center',
         alignItems: 'center',
@@ -357,9 +357,10 @@ export const Button: React.FC<ButtonProps> = ({
 
 interface HeadingProps {
   level: 1 | 2 | 3 | 4;
-  children: string;
+  children: React.ReactNode;
   color?: string;
   marginBottom?: number;
+  style?: any;
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -392,10 +393,12 @@ export const Heading: React.FC<HeadingProps> = ({
 };
 
 interface BodyTextProps {
-  children: string | ReactNode;
+  children: React.ReactNode;
   color?: string;
   size?: 'sm' | 'md' | 'lg';
   marginBottom?: number;
+  style?: any;
+  numberOfLines?: number;
 }
 
 export const BodyText: React.FC<BodyTextProps> = ({
